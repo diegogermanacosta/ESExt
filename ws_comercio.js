@@ -87,10 +87,10 @@ function comercio()
 		$(obj.children[3]).append(`<span style='font-size:11px'> = <b id='bv${nombre}'></b></span>`);
 
 		document.querySelector('#'+nombre.toLowerCase()).onkeyup = function(){ compraJusta(oroRaza)};
-		var text = `<a style='color:#394060 ; text-decoration: none' id='c${nombre}' onclick="$('#${nombre.toLowerCase()}').val(this.text.trim()); $('#a${nombre.toLowerCase()}').val('comprar'); calculaoro();">0</a>`;
+		var text = `<a style='color:#394060 ; text-decoration: none' id='c${nombre}' onclick="$('#${nombre.toLowerCase()}').val(parseInt(this.text.trim())+parseInt('0'+$('#${nombre.toLowerCase()}').val())); $('#a${nombre.toLowerCase()}').val('comprar'); calculaoro();">0</a>`;
 		document.querySelector('#bc'+nombre).innerHTML = text;
 		document.querySelector('#c'+nombre).onclick = function(){ compraJusta(oroRaza)};
-		text = `<a style='color:#394060 ; text-decoration: none' id='v${nombre}' onclick="$('#${nombre.toLowerCase()}').val(this.text.trim()); $('#a${nombre.toLowerCase()}').val('vender'); calculaoro();">0</a>`;
+		text = `<a style='color:#394060 ; text-decoration: none' id='v${nombre}' onclick="$('#${nombre.toLowerCase()}').val(parseInt(this.text.trim())+parseInt('0'+$('#${nombre.toLowerCase()}').val())); $('#a${nombre.toLowerCase()}').val('vender'); calculaoro();">0</a>`;
 		document.querySelector('#bv'+nombre).innerHTML = text;
 		document.querySelector('#v'+nombre).onclick = function(){ compraJusta(oroRaza)};
 
