@@ -1,0 +1,51 @@
+{
+  "name": "Empire Strike - From Chino to FaloX",
+  "version": "3.0",
+  "description": "El que sabe, Sabe, y el que no, usa esta extension",
+  "icons": { "128": "base/icon.png" },
+  "background": { "scripts": ["background.js"] },
+  "options_ui" : {
+    "chrome_style": true,
+    "page": "options/options.html"
+  },
+  "content_scripts": [
+    {
+		"matches": ["https://www.empire-strike.com/*"],
+		"js": [
+			"base/jquery.min.js",
+			"base/util.js",
+			"localstorage.js",
+      "api.js",
+      "global.js",
+      "ws_atacar.js",
+			"ws_escogerObjectivo.js",
+			"ws_clanes.js",
+      "ws_clan.js",
+			"ws_imperio.js",
+			"ws_informes.js",
+			"ws_ultimosAtaques.js",
+      "ws_comercio.js",
+      "ws_rutascomerciales.js",
+      "ws_ciudad.js",
+      "ws_ranking.js",
+      "ws_mensajes.js",
+      "ws_politica.js",
+      "ws_gobierno.js",
+      "ws_movertropas.js",
+			"content.js"
+		]
+	}
+  ],
+  "web_accessible_resources": ["base/moveIcon.png", "base/list.png", "base/house.png", "base/hero.png", "base/puzzle.png", "base/estrella-verde.png", "base/estrella-blanca.png", "base/estrella-azul.png", "base/button.mpeg"],
+  "permissions": [
+    "tabs",
+    "notifications",
+    "storage",
+    "https://www.empire-strike.com/*"
+  ],
+  "page_action": {
+      "default_name": "Empire Strike",
+      "default_icon": "base/marker.png"
+  },
+  "manifest_version": 2
+}
