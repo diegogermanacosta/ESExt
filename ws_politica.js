@@ -38,7 +38,7 @@ function politica()
     var nombre = $(obj.children[1]).text().trim();
     nombre=nombre.split("Coste: ");
     var costo=parseInt(nombre[1].substring(0,nombre[1].indexOf(".")));
-    nombre= removeAccents(nombre[0].toLowerCase().replaceAll(" ",""));
+    nombre= removeAccents(nombre[0].toLowerCase().replace(" ","").replace(" ",""));
     politicas[nombre][1]=costo/politicas[nombre][0]-1;
     console.log(`${nombre} tiene ${politicas[nombre][1]} estrellas`);
     });

@@ -6,7 +6,7 @@ function rutasComerciales()
   var gobernante = LOCAL.getGobernantes();
   var rutasx2 = [];
   if (gobernante==null){
-    $(".tabs").append("<span style='color: #990000; font-weight: bold;font-size:22px'>¡¡¡CARGA MAPA/GOBIERNO GUAMPUDO CONCIENTE DEL ORTO!!!")
+    $(".tabs").append(`<a style='color: #990000; font-weight: bold;font-size:26px; text-decoration: none' href="gobierno.php">¡¡¡CARGA MAPA/GOBIERNO GUAMPUDO CONCIENTE DEL ORTO!!!</a>`)
   }
   else
    if(gobernante[9]==miClan||gobernante[13]==miClan||gobernante[27]==miClan)
@@ -28,7 +28,7 @@ function rutasComerciales()
   if (LOCAL.getPoliticas()!=null)
     var k_politica=1+0.06*LOCAL.getPoliticas().rutasdecontrabando[1];
   else
-    $(".tabs").append("<span style='color: #990000; font-weight: bold;font-size:25px'>¡¡¡CARGA LAS POLITICAS FORRO HIJO DE MIL PUTA!!!");
+    $(".tabs").append(`<a style='color: #990000; font-weight: bold;font-size:26px; text-decoration: none' href="politica.php">¡¡¡CARGA LAS POLITICAS FORRO HIJO DE MIL PUTA!!!</a>`);
   $(".lista1 tr").each(function(index, obj)
   {
     if(index == 0)
