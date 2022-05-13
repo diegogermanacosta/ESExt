@@ -1,6 +1,6 @@
 {
-  "name": "Empire Strike - From Chino to FaloX",
-  "version": "3.0",
+  "name": "Empire Strike - extension Multicuenta Edition",
+  "version": "1.0",
   "description": "El que sabe, Sabe, y el que no, usa esta extension",
   "icons": { "128": "base/icon.png" },
   "background": { "scripts": ["background.js"] },
