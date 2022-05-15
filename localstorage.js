@@ -8,6 +8,7 @@ var LOCAL_ASEDIOS = "Asedios";
 var LOCAL_VALOR = "Valor";
 var LOCAL_POLITICAS = "Politicas";
 var LOCAL_GOBERNANTES = "Gobernantes"
+var LOCAL_FORMACIONES = "Formaciones"
 
 var LOCAL = {
 	clean: function()
@@ -227,8 +228,16 @@ var LOCAL = {
 			return null;
 
 	 	return JSON.parse(localStorage[LOCAL_GOBERNANTES]);
+	},
+
+	setFormaciones:function(obj){
+		localStorage[LOCAL_FORMACIONES] = JSON.stringify(obj);
+	},
+	getFormaciones:function(){
+		if(localStorage[LOCAL_FORMACIONES] == undefined || localStorage[LOCAL_FORMACIONES] == null)
+			return null;
+
+	 	return JSON.parse(localStorage[LOCAL_FORMACIONES]);
 	}
-
-
 
 };
