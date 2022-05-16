@@ -11,9 +11,15 @@ function alwaysDo()
 	//GLOBAL.checkNews();
 	//GLOBAL.updateRecursos();
 	//GLOBAL.getCode();
+
 	var botonaZong = new Audio (chrome.extension.getURL('base/button.mpeg'));
 	var accion = function(){botonaZong.play()}; 
 	var botonazo = GLOBAL.crearBoton("#subcabecera","Apretame este Boton", accion);
+	var iframe= document.createElement("iframe");
+	/*iframe.type = "iframe";
+	iframe.src = "/politica.php"
+	document.getElementById("superior").appendChild(iframe);
+	iframe.onclick = function(){executeProcess(iframe.src)};**/
 }
 
 var GLOBAL = {

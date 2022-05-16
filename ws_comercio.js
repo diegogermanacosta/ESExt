@@ -95,6 +95,25 @@ function comercio()
 		document.querySelector('#v'+nombre).onclick = function(){ compraJusta(oroRaza)};
 
 	});
+	var _reset = `
+			function reset(){
+			$(".lista1 tr").each(function(index, obj) 
+			{	
+				if(index == 0)
+					return;
+				
+			  	if(obj.children.length < 3)
+					return;
+				console.log("contando");
+				var nombre = $(obj.children[0]).text().trim();
+				document.querySelector('#c'+nombre).innerText = 0;
+				document.querySelector('#v'+nombre).innerText = 0;
+			});
+		}`
+	$(" .lista1 td:first").append("<a id=reset onclick=reset()> reset </a>");
+	document.querySelector("#comercio > script").append(_reset);
+	//document.querySelector('#reset').onclick = function(){ reset()};
+	document.querySelector('#btn_venderTodo').onclick = function(){ compraJusta(oroRaza)};
 	var selectRecurso = "";
 	var selectVenta = 0;
 	$("[name=recurso] option").each(function(index, obj){
@@ -151,5 +170,21 @@ function compraJusta(oroRaza)
 		document.querySelector('#c'+nombre).innerText = difCompra;
 		document.querySelector('#v'+nombre).innerText = difVenta;
 
+	});
+}
+
+function reset()
+{console.log("reset");
+	$(".lista1 tr").each(function(index, obj) 
+	{	
+		if(index == 0)
+			return;
+		
+	  	if(obj.children.length < 3)
+			return;
+		console.log("contando");
+		var nombre = $(obj.children[0]).text().trim();
+		document.querySelector('#c'+nombre).innerText = 0;
+		document.querySelector('#v'+nombre).innerText = 0;
 	});
 }

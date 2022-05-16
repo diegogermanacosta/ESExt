@@ -41,11 +41,17 @@ function imperio()
 			count++;
 		}
 	}
+	var pacifico= false;
 	if(ib<=15&&LOCAL.getValor()>500)
+	{
 		$("#datos>tbody>tr:eq(4)")[0].append(`IB AL PASO: ${ibAlPaso}%, Ya eres pacifico`);
+		pacifico=true;
+	}
 	else
+	{
 		$("#datos>tbody>tr:eq(4)")[0].after(`IB AL PASO: ${ibAlPaso}%, necesitas ${count} paso(s) para volver a pacifico`);
-
+	}
+	LOCAL.setPacifico(pacifico);
   // OBTENER CIUDADES
 	$(".lista2:not(:first) tr").each(function(index, obj){
 

@@ -9,6 +9,7 @@ var LOCAL_VALOR = "Valor";
 var LOCAL_POLITICAS = "Politicas";
 var LOCAL_GOBERNANTES = "Gobernantes"
 var LOCAL_FORMACIONES = "Formaciones"
+var LOCAL_PACIFICO = "Pacifico"
 
 var LOCAL = {
 	clean: function()
@@ -238,6 +239,15 @@ var LOCAL = {
 			return null;
 
 	 	return JSON.parse(localStorage[LOCAL_FORMACIONES]);
+	},
+		setPacifico:function(obj){
+		localStorage[LOCAL_PACIFICO] = JSON.stringify(obj);
+	},
+	getPacifico:function(){
+		if(localStorage[LOCAL_PACIFICO] == undefined || localStorage[LOCAL_PACIFICO] == null)
+			return null;
+
+	 	return JSON.parse(localStorage[LOCAL_PACIFICO]);
 	}
 
 };

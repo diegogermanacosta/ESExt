@@ -48,10 +48,44 @@ var aux;
 
 function ciudad()
 { 
+  document.getElementById('flotante').style.left="35%";
   var pobla= $("#poblacionciudad").html().trim();
   pobla= pobla  .replace(".", "");
   pobla=parseInt(pobla)/1000;
+  //k_P = multiplicador Pacifico
+  var k_P = 1
+  if (LOCAL.getPacifico())
+    k_P=1.2;
+  var k_Karma = 1;
+  var k_piedra = 1;
+  var k_bloques = 1;
+  var k_madera = 1;
+  var k_agua = 1;
+  var k_alimento = 1;
+  var k_plata = 1;
+  var k_hierro = 1;
+  var k_mithril = 1;
+  var k_tablas = 1;
+  var k_oro = 1;
 
+  if(LOCAL.getPoliticas()!=null)
+  {
+    let politicas= LOCAL.getPoliticas();
+    k_Karma=1+0.05*politicas.losdioses[1];
+    k_piedra = 1+0.02*(politicas.arquitectura[1]+politicas.esclavitud[1]);
+    k_bloques= 1+0.02*politicas.arquitectura[1];
+    k_madera= 1+0.02*(politicas.esclavitud[1]/2+politicas.naturaleza[1]);
+    k_agua=1+0.01*politicas.lamujer[1];
+    k_tablas=1+0.02*politicas.naturaleza[1];
+    k_alimento=1+0.01*politicas.lamujer[1];
+    k_plata=1+0.02*politicas.profundidadcuevas[1];
+    k_hierro=(1+0.02*politicas.profundidadcuevas[1])*(1+0.02*politicas.esclavitud[1]);
+    k_mithril=1+0.01*politicas.profundidadcuevas[1];
+    k_oro = (1+(0.02*politicas.burguesia[1]))*(1-(0.02*politicas.aduanas[1]))*(1-(0.02*politicas.nobleza[1]));
+
+  }
+
+  var pBase=1;
   //Valores de produccion base de cada edificio
   
   produccion.castillo=0;
@@ -62,28 +96,28 @@ function ciudad()
   produccion.torremagica=0;
   produccion.universidad=0;
   produccion.santuario=0;
-  produccion.templo=76*N_clan*4.66*(1+0.0029*pobla);
-  produccion.mercado=620;
-  produccion.mercadonegro=1200;
-  produccion.minaoro=700;
-  produccion.minaplata=85*minimos.PLATA*(1+0.0029*pobla);
-  produccion.minahierro=130*minimos.HIERRO*(1+0.0029*pobla);
-  produccion.minapiedra=175*minimos.PIEDRA*(1+0.0029*pobla);
-  produccion.minamithril=63*minimos.MITHRIL*(1+0.0029*pobla);
-  produccion.aserradero=238*minimos.MADERA*(1+0.0029*pobla);
-  produccion.cultivos=200*minimos.ALIMENTOS*(1+0.0029*pobla);
+  produccion.templo=76*N_clan*4.66*(1+0.0029*pobla)*k_Karma;
+  produccion.mercado=620*k_P*k_oro;
+  produccion.mercadonegro=1200*k_P*k_oro;
+  produccion.minaoro=700*k_P*k_oro;
+  produccion.minaplata=85*minimos.PLATA*(1+0.0029*pobla)*k_plata;
+  produccion.minahierro=130*minimos.HIERRO*(1+0.0029*pobla)*k_hierro;
+  produccion.minapiedra=175*minimos.PIEDRA*(1+0.0029*pobla)*k_piedra;
+  produccion.minamithril=63*minimos.MITHRIL*(1+0.0029*pobla)*k_mithril;
+  produccion.aserradero=238*minimos.MADERA*(1+0.0029*pobla)*k_madera;
+  produccion.cultivos=200*minimos.ALIMENTOS*(1+0.0029*pobla)*k_alimento;
   produccion.yacimientos=65*minimos.GEMAS*(1+0.0029*pobla);
-  produccion.pozos=175*minimos.AGUA*(1+0.0029*pobla);
-  produccion.taller=130*minimos.HIERRO*(1+0.0029*pobla);
+  produccion.pozos=175*minimos.AGUA*(1+0.0029*pobla)*k_agua;
+  produccion.taller=130*minimos.HERRAMIENTAS*(1+0.0029*pobla);
   produccion.forjahierro=78*minimos.ARMAS*(1+0.0029*pobla);
   produccion.forjamithril=30*minimos.RELIQUIAS*(1+0.0029*pobla);
   produccion.joyeria=50*minimos.JOYAS*(1+0.0029*pobla);
   produccion.camaracristal=55*minimos.CRISTAL*(1+0.0029*pobla);
-  produccion.cantera=105*minimos.BLOQUES*(1+0.0029*pobla);
-  produccion.carpinteria=115*minimos.TABLAS*(1+0.0029*pobla);
+  produccion.cantera=105*minimos.BLOQUES*(1+0.0029*pobla)*k_bloques;
+  produccion.carpinteria=115*minimos.TABLAS*(1+0.0029*pobla)*k_tablas;
   produccion.monumentos=(5000+LOCAL.getValor())/3;
-  produccion.acueducto=200*minimos.AGUA*(1+0.0029*pobla);
-  produccion.almacen=175*minimos.ALIMENTOS*(1+0.0029*pobla);
+  produccion.acueducto=200*minimos.AGUA*(1+0.0029*pobla)*k_agua;
+  produccion.almacen=175*minimos.ALIMENTOS*(1+0.0029*pobla)*k_alimento;
   produccion.coliseo=0;
   produccion.burdeles=0;
   produccion.escuela=0;
@@ -94,7 +128,7 @@ function ciudad()
   var inicioCadena=subtitulo.indexOf(":")+2;
   var finCadeba=subtitulo.indexOf(";")
   var terreno= subtitulo.substring(inicioCadena,finCadeba);
-  var region= subtitulo.split("#")[1];
+  var region= parseInt(subtitulo.split("#")[1]);
   switch(terreno) {
     case 'Llanura':
       produccion.cultivos=produccion.cultivos*1.8;
@@ -121,7 +155,84 @@ function ciudad()
       break;
   }
   //fin CALCULO EFICIENCIA EN TERRENO
-
+  if(LOCAL.getGobernantes()!=null)
+    if(LOCAL.getGobernantes()[region]==LOCAL.getImperio()["clan"])
+    {
+       switch(region){
+        case 1:
+          produccion.almacen=produccion.almacen*3;
+          produccion.cultivos=produccion.cultivos*3;
+          break;
+        case 4:
+          produccion.aserradero=produccion.aserradero*2;
+          produccion.carpinteria=produccion.carpinteria*2;
+          break;
+        case 5:
+          produccion.minaoro=produccion.minaoro*2;
+          produccion.mercado=produccion.mercado*2;
+          produccion.mercadonegro=produccion.mercadonegro*2;
+          break;
+        case 6:
+          produccion.monumentos=produccion.monumentos*1.5;
+          break;
+        case 10:
+          produccion.taller=produccion.taller*2;
+          produccion.minahierro=produccion.minahierro*2;
+          break;
+        case 11:
+          produccion.aserradero=produccion.aserradero*2;
+          produccion.acueducto=produccion.acueducto*2;
+          produccion.pozos=produccion.pozos*2;
+          break;
+        case 12:
+          produccion.aserradero=produccion.aserradero*3;
+          break;
+        case 14:
+          produccion.forjahierro=produccion.forjahierro*2;
+          produccion.minahierro=produccion.minahierro*2;
+        break;
+        case 15:
+          produccion.minamithril=produccion.minamithril*2;
+          produccion.forjamithril=produccion.forjamithril*2;
+          break;
+        case 17:
+          produccion.minapiedra=produccion.minapiedra*3;
+          break;
+        case 20:
+          produccion.acueducto=produccion.acueducto*3;
+          produccion.pozos=produccion.pozos*3;
+          break;
+        case 23:
+          produccion.yacimientos=produccion.yacimientos*3;
+          break;
+        case 26:
+          produccion.minaplata=produccion.minaplata*2;
+          produccion.joyeria=produccion.joyeria*2;
+          break;
+        case 28:
+          produccion.templo=produccion.templo*1.5;
+          break;
+        case 29:
+          produccion.minapiedra=produccion.minapiedra*2;
+          produccion.cantera=produccion.cantera*2;
+          break;
+        case 30:
+          produccion.joyeria=produccion.joyeria*1.5;
+          produccion.minaplata=produccion.minaplata*1.5;
+          produccion.yacimientos=produccion.yacimientos*1.5;
+          produccion.camaracristal=produccion.camaracristal*1.5;
+          break;
+      }
+    }
+  if (LOCAL.getImperio()!=null)
+    if(LOCAL.getImperio()["raza"]=="Humanos")
+    { 
+      console.log("soy Humanos");
+      console.log(produccion.joyeria);
+      produccion.joyeria=produccion.joyeria*2;
+      console.log(produccion.joyeria);
+      produccion.forjamithril=produccion.forjamithril*2;
+    }
   //GLOBAL.showOpcionesDisponibles();
 
   chrome.storage.sync.get({
@@ -274,7 +385,8 @@ function ciudad_estrellas(costosTotales, recursosActuales, recursosUsados, edifi
       }
     }
       
-  })
+  });
+  console.log("la rentabilidad mas alta es de: "+masRentable);
 }
 
 function ciudad_calcular(inicio, estrella)

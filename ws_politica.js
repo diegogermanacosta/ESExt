@@ -24,7 +24,7 @@ politicas.escuelas= new Array(15,0);
 politicas.musica= new Array(15,0);
 
 function politica()
-{
+{   console.log("blablabla");
     const removeAccents = (str) => {
         return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
     } 

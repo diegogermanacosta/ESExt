@@ -21,9 +21,8 @@ var _WS_LOGIN = "/login.php"
 var _WS_MOVERTROPAS = "/movertropas.php"
 var _WS_GOBIERNO = "/gobierno.php"
 
-function executeProcess(){
+function executeProcess(url){
 
-	var url = document.URL;
 
 	if(url.indexOf(_WS_INDEX) != -1)
 	{
@@ -155,4 +154,4 @@ function executeProcess(){
 	}
 };
 
-executeProcess();
+executeProcess(document.URL);

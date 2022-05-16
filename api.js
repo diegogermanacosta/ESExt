@@ -149,10 +149,10 @@ var API = {
 				GLOBAL.getCode();
 				GLOBAL.showSuscription();
 				GLOBAL.showInfo("La extensión actualizó tus datos", 2);
-	    },
+	    },/*
 			error: function(xmlHttpRequest, textStatus, errorThrown){
 				GLOBAL.showError("Servidor de extensión: OFFLINE. Se brindarán las funcionalidades básicas");
-			}
+			}*/
 		});
 	},
 	setRecurso: function (guidImperio, partida, ronda, turnos, mana, karma, oro, alimentos, agua, hierro, piedra, madera, mithril, plata, gemas, herramientas, bloques, tablas, reliquias, joyas, cristal, armas , rubies)
