@@ -161,32 +161,6 @@ function ciudad()
       break;
   }
   //fin CALCULO EFICIENCIA EN TERRENO
-          switch (GLOBAL.getPartida())
-          {
-            case 'KENARON':
-            case 'GARDIS':
-              if(region==9||region==13||region==27)
-              {  
-                multiplicadorRutas="x2";
-                bonoRutas.push(ciudades[i].idCiudad);
-              }
-              break;
-            case 'ZULA':
-            case 'NUMIAN':
-              if(region==9)
-              {
-                multiplicadorRutas="x3";
-                bonoRutas.push(ciudades[i].idCiudad);
-              }
-              break;
-            case 'FANTASY':
-              if(region==6||region==13)
-              {
-                multiplicadorRutas="x2";
-                bonoRutas.push(ciudades[i].idCiudad);
-              }
-              break;
-          }
   if(LOCAL.getGobernantes()!=null)
     if(LOCAL.getGobernantes()[region]==LOCAL.getImperio()["clan"])
     {
