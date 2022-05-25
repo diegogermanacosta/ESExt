@@ -16,7 +16,7 @@ var LOCAL = {
 	{
 		for(var key in localStorage)
 		{
-			if(key == LOCAL_ASEDIOS)
+			if(key == LOCAL_ASEDIOS||key==LOCAL_FORMACIONES)
 				continue;
 
 			delete localStorage[key];
