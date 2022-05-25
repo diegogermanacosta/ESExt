@@ -4,27 +4,46 @@ function rutasComerciales()
   var k_politica=1
   var miClan=LOCAL.getImperio()["clan"];
   var gobernante = LOCAL.getGobernantes();
-  var rutasx2 = [];
+  var bonoRutas = [];
+  var multiplicadorRutas = null;
   if (gobernante==null){
     $(".tabs").append(`<a style='color: #990000; font-weight: bold;font-size:26px; text-decoration: none' href="gobierno.php">¡¡¡CARGA MAPA/GOBIERNO GUAMPUDO CONCIENTE DEL ORTO!!!</a>`)
   }
   else
-   if(gobernante[9]==miClan||gobernante[13]==miClan||gobernante[27]==miClan)
+  {
+     let ciudades = LOCAL.getCiudad();
+      for (var i = ciudades.length - 1; i >= 0; i--) 
       {
-        let ciudades = LOCAL.getCiudad();
-        for (var i = ciudades.length - 1; i >= 0; i--) 
-        {
-          let region= ciudades[i].region;
-          if (gobernante[region]==miClan);
-            if(region==9||region==13||region==27)
-              rutasx2.push(ciudades[i].idCiudad);
-        }
+        let region= ciudades[i].region;
+        if (gobernante[region]==miClan);
+          switch (GLOBAL.getPartida())
+          {
+            case 'KENARON':
+            case 'GARDIS':
+              if(region==9||region==13||region==27)
+              {  
+                multiplicadorRutas="x2";
+                bonoRutas.push(ciudades[i].idCiudad);
+              }
+              break;
+            case 'ZULA':
+            case 'NUMIAN':
+              if(region==9)
+              {
+                multiplicadorRutas="x3";
+                bonoRutas.push(ciudades[i].idCiudad);
+              }
+              break;
+            case 'FANTASY':
+              if(region==6||region==13)
+              {
+                multiplicadorRutas="x2";
+                bonoRutas.push(ciudades[i].idCiudad);
+              }
+              break;
+          }
       }
-    for (var i = rutasx2.length - 1; i >= 0; i--) 
-      {
-        console.log(rutasx2[i]);
-      }
-
+  }
   if (LOCAL.getPoliticas()!=null)
     var k_politica=1+0.06*LOCAL.getPoliticas().rutasdecontrabando[1];
   else
@@ -46,12 +65,12 @@ function rutasComerciales()
     var edificios = parseInt($(obj.children[3]).text());
     var oroideal=parseInt((3000+poblacion/10+edificios*30)*1.44*k_politica);
     $(obj.children[1]).append("<span style='color: #990000; font-weight: bold'>("+oroideal+")");
-    if(rutasx2!=null)
+    if(bonoRutas!=null)
     {
-      for (var i = rutasx2.length - 1; i >= 0; i--) 
+      for (var i = bonoRutas.length - 1; i >= 0; i--) 
       {
-        if(rutasx2[i]==$(obj.children[0]).text())
-          $(obj.children[1]).append("<span style='color: #001199; font-weight: bold'>X2");
+        if(bonoRutas[i]==$(obj.children[0]).text())
+          $(obj.children[1]).append("<span style='color: #001199; font-weight: bold'>"+multiplicadorRutas);
       }
     }
       
