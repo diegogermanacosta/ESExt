@@ -90,6 +90,8 @@ function ciudad()
   }
 
   var rBase=86.4*k_rutas*k_P;
+  if (LOCAL.getImperio().clan==null)
+    rBase=0;
   //Valores de produccion base de cada edificio
   
   produccion.castillo=0;
@@ -100,20 +102,20 @@ function ciudad()
   produccion.torremagica=0;
   produccion.universidad=0;
   produccion.santuario=0;
-  produccion.templo=76*N_clan*4.66*(1+0.0029*pobla)*k_Karma;
+  produccion.templo=75*N_clan*4.66*(1+0.0029*pobla)*k_Karma;
   produccion.mercado=620*k_P*k_oro;
   produccion.mercadonegro=1200*k_P*k_oro;
   produccion.minaoro=700*k_P*k_oro;
   produccion.minaplata=85*minimos.PLATA*(1+0.0029*pobla)*k_plata;
   produccion.minahierro=130*minimos.HIERRO*(1+0.0029*pobla)*k_hierro;
   produccion.minapiedra=175*minimos.PIEDRA*(1+0.0029*pobla)*k_piedra;
-  produccion.minamithril=63*minimos.MITHRIL*(1+0.0029*pobla)*k_mithril;
-  produccion.aserradero=238*minimos.MADERA*(1+0.0029*pobla)*k_madera;
+  produccion.minamithril=62.5*minimos.MITHRIL*(1+0.0029*pobla)*k_mithril;
+  produccion.aserradero=237.5*minimos.MADERA*(1+0.0029*pobla)*k_madera;
   produccion.cultivos=200*minimos.ALIMENTOS*(1+0.0029*pobla)*k_alimento;
   produccion.yacimientos=65*minimos.GEMAS*(1+0.0029*pobla);
   produccion.pozos=175*minimos.AGUA*(1+0.0029*pobla)*k_agua;
   produccion.taller=85*minimos.HERRAMIENTAS*(1+0.0029*pobla);
-  produccion.forjahierro=78*minimos.ARMAS*(1+0.0029*pobla);
+  produccion.forjahierro=80*minimos.ARMAS*(1+0.0029*pobla);
   produccion.forjamithril=30*minimos.RELIQUIAS*(1+0.0029*pobla);
   produccion.joyeria=50*minimos.JOYAS*(1+0.0029*pobla);
   produccion.camaracristal=55*minimos.CRISTAL*(1+0.0029*pobla);
@@ -159,89 +161,171 @@ function ciudad()
       break;
   }
   //fin CALCULO EFICIENCIA EN TERRENO
+          switch (GLOBAL.getPartida())
+          {
+            case 'KENARON':
+            case 'GARDIS':
+              if(region==9||region==13||region==27)
+              {  
+                multiplicadorRutas="x2";
+                bonoRutas.push(ciudades[i].idCiudad);
+              }
+              break;
+            case 'ZULA':
+            case 'NUMIAN':
+              if(region==9)
+              {
+                multiplicadorRutas="x3";
+                bonoRutas.push(ciudades[i].idCiudad);
+              }
+              break;
+            case 'FANTASY':
+              if(region==6||region==13)
+              {
+                multiplicadorRutas="x2";
+                bonoRutas.push(ciudades[i].idCiudad);
+              }
+              break;
+          }
   if(LOCAL.getGobernantes()!=null)
     if(LOCAL.getGobernantes()[region]==LOCAL.getImperio()["clan"])
     {
-       switch(region){
-        case 1:
-          produccion.almacen=produccion.almacen*3;
-          produccion.cultivos=produccion.cultivos*3;
-          break;
-        case 4:
-          produccion.aserradero=produccion.aserradero*2;
-          produccion.carpinteria=produccion.carpinteria*2;
-          break;
-        case 5:
-          produccion.minaoro=produccion.minaoro*2;
-          produccion.mercado=produccion.mercado*2;
-          produccion.mercadonegro=produccion.mercadonegro*2;
-          break;
-        case 6:
-          produccion.monumentos=produccion.monumentos*1.5;
-          break;
-        case 10:
-          produccion.taller=produccion.taller*2;
-          produccion.minahierro=produccion.minahierro*2;
-          break;
-        case 11:
-          produccion.aserradero=produccion.aserradero*2;
-          produccion.acueducto=produccion.acueducto*2;
-          produccion.pozos=produccion.pozos*2;
-          break;
-        case 12:
-          produccion.aserradero=produccion.aserradero*3;
-          break;
-        case 14:
-          produccion.forjahierro=produccion.forjahierro*2;
-          produccion.minahierro=produccion.minahierro*2;
-        break;
-        case 15:
-          produccion.minamithril=produccion.minamithril*2;
-          produccion.forjamithril=produccion.forjamithril*2;
-          break;
-        case 17:
-          produccion.minapiedra=produccion.minapiedra*3;
-          break;
-        case 20:
-          produccion.acueducto=produccion.acueducto*3;
-          produccion.pozos=produccion.pozos*3;
-          break;
-        case 23:
-          produccion.yacimientos=produccion.yacimientos*3;
-          break;
-        case 26:
-          produccion.minaplata=produccion.minaplata*2;
-          produccion.joyeria=produccion.joyeria*2;
-          break;
-        case 28:
-          produccion.templo=produccion.templo*1.5;
-          break;
-        case 29:
-          produccion.minapiedra=produccion.minapiedra*2;
-          produccion.cantera=produccion.cantera*2;
-          break;
-        case 30:
-          produccion.joyeria=produccion.joyeria*1.5;
-          produccion.minaplata=produccion.minaplata*1.5;
-          produccion.yacimientos=produccion.yacimientos*1.5;
-          produccion.camaracristal=produccion.camaracristal*1.5;
-          break;
-        case 9:
-          console.log(rBase);
-        case 13:
-        case 27:
-          rBase=rBase*2;
-          console.log(rBase);
-          break;
-      }
+      console.log("usted Goblierna esta region");
+      switch (GLOBAL.getPartida())
+          {
+            case 'KENARON':
+            case 'GARDIS':
+              console.log("su mapa es GAIA");
+              switch(region)
+              {
+              case 1:
+                produccion.almacen=produccion.almacen*3;
+                produccion.cultivos=produccion.cultivos*3;
+                break;
+              case 4:
+                produccion.aserradero=produccion.aserradero*2;
+                produccion.carpinteria=produccion.carpinteria*2;
+                break;
+              case 5:
+                produccion.minaoro=produccion.minaoro*2;
+                produccion.mercado=produccion.mercado*2;
+                produccion.mercadonegro=produccion.mercadonegro*2;
+                break;
+              case 6:
+                produccion.monumentos=produccion.monumentos*1.5;
+                break;
+              case 10:
+                produccion.taller=produccion.taller*2;
+                produccion.minahierro=produccion.minahierro*2;
+                break;
+              case 11:
+                produccion.aserradero=produccion.aserradero*2;
+                produccion.acueducto=produccion.acueducto*2;
+                produccion.pozos=produccion.pozos*2;
+                break;
+              case 12:
+                produccion.aserradero=produccion.aserradero*3;
+                break;
+              case 14:
+                produccion.forjahierro=produccion.forjahierro*2;
+                produccion.minahierro=produccion.minahierro*2;
+              break;
+              case 15:
+                produccion.minamithril=produccion.minamithril*2;
+                produccion.forjamithril=produccion.forjamithril*2;
+                break;
+              case 17:
+                produccion.minapiedra=produccion.minapiedra*3;
+                break;
+              case 20:
+                produccion.acueducto=produccion.acueducto*3;
+                produccion.pozos=produccion.pozos*3;
+                break;
+              case 23:
+                produccion.yacimientos=produccion.yacimientos*3;
+                break;
+              case 26:
+                produccion.minaplata=produccion.minaplata*2;
+                produccion.joyeria=produccion.joyeria*2;
+                break;
+              case 28:
+                produccion.templo=produccion.templo*1.5;
+                break;
+              case 29:
+                produccion.minapiedra=produccion.minapiedra*2;
+                produccion.cantera=produccion.cantera*2;
+                break;
+              case 30:
+                produccion.joyeria=produccion.joyeria*1.5;
+                produccion.minaplata=produccion.minaplata*1.5;
+                produccion.yacimientos=produccion.yacimientos*1.5;
+                produccion.camaracristal=produccion.camaracristal*1.5;
+                break;
+              case 9:
+              case 13:
+              case 27:
+                rBase=rBase*2;
+                break;
+             }
+             break;
+            case 'ZULA':
+            case 'NUMIAN':
+              console.log("su mapa es LEZA");
+              switch(region)
+              { 
+                case 1:
+                  produccion.forjahierro=produccion.forjahierro*2;
+                  produccion.minahierro=produccion.minahierro*2;
+                case 5:
+                  produccion.minapiedra=produccion.minapiedra*2.5;
+                  produccion.cantera=produccion.cantera*2.5;
+                  break;
+                case 6:
+                  produccion.templo=produccion.templo*2;
+                  break;
+                case 7:
+                  produccion.aserradero=produccion.aserradero*3;
+                  produccion.carpinteria=produccion.carpinteria*3;
+                  break;
+                case 9:
+                  rBase=rBase*3;
+                  break;
+                case 11:
+                  produccion.almacen=produccion.almacen*2;
+                  produccion.cultivos=produccion.cultivos*2;
+                  produccion.acueducto=produccion.acueducto*2;
+                  produccion.pozos=produccion.pozos*2;
+                  break;
+                case 11:
+                  produccion.almacen=produccion.almacen*1.5;
+                  produccion.cultivos=produccion.cultivos*1.5;
+                  produccion.acueducto=produccion.acueducto*1.5;
+                  produccion.pozos=produccion.pozos*1.5;
+                  break;
+                case 16:
+                  produccion.monumentos=produccion.monumentos*1.5;
+                  break;
+              }
+            case 'FANTASY':
+              console.log("su mapa es JADPIAN");
+              switch(region)
+              {
+                case 11:
+                  produccion.monumentos=produccion.monumentos*1.5;
+                  break;
+                case 5:
+                  produccion.minaoro=produccion.minaoro*1.5;
+                  produccion.mercado=produccion.mercado*1.5;
+                  produccion.mercadonegro=produccion.mercadonegro*1.5;
+                  produccion.aserradero=produccion.aserradero*2;
+                  break;
+              }
+          }
     }
   if (LOCAL.getImperio()!=null)
     if(LOCAL.getImperio()["raza"]=="Humanos")
     { 
-      console.log("soy Humanos");
-      console.log(produccion.joyeria);
       produccion.joyeria=produccion.joyeria*2;
-      console.log(produccion.joyeria);
       produccion.forjamithril=produccion.forjamithril*2;
     }
   //GLOBAL.showOpcionesDisponibles();
