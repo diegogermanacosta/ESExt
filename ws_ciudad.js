@@ -48,6 +48,16 @@ var aux;
 
 function ciudad()
 { 
+  window.addEventListener("keydown", function (event) 
+  { 
+    console.log(event)
+    if (event.key==' '){
+      console.log("aca estamos");
+      $(document.getElementsByName("Submit")).click();
+    }
+  });
+
+
   document.getElementById('flotante').style.left="35%";
   var pobla= $("#poblacionciudad").html().trim();
   pobla= pobla  .replace(".", "");
