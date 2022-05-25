@@ -15,7 +15,7 @@ function rutasComerciales()
       for (var i = ciudades.length - 1; i >= 0; i--) 
       {
         let region= ciudades[i].region;
-        if (gobernante[region]==miClan);
+        if (gobernante[region]==miClan)
           switch (GLOBAL.getPartida())
           {
             case 'KENARON':
