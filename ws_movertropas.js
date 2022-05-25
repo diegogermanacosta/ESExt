@@ -128,3 +128,4 @@ function creaBoton(obj,nombre,accion){
 		return button;
 		//boton creado
 	}
+	document.querySelector("#datos > tbody > tr:nth-child(5) > td:nth-child(3)")

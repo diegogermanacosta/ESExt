@@ -3,10 +3,12 @@ function informes()
 	LOCAL.cleanAsedios();
 	var informes = new Array();
 	$(".lista1 tr[id*='tr']").each(function(index, obj){
-
+		var clan=0;
+		if($(obj.children[0+clan]).html().trim().length>20)
+			clan=1;
 		var idReporte = obj.id.replace("tr","");
-		var tipo = $(obj.children[0]).html().trim();
-		var horario = $(obj.children[1]).html().trim();
+		var tipo = $(obj.children[0+clan]).html().trim();
+		var horario = $(obj.children[1+clan]).html().trim();
 		var haceDD = parseInt(horario.match(/\d?\dd/g) == null ? 0 : horario.match(/\d?\dd/g)[0].substring(0,2));
 		var haceHH = parseInt(horario.match(/\d?\dh/g) == null ? 0 : horario.match(/\d?\dh/g)[0].substring(0,2));
 		var haceMM = parseInt(horario.match(/\d?\dm/g) == null ? 0 : horario.match(/\d?\dm/g)[0].substring(0,2));
@@ -63,14 +65,14 @@ function generateInforme(selector, tipoInforme, haceDD, haceHH, haceMM)
 		if(endReport)
 			return;
 
-		if(index == 0)
-			return;
-
 		if($(obj.children[0]).html().trim() == "Héroe" || $(obj.children[0]).html().trim() == "Héroe atacado")
 		{
 			endReport = true;
 			return;
 		}
+		if(index == 0)
+			return;
+
 
 		$(obj).addClass("getAtaque")
 
@@ -142,7 +144,6 @@ function generateInforme(selector, tipoInforme, haceDD, haceHH, haceMM)
 		proxAtaque = proxAtaque.addHours(-hh);
 		proxAtaque = proxAtaque.addMinutes(-mm);
 		proxAtaque = proxAtaque.addHours(GLOBAL.getHorasProteccion());
-
 		proxAtaque = proxAtaque.addDays(-haceDD);
 		proxAtaque = proxAtaque.addHours(-haceHH);
 		proxAtaque = proxAtaque.addMinutes(-haceMM);

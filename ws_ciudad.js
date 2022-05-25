@@ -52,8 +52,10 @@ function ciudad()
   var pobla= $("#poblacionciudad").html().trim();
   pobla= pobla  .replace(".", "");
   pobla=parseInt(pobla)/1000;
+  var _edificios= parseInt($(document.querySelector("#contenido > div.ciudad_info > div:nth-child(3) > span")).text());
   //k_P = multiplicador Pacifico
   var k_P = 1
+  var kTurnos= 4000;
   if (LOCAL.getPacifico())
     k_P=1.2;
   var k_Karma = 1;
@@ -67,6 +69,7 @@ function ciudad()
   var k_mithril = 1;
   var k_tablas = 1;
   var k_oro = 1;
+  var k_rutas =1;
 
   if(LOCAL.getPoliticas()!=null)
   {
@@ -82,10 +85,11 @@ function ciudad()
     k_hierro=(1+0.02*politicas.profundidadcuevas[1])*(1+0.02*politicas.esclavitud[1]);
     k_mithril=1+0.01*politicas.profundidadcuevas[1];
     k_oro = (1+(0.02*politicas.burguesia[1]))*(1-(0.02*politicas.aduanas[1]))*(1-(0.02*politicas.nobleza[1]));
+    k_rutas =1+0.06*politicas.rutasdecontrabando[1];
 
   }
 
-  var pBase=1;
+  var rBase=86.4*k_rutas*k_P;
   //Valores de produccion base de cada edificio
   
   produccion.castillo=0;
@@ -108,7 +112,7 @@ function ciudad()
   produccion.cultivos=200*minimos.ALIMENTOS*(1+0.0029*pobla)*k_alimento;
   produccion.yacimientos=65*minimos.GEMAS*(1+0.0029*pobla);
   produccion.pozos=175*minimos.AGUA*(1+0.0029*pobla)*k_agua;
-  produccion.taller=130*minimos.HERRAMIENTAS*(1+0.0029*pobla);
+  produccion.taller=85*minimos.HERRAMIENTAS*(1+0.0029*pobla);
   produccion.forjahierro=78*minimos.ARMAS*(1+0.0029*pobla);
   produccion.forjamithril=30*minimos.RELIQUIAS*(1+0.0029*pobla);
   produccion.joyeria=50*minimos.JOYAS*(1+0.0029*pobla);
@@ -222,6 +226,13 @@ function ciudad()
           produccion.yacimientos=produccion.yacimientos*1.5;
           produccion.camaracristal=produccion.camaracristal*1.5;
           break;
+        case 9:
+          console.log(rBase);
+        case 13:
+        case 27:
+          rBase=rBase*2;
+          console.log(rBase);
+          break;
       }
     }
   if (LOCAL.getImperio()!=null)
@@ -242,175 +253,165 @@ function ciudad()
     if(items.construcciones)
       ciudad_process();
   });
-}
 
-function ciudad_process()
-{
-  if($(".c .nome").length == 0)
-    return;
-
-  UTIL.injectCode( function()
+  function renta_edif_base (costoOro,costoMat,recurso,nombre)
   {
-    $("body").append("<input id='valoresEdificio' type=hidden value=" + JSON.stringify(__edificio) + " />");
-    $("body").append("<input id='recursosActuales' type=hidden value=" + JSON.stringify(imp) + " />");
-  });
-
-  var costosIniciales = JSON.parse($("#valoresEdificio").val());
-  var recursosActuales = JSON.parse($("#recursosActuales").val());
-  var recursosUsados = JSON.parse($("#recursosActuales").val());
-  var edificiosConstruidos = new Array();
-
-  ciudad_cleanUsados(recursosUsados);
-
-  UTIL.injectCode(function(){
-    $("#valoresEdificio").remove();
-    $("#recursosActuales").remove();
-  });
-
-  
-  $(".c .nome").each(function(index, obj){
-    var nombre = $(obj).text().trim().replace(" ","").replace("á","a").replace("é","e").replace("í","i").replace("ó","o").replace("ú","u").toLowerCase();
-    edificios.push(nombre);
-    edificiosConstruidos.push(-1)
-  });
-  var costosTotales = new Array();
-
-  for(var i = 0; i < edificios.length; i++)
-  {
-    var oroInicial = costosIniciales[i][0];
-    var materialInicial = costosIniciales[i][1];
-    var nombreRecurso = costosIniciales[i][2];
-    var renta = renta_edif_base(oroInicial,materialInicial,nombreRecurso.toUpperCase(),edificios[i]);
-    var costo = new Array();
-    for (var j=1; j <=10; j++)
-    {
-    costo.push({ oro: ciudad_calcular(oroInicial, j), material: ciudad_calcular(materialInicial, j), recurso: nombreRecurso, rentabilidad: renta*j});
-    }
-    costosTotales.push(costo);
-  }
-  ciudad_estrellas(costosTotales, recursosActuales, recursosUsados, edificiosConstruidos);
-  $(".estrella").each(function(index, obj){
-     $(obj).mouseenter(function(){ ciudad_recalcular(costosTotales, recursosActuales, recursosUsados, edificiosConstruidos); });
-     $(obj).click(function(){ 
-       masRentable=99990;
-      ciudad_recalcular(costosTotales, recursosActuales, recursosUsados, edificiosConstruidos); 
-      ciudad_recalcular(costosTotales, recursosActuales, recursosUsados, edificiosConstruidos); });
-  });
-
-  $(".elim").each(function(index, obj){
-     $(obj).click(function(){ ciudad_recalcular(costosTotales, recursosActuales, recursosUsados, edificiosConstruidos); });
-    //  $(obj).hover(function(){ ciudad_recalcular(costosTotales, recursosActuales, recursosUsados); });
-  });
-
-  $(".edificios img:not(.estrella):not(.elim):not(._ayuda):not(.ayuda)").each(function(index, obj){
-      var id = obj.id;
-      var estrella = parseInt(id.replace("edificio_estrella_", ""));
-      var edificio = Math.floor(estrella / 10);
-      var nroEdificio = estrella % 10;
-
-      if(nroEdificio > edificiosConstruidos[edificio])
-        edificiosConstruidos[edificio] = nroEdificio;
-  });
-
-  ciudad_recalcular(costosTotales, recursosActuales, recursosUsados, edificiosConstruidos);
-}
-
-function ciudad_cleanUsados(recursosUsados)
-{
-  for(var key in recursosUsados)
-    recursosUsados[key] = 0;
-}
-
-function ciudad_recalcular(costosTotales, recursosActuales, recursosUsados, edificiosConstruidos)
-{
-  ciudad_cleanUsados(recursosUsados);
-
-  if($("#panel").html() == "")
-  {
-    ciudad_estrellas(costosTotales, recursosActuales, recursosUsados, edificiosConstruidos);
-    return;
+    var costo=costoOro+costoMat*minimos[recurso];
+    renta=costo/(produccion[nombre]+rBase+kTurnos/20);
+    return renta;
   }
 
-  var costeOro = parseInt($("#panel #costeoro").html().trim());
-  recursosUsados["ORO"] = costeOro;
-
-  $("#panel [id*='coste']:not(#costeoro)").each(function(index, obj){
-    var nombre = obj.id.replace("coste", "");
-    var costo = parseInt($(obj).html().trim());
-    recursosUsados[nombre.toUpperCase()] = costo;
-  });
-
-  ciudad_estrellas(costosTotales, recursosActuales, recursosUsados, edificiosConstruidos);
-}
-
-function ciudad_estrellas(costosTotales, recursosActuales, recursosUsados, edificiosConstruidos)
-{
-  $(".estrella").each(function(index, obj){
-
-    if(obj.src == "https://images.empire-strike.com/v2/interfaz/estrella-amarilla.png" ||
-       obj.src == "https://images.empire-strike.com/v2/interfaz/estrella-roja.png")
+  function ciudad_process()
+  {
+    if($(".c .nome").length == 0)
       return;
 
-    var id = obj.id;
-    var estrella = parseInt(id.replace("edificio_estrella_",""));
-    var edificio = Math.floor(estrella/10);
-    var nroEdificio = estrella % 10;
-    var s = $(this).data('attr').split(',');
-    var multiplicador=parseFloat(s[3]);
-
-    var costoOro = costosTotales[edificio][nroEdificio].oro*multiplicador;
-    var costoMat = costosTotales[edificio][nroEdificio].material*multiplicador;
-    var recurso = costosTotales[edificio][nroEdificio].recurso.toUpperCase();
-    var renta = costosTotales[edificio][nroEdificio].rentabilidad;
-    
-    var edificioContruid = edificiosConstruidos[edificio];
-    var construidoOro = edificioContruid == -1 ? 0 : costosTotales[edificio][edificioContruid].oro*multiplicador;
-    var construidoMat = edificioContruid == -1 ? 0 : costosTotales[edificio][edificioContruid].material*multiplicador;
-
-    if((recursosActuales["ORO"] - recursosUsados["ORO"]) >= (costoOro - construidoOro) && (recursosActuales[recurso] - recursosUsados[recurso]) >= (costoMat - construidoMat))
-      {obj.src = chrome.extension.getURL('base/estrella-verde.png');
-        if(renta<=masRentable)
-          {
-            masRentable=renta;
-            obj.src = chrome.extension.getURL('base/estrella-azul.png');
-          }
-      } 
-    else
+    UTIL.injectCode( function()
     {
-      obj.src = "https://images.empire-strike.com/v2/interfaz/estrella-vacia.png";
-      if(renta<=masRentableI&&renta<masRentable)
+      $("body").append("<input id='valoresEdificio' type=hidden value=" + JSON.stringify(__edificio) + " />");
+      $("body").append("<input id='recursosActuales' type=hidden value=" + JSON.stringify(imp) + " />");
+    });
+
+    var costosIniciales = JSON.parse($("#valoresEdificio").val());
+    var recursosActuales = JSON.parse($("#recursosActuales").val());
+    var recursosUsados = JSON.parse($("#recursosActuales").val());
+    var edificiosConstruidos = new Array();
+
+    ciudad_cleanUsados(recursosUsados);
+
+    UTIL.injectCode(function(){
+      $("#valoresEdificio").remove();
+      $("#recursosActuales").remove();
+    });
+
+    
+    $(".c .nome").each(function(index, obj){
+      var nombre = $(obj).text().trim().replace(" ","").replace("á","a").replace("é","e").replace("í","i").replace("ó","o").replace("ú","u").toLowerCase();
+      edificios.push(nombre);
+      edificiosConstruidos.push(-1)
+    });
+    var costosTotales = new Array();
+
+    for(var i = 0; i < edificios.length; i++)
+    {
+      var oroInicial = costosIniciales[i][0];
+      var materialInicial = costosIniciales[i][1];
+      var nombreRecurso = costosIniciales[i][2];
+      var renta = renta_edif_base(oroInicial,materialInicial,nombreRecurso.toUpperCase(),edificios[i]);
+      var costo = new Array();
+      for (var j=1; j <=10; j++)
       {
-        masRentableI=renta;
-        obj.src = chrome.extension.getURL('base/estrella-blanca.png');
+      costo.push({ oro: ciudad_calcular(oroInicial, j), material: ciudad_calcular(materialInicial, j), recurso: nombreRecurso, rentabilidad: renta*j});
       }
+      costosTotales.push(costo);
     }
-      
-  });
-  console.log("la rentabilidad mas alta es de: "+masRentable);
-}
+    ciudad_estrellas(costosTotales, recursosActuales, recursosUsados, edificiosConstruidos);
+    $(".estrella").each(function(index, obj){
+       $(obj).mouseenter(function(){ ciudad_recalcular(costosTotales, recursosActuales, recursosUsados, edificiosConstruidos); });
+       $(obj).click(function(){ 
+         masRentable=99990;
+        ciudad_recalcular(costosTotales, recursosActuales, recursosUsados, edificiosConstruidos); 
+        ciudad_recalcular(costosTotales, recursosActuales, recursosUsados, edificiosConstruidos); });
+    });
 
-function ciudad_calcular(inicio, estrella)
-{
-  var result = 0;
-  for(var i = 0; i <= estrella; i++)
-    result += inicio * i;
+    $(".elim").each(function(index, obj){
+       $(obj).click(function(){ ciudad_recalcular(costosTotales, recursosActuales, recursosUsados, edificiosConstruidos); });
+      //  $(obj).hover(function(){ ciudad_recalcular(costosTotales, recursosActuales, recursosUsados); });
+    });
 
-  return result;
-}
+    $(".edificios img:not(.estrella):not(.elim):not(._ayuda):not(.ayuda)").each(function(index, obj){
+        var id = obj.id;
+        var estrella = parseInt(id.replace("edificio_estrella_", ""));
+        var edificio = Math.floor(estrella / 10);
+        var nroEdificio = estrella % 10;
 
-function renta_edif_base (costoOro,costoMat,recurso,nombre)
-{ var politic=1;
-  var region=1;
-  var renta=99999;
-  if(produccion[nombre]>0)
-  {
-  var costo=costoOro+costoMat*minimos[recurso];
-  renta=costo/produccion[nombre];
+        if(nroEdificio > edificiosConstruidos[edificio])
+          edificiosConstruidos[edificio] = nroEdificio;
+    });
+
+    ciudad_recalcular(costosTotales, recursosActuales, recursosUsados, edificiosConstruidos);
   }
-  return renta;
-}
 
-function renta_edif_hoy ()
-{
-  return 0;
+  function ciudad_cleanUsados(recursosUsados)
+  {
+    for(var key in recursosUsados)
+      recursosUsados[key] = 0;
+  }
+
+  function ciudad_recalcular(costosTotales, recursosActuales, recursosUsados, edificiosConstruidos)
+  {
+    ciudad_cleanUsados(recursosUsados);
+
+    if($("#panel").html() == "")
+    {
+      ciudad_estrellas(costosTotales, recursosActuales, recursosUsados, edificiosConstruidos);
+      return;
+    }
+
+    var costeOro = parseInt($("#panel #costeoro").html().trim());
+    recursosUsados["ORO"] = costeOro;
+
+    $("#panel [id*='coste']:not(#costeoro)").each(function(index, obj){
+      var nombre = obj.id.replace("coste", "");
+      var costo = parseInt($(obj).html().trim());
+      recursosUsados[nombre.toUpperCase()] = costo;
+    });
+
+    ciudad_estrellas(costosTotales, recursosActuales, recursosUsados, edificiosConstruidos);
+  }
+
+  function ciudad_estrellas(costosTotales, recursosActuales, recursosUsados, edificiosConstruidos)
+  {
+    $(".estrella").each(function(index, obj){
+
+      if(obj.src == "https://images.empire-strike.com/v2/interfaz/estrella-amarilla.png" ||
+         obj.src == "https://images.empire-strike.com/v2/interfaz/estrella-roja.png")
+        return;
+
+      var id = obj.id;
+      var estrella = parseInt(id.replace("edificio_estrella_",""));
+      var edificio = Math.floor(estrella/10);
+      var nroEdificio = estrella % 10;
+      var s = $(this).data('attr').split(',');
+      var multiplicador=parseFloat(s[3]);
+
+      var costoOro = costosTotales[edificio][nroEdificio].oro*multiplicador;
+      var costoMat = costosTotales[edificio][nroEdificio].material*multiplicador;
+      var recurso = costosTotales[edificio][nroEdificio].recurso.toUpperCase();
+      var renta = costosTotales[edificio][nroEdificio].rentabilidad;
+      
+      var edificioContruid = edificiosConstruidos[edificio];
+      var construidoOro = edificioContruid == -1 ? 0 : costosTotales[edificio][edificioContruid].oro*multiplicador;
+      var construidoMat = edificioContruid == -1 ? 0 : costosTotales[edificio][edificioContruid].material*multiplicador;
+
+      if((recursosActuales["ORO"] - recursosUsados["ORO"]) >= (costoOro - construidoOro) && (recursosActuales[recurso] - recursosUsados[recurso]) >= (costoMat - construidoMat))
+        {obj.src = chrome.extension.getURL('base/estrella-verde.png');
+          if(renta<=masRentable)
+            {
+              masRentable=renta;
+              obj.src = chrome.extension.getURL('base/estrella-azul.png');
+            }
+        } 
+      else
+      {
+        obj.src = "https://images.empire-strike.com/v2/interfaz/estrella-vacia.png";
+        if(renta<=masRentableI&&renta<masRentable)
+        {
+          masRentableI=renta;
+          obj.src = chrome.extension.getURL('base/estrella-blanca.png');
+        }
+      }
+        
+    });
+    console.log("la rentabilidad mas alta es de: "+masRentable);
+  }
+
+  function ciudad_calcular(inicio, estrella)
+  {
+    var result = 0;
+    for(var i = 0; i <= estrella; i++)
+      result += inicio * i;
+
+    return result;
+  }
 }

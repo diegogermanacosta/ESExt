@@ -23,7 +23,7 @@ function imperio()
 	var ciudades = new Array();
 	var heroes = new Array();
 	var produccion = {};
-	var ib = $("#datos>tbody>tr:eq(4)")[0].outerText.trim().replace('Índice Bélico\t\t','').replace('%','').replace(',','.');
+	var ib = $("#datos>tbody>tr:eq(4)")[0].outerText.replace('Índice Bélico','').split('%')[0].replace(',','.').trim();
 	//Formula 0.1*(100 - IB actual)
 	var ibReducidoAlPaso = 0.1*(100-ib);
 	var ibAlPaso = ib - ibReducidoAlPaso;
@@ -43,16 +43,17 @@ function imperio()
 	}
 	var pacifico= false;
 	if(ib<=15&&LOCAL.getValor()>500)
-	{
-		$("#datos>tbody>tr:eq(4)")[0].append(`IB AL PASO: ${ibAlPaso}%, Ya eres pacifico`);
+	{	var iconoP=`<span id="icono_pacifico"> <img src="//images.empire-strike.com/archivos/icon_paz.gif" width="15" height="15" align="absmiddle" hspace="2" title="Eres un imperio Pacífico"></span>`;
+		$("#datos>tbody>tr:eq(4)").append(`<td><b>IB al paso:</b> ${ibAlPaso}%${iconoP}</td>`);
 		pacifico=true;
 	}
 	else
 	{
-		$("#datos>tbody>tr:eq(4)")[0].after(`IB AL PASO: ${ibAlPaso}%, necesitas ${count} paso(s) para volver a pacifico`);
+		$("#datos>tbody>tr:eq(4)").append(`<td><b>IB al paso:</b> ${ibAlPaso}%, necesitas ${count} paso(s) para volver a pacifico</td>`);
 	}
 	LOCAL.setPacifico(pacifico);
   // OBTENER CIUDADES
+  	var famaProduccion = 0;
 	$(".lista2:not(:first) tr").each(function(index, obj){
 
 		if(index == 0)
@@ -75,6 +76,8 @@ function imperio()
 		var defensa = $(obj.children[1].children[0]).attr("src");//.replace("https://images.empire-strike.com/archivos/sistemas_defensivos/25/","").replace(".jpg","");
 		var proteccion = $(obj.children[15 - sinRutas]).text().trim();
 		var tropas = $(obj.children[12 - sinRutas]).text().trim().replace(/\./g,"");
+		famaProduccion =famaProduccion + parseInt($(obj.children[5]).text().split("+")[1].trim());
+		
 		if(proteccion == "SP" || proteccion == "CU")
 		{
 			ciudades.push(imperio_generateCiudad(id, idCiudad, nombre, region, poblacion, edificios, oro, recursos, fama, moral, defensa, tropas, proteccion));
@@ -91,6 +94,8 @@ function imperio()
 		ciudades.push(imperio_generateCiudad(id, idCiudad, nombre, region, poblacion, edificios, oro, recursos, fama, moral, defensa, tropas, proteccion));
 		$(obj.children[15 - sinRutas]).append("<br><span style='font-size:11px'><b style='color:#990000'>" + saleProteccion.formatDate() + "</b></span>");
 	});
+
+	produccion.fama= famaProduccion;
 
 	// OBTENER HEROES
 	$(".lista2:first tr").each(function(index, obj){
