@@ -53,7 +53,7 @@ function ciudad()
     console.log(event)
     if (event.key==' '){
       console.log("aca estamos");
-      $(document.getElementsByName("Submit")).click();
+      document.getElementById("frm_edificios").submit();
     }
   });
 

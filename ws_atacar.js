@@ -11,7 +11,9 @@ function atacar()
 		"perdidasAtaque": parseInt($("#ataque-ata #perdidasheroe").html().trim().replace(".","").replace(",","")),
 		"perdidasDefensa": parseInt($("#ataque-def #perdidasheroed").html().trim().replace(".","").replace(",","")),
 		"atacante": new Array(),
-		"defensor": new Array()
+		"defensor": new Array(),
+		"bonus": new Array(),
+		"round": new Array();
 	};
 
 	var asedio = LOCAL.getAsedioByName(ataque.nombreCiudad);
@@ -40,8 +42,26 @@ function atacar()
 
 		ataque.defensor.push(atacar_generateTropas(nombre, nivel, inicio, porcentaje, fin));
 	});
-	LOCAL.setAtaque(ataque);
+
+	$("#rra .bonus_ataque").each(function(index,obj){
+		var bonus= obj.className + $(obj).text();
+		console.log("tu bonus es: "+ bonus);
+		ataque.bonus.push(bonus);
+	});
+	
+	$("#rra .round").each(function(index,obj){
+		console.log($(obj).text());
+		ataque.round.push($(obj).text());
+	});
+	var ataques = new Array();
+	if(LOCAL.getAtaques()!=null)
+		ataques=LOCAL.getAtaques();
+	ataques.push(ataque)
+	LOCAL.setAtaque(ataques);
 	//API.setAtaque(ataque);
+
+
+
 }
 
 function atacar_generateTropas(nombre, nivel, inicio, porcentaje, fin)

@@ -26,7 +26,7 @@ function imperio()
 	var ib = $("#datos>tbody>tr:eq(4)")[0].outerText.replace('Índice Bélico','').split('%')[0].replace(',','.').trim();
 	//Formula 0.1*(100 - IB actual)
 	var ibReducidoAlPaso = 0.1*(100-ib);
-	var ibAlPaso = ib - ibReducidoAlPaso;
+	var ibAlPaso = (ib - ibReducidoAlPaso).toFixed(1);
 	if(ibAlPaso < 0){
 		ibAlPaso = 0;
 	}
@@ -44,12 +44,12 @@ function imperio()
 	var pacifico= false;
 	if(ib<=15&&LOCAL.getValor()>500)
 	{	var iconoP=`<span id="icono_pacifico"> <img src="//images.empire-strike.com/archivos/icon_paz.gif" width="15" height="15" align="absmiddle" hspace="2" title="Eres un imperio Pacífico"></span>`;
-		$("#datos>tbody>tr:eq(4)").append(`<td><b>IB al paso:</b> ${ibAlPaso.toFixed(2)}%${iconoP}</td>`);
+		$("#datos>tbody>tr:eq(4)").append(`<td><b>IB al paso:</b> ${ibAlPaso}%${iconoP}</td>`);
 		pacifico=true;
 	}
 	else
 	{
-		$("#datos>tbody>tr:eq(4)").append(`<td><b>IB al paso:</b> ${ibAlPaso.toFixed(2)}%, necesitas ${count} paso(s) para volver a pacifico</td>`);
+		$("#datos>tbody>tr:eq(4)").append(`<td><b>IB al paso:</b> ${ibAlPaso}%, necesitas ${count} paso(s) para volver a pacifico</td>`);
 	}
 	LOCAL.setPacifico(pacifico);
   // OBTENER CIUDADES

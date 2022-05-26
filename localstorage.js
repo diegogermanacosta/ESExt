@@ -256,4 +256,11 @@ var LOCAL = {
 		localStorage[LOCAL_ATACAR] = JSON.stringify(obj);
 	},
 
+	getAtaques:function(){
+		if(localStorage[LOCAL_ATACAR] == undefined || localStorage[LOCAL_ATACAR] == null)
+			return null;
+
+	 	return JSON.parse(localStorage[LOCAL_ATACAR]);
+	},
+
 };

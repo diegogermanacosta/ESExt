@@ -3,6 +3,18 @@ function escogerobjetivo()
 	var imperios = new Array();
 	var ciudades = new Array();
 
+	window.addEventListener("keydown", function (event) 
+	{ 
+		console.log(event)
+		if (event.key==' '){
+		  document.getElementById("form_tropas").submit();
+		}
+	});
+
+
+
+
+
 	$(".c_obj.ciudades.c_obj_v .lista2.escogerobjetivo.sortable tbody:has(tr.impar)>tr").each(function(index, obj){
 
 		var idCiudad = parseInt($(obj.children[0]).find("a").html().split("#")[1]);
