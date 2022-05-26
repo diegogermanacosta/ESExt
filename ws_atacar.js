@@ -40,8 +40,8 @@ function atacar()
 
 		ataque.defensor.push(atacar_generateTropas(nombre, nivel, inicio, porcentaje, fin));
 	});
-
-	API.setAtaque(ataque);
+	LOCAL..setAtaque(ataque);
+	//API.setAtaque(ataque);
 }
 
 function atacar_generateTropas(nombre, nivel, inicio, porcentaje, fin)

@@ -377,9 +377,10 @@ function ciudad()
     $(".estrella").each(function(index, obj){
        $(obj).mouseenter(function(){ ciudad_recalcular(costosTotales, recursosActuales, recursosUsados, edificiosConstruidos); });
        $(obj).click(function(){ 
-         masRentable=99990;
+        masRentable=99990
         ciudad_recalcular(costosTotales, recursosActuales, recursosUsados, edificiosConstruidos); 
-        ciudad_recalcular(costosTotales, recursosActuales, recursosUsados, edificiosConstruidos); });
+        ciudad_recalcular(costosTotales, recursosActuales, recursosUsados, edificiosConstruidos);
+      });
     });
 
     $(".elim").each(function(index, obj){

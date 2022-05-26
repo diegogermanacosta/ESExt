@@ -7,9 +7,10 @@ var LOCAL_PRODUCCION = "Produccion";
 var LOCAL_ASEDIOS = "Asedios";
 var LOCAL_VALOR = "Valor";
 var LOCAL_POLITICAS = "Politicas";
-var LOCAL_GOBERNANTES = "Gobernantes"
-var LOCAL_FORMACIONES = "Formaciones"
-var LOCAL_PACIFICO = "Pacifico"
+var LOCAL_GOBERNANTES = "Gobernantes";
+var LOCAL_FORMACIONES = "Formaciones";
+var LOCAL_PACIFICO = "Pacifico";
+var LOCAL_ATACAR = "Atacar"
 
 var LOCAL = {
 	clean: function()
@@ -248,6 +249,11 @@ var LOCAL = {
 			return null;
 
 	 	return JSON.parse(localStorage[LOCAL_PACIFICO]);
-	}
+	},
+
+		setAtaque:function(ataque)
+	{
+		localStorage[LOCAL_ATACAR] = JSON.stringify(obj);
+	},
 
 };
