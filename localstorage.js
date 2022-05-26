@@ -251,7 +251,7 @@ var LOCAL = {
 	 	return JSON.parse(localStorage[LOCAL_PACIFICO]);
 	},
 
-		setAtaque:function(ataque)
+		setAtaque:function(obj)
 	{
 		localStorage[LOCAL_ATACAR] = JSON.stringify(obj);
 	},
