@@ -13,7 +13,7 @@ function atacar()
 		"atacante": new Array(),
 		"defensor": new Array(),
 		"bonus": new Array(),
-		"round": new Array();
+		"round": new Array()
 	};
 
 	var asedio = LOCAL.getAsedioByName(ataque.nombreCiudad);
