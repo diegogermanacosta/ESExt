@@ -37,6 +37,26 @@ var API = {
 			}
 		});
 	},
+	setRutasHeroku(imperio, partida, clan,ronda,ciudades){
+		fetch("http://localhost:3000/saveRutas",{
+			headers: {
+			'Accept': 'application/json',
+			'Content-Type': 'application/json'
+			},
+			method: "POST",
+			body: JSON.stringify(
+				{
+					imperio :imperio,
+					partida : partida,
+					clan : clan,
+					ronda : ronda,
+					ciudades : ciudades
+				}
+			)
+		})
+		.then(function(res){ console.log(res) })
+		.catch(function(res){ console.log(res) })
+	},
 	getCodigo: function(guid, partida, ronda)
 	{
 		if(LOCAL.getImperio() == null)

@@ -173,6 +173,7 @@ function imperio()
 		LOCAL.setHeroe(heroes);
 		LOCAL.setProduccion(produccion);
 		LOCAL.setImperio(imperio)
+		//API.setRutasHeroku(id,GLOBAL.getPartida(),clan,GLOBAL.getRonda(),ciudades)
 		//API.setImperio(id, nombre, raza, GLOBAL.getPartida(), GLOBAL.getRonda(), clan, ciudades, produccion, heroes, GLOBAL.getFechaFin());
 	
 	}
