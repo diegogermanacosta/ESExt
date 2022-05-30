@@ -24,23 +24,29 @@ politicas.escuelas= new Array(15,0);
 politicas.musica= new Array(15,0);
 
 function politica()
-{   console.log("blablabla");
+{
     const removeAccents = (str) => {
         return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
     } 
     $(".lista1 tr").each(function(index, obj) {
 		  if(index == 0)
-        return;
+            return;
 
-      if(obj.children.length < 3)
-			  return;  
+          if(obj.children.length < 3)
+    			  return;  
 
-    var nombre = $(obj.children[1]).text().trim();
-    nombre=nombre.split("Coste: ");
-    var costo=parseInt(nombre[1].substring(0,nombre[1].indexOf(".")));
-    nombre= removeAccents(nombre[0].toLowerCase().replace(" ","").replace(" ",""));
-    politicas[nombre][1]=costo/politicas[nombre][0]-1;
-    console.log(`${nombre} tiene ${politicas[nombre][1]} estrellas`);
+        var nombre = $(obj.children[1]).text().trim();
+        var contador= 0;
+        for (var i = 0; i < 10; i++) {
+            if(obj.children[4].children[i].src=="https://images.empire-strike.com/v2/interfaz/estrella-roja.png")
+                contador=contador+1;
+            else
+                i=10;
+        }
+        nombre=nombre.split("Coste: ");
+        nombre= removeAccents(nombre[0].toLowerCase().replace(" ","").replace(" ",""));
+        politicas[nombre][1]=contador;
+        console.log(`${nombre} tiene ${politicas[nombre][1]} estrellas`);
     });
     politicas.imperio= LOCAL.getImperio()["nombre"];
     LOCAL.setPoliticas(politicas);
