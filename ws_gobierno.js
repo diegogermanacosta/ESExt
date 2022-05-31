@@ -1,7 +1,6 @@
 function gobierno()
 { 	var gobernante=[];
 	var n_regiones=15;
-	console.log(GLOBAL.getPartida())
 	switch (GLOBAL.getPartida())
 	{
 		case 'KENARON':

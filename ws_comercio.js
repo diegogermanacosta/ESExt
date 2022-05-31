@@ -139,8 +139,7 @@ function compraJusta(oroRaza)
 		var compra = parseInt($(obj.children[2]).text().trim());
 		var OroTurno = oroRaza * parseInt(turnosGastados);
 		var OroSumaGastoGanado = parseInt(oroGanado)+parseInt(oroGastado);
-		var difOro = parseInt(OroTurno)-parseInt(OroSumaGastoGanado);
-		
+		var difOro = parseInt(OroTurno)-parseInt(OroSumaGastoGanado);		
 		var difCompra=0;
 		var difVenta=0;
 		if(difOro!=0)
