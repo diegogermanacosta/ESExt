@@ -13,7 +13,13 @@ function alwaysDo()
 	//GLOBAL.getCode();
 
 	var botonaZong = new Audio (chrome.extension.getURL('base/button.mpeg'));
-	var accion = function(){botonaZong.play()}; 
+	var accion = function()
+	{
+		LOCAL.setCarga(true);
+		GLOBAL.cargaImperio();
+		if(!LOCAL.getCarga())
+			botonaZong.play();
+	}; 
 	var botonazo = GLOBAL.crearBoton("#subcabecera","Apretame este Boton", accion);
 	var iframe= document.createElement("iframe");
 	/*iframe.type = "iframe";
@@ -162,6 +168,37 @@ var GLOBAL = {
 						parseInt($("#g_cristal").html().replace(/\./g,"")),
 						parseInt($("#g_armas").html().replace(/\./g,"")),
 						parseInt($("#g_rubies").html().replace(/\./g,"")));
+	},
+	cargaImperio : function()
+	{
+		if(LOCAL.getCarga==null)
+			LOCAL.setCarga(false);
+		if(LOCAL.getCarga())
+		{
+			if(LOCAL.getPoliticas()==null){
+				location.replace("politica.php");
+				return;
+			}
+			if(LOCAL.getGobernantes()==null){
+				location.replace("gobierno.php");
+				return;
+			}
+			if (LOCAL.getCiudad()!=null) 
+			{
+				var ciudades = LOCAL.getCiudad();
+				var count=0;
+				for (var i = ciudades.length - 1; i >= 0; i--) {
+					if(!ciudades[i].cargada)
+						location.replace("ciudad.php?id="+ciudades[i].idCiudad);
+					else
+						count++;
+				}
+				if(count==ciudades.length){
+					LOCAL.setCarga(false);
+					console.log("imperio cargado con exito")
+				}
+			}
+		}
 	},
 	generateAsedios : function()
 	{

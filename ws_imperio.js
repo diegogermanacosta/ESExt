@@ -241,6 +241,7 @@ function imperio()
 		if(update)
 			API.setImperio(id, nombre, raza, GLOBAL.getPartida(), GLOBAL.getRonda(), clan, ciudades, produccion, heroes, GLOBAL.getFechaFin());
 	}
+	GLOBAL.cargaImperio();
 }
 
 function imperio_generateCiudad(idImperio, idCiudad, nombre, region, poblacion, edificios, oro, recursos, fama, moral, defensa, tropas, proteccion)
@@ -258,7 +259,9 @@ function imperio_generateCiudad(idImperio, idCiudad, nombre, region, poblacion, 
 		"moral": moral,
 		"defensa": defensa,
 		"tropas": tropas,
-		"proteccion": proteccion
+		"proteccion": proteccion,
+		"cargada": false,
+		"data": null
 	}
 }
 

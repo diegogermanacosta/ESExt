@@ -10,7 +10,9 @@ var LOCAL_POLITICAS = "Politicas";
 var LOCAL_GOBERNANTES = "Gobernantes";
 var LOCAL_FORMACIONES = "Formaciones";
 var LOCAL_PACIFICO = "Pacifico";
-var LOCAL_ATACAR = "Atacar"
+var LOCAL_ATACAR = "Atacar";
+var LOCAL_EFICIENCIA = "Eficiencia";
+var LOCAL_CARGA = "Carga";
 
 var LOCAL = {
 	clean: function()
@@ -20,7 +22,7 @@ var LOCAL = {
 			if(key == LOCAL_ASEDIOS||key==LOCAL_FORMACIONES||key==LOCAL_ATACAR)
 				continue;
 
-			delete localStorage[key];
+			localStorage.removeItem(key);
 		}
 	},
 	setValor: function(valor)
@@ -251,8 +253,7 @@ var LOCAL = {
 	 	return JSON.parse(localStorage[LOCAL_PACIFICO]);
 	},
 
-		setAtaque:function(obj)
-	{
+	setAtaque:function(obj){
 		localStorage[LOCAL_ATACAR] = JSON.stringify(obj);
 	},
 
@@ -262,5 +263,24 @@ var LOCAL = {
 
 	 	return JSON.parse(localStorage[LOCAL_ATACAR]);
 	},
+	setEficiencia:function(obj){
+		localStorage[LOCAL_EFICIENCIA] = JSON.stringify(obj);
+	},
 
+	getEficiencia:function(){
+		if(localStorage[LOCAL_EFICIENCIA] == undefined || localStorage[LOCAL_EFICIENCIA] == null)
+			return null;
+
+	 	return JSON.parse(localStorage[LOCAL_EFICIENCIA]);
+	},
+	setCarga:function(obj){
+		localStorage[LOCAL_CARGA] = JSON.stringify(obj);
+	},
+
+	getCarga:function(){
+		if(localStorage[LOCAL_CARGA] == undefined || localStorage[LOCAL_CARGA] == null)
+			return null;
+
+	 	return JSON.parse(localStorage[LOCAL_CARGA]);
+	}
 };

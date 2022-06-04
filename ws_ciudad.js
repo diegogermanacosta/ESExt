@@ -525,4 +525,18 @@ function ciudad()
 
     return result;
   }
+  if (LOCAL.getCiudad()!=null) 
+  {
+    var ciudades = LOCAL.getCiudad()
+    var idCiudad =parseInt($(".tituloimperio").text().split("#")[1]);
+    for (var i = 0; i < ciudades.length; i++) 
+    {
+      if(ciudades[i].idCiudad==idCiudad){
+        ciudades[i].cargada=true;
+        LOCAL.setCiudad(ciudades);
+      }
+
+    }
+  }
+  GLOBAL.cargaImperio();
 }

@@ -21,4 +21,5 @@ function gobierno()
 		
 	}
 	LOCAL.setGobernantes(gobernante);
+	GLOBAL.cargaImperio();
 }

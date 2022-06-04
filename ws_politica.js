@@ -50,4 +50,5 @@ function politica()
     });
     politicas.imperio= LOCAL.getImperio()["nombre"];
     LOCAL.setPoliticas(politicas);
+    GLOBAL.cargaImperio();
 }
