@@ -22,10 +22,6 @@ function alwaysDo()
 	}; 
 	var botonazo = GLOBAL.crearBoton("#subcabecera","Apretame este Boton", accion);
 	var iframe= document.createElement("iframe");
-	/*iframe.type = "iframe";
-	iframe.src = "/politica.php"
-	document.getElementById("superior").appendChild(iframe);
-	iframe.onclick = function(){executeProcess(iframe.src)};**/
 }
 
 var GLOBAL = {

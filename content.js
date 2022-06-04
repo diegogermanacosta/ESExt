@@ -28,16 +28,14 @@ function executeProcess(url){
 	{
 		LOCAL.clean();
 		API.wakeUp();
+		if($(".cabecera:first").text().trim()=="MrCosmo"){
+			var saludo = new Audio (chrome.extension.getURL('base/juanca.mp3'));
+			saludo.play();
+		}
 		return;
 	}
 
 	alwaysDo();
-
-	if(url=="https://www.empire-strike.com/"){
-		$("email").each(function(index, obj){
-			obj.append("diegogermanacosta@gmail.com");
-		});
-	}
 
 	if(url.indexOf(_WS_IMPERIO) != -1)
 	{

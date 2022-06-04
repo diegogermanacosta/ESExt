@@ -36,7 +36,7 @@
 		]
 	}
   ],
-  "web_accessible_resources": ["base/moveIcon.png", "base/list.png", "base/house.png", "base/hero.png", "base/puzzle.png", "base/estrella-verde.png", "base/estrella-blanca.png", "base/estrella-azul.png", "base/button.mpeg"],
+  "web_accessible_resources": ["base/moveIcon.png", "base/list.png", "base/house.png", "base/hero.png", "base/puzzle.png", "base/estrella-verde.png", "base/estrella-blanca.png", "base/estrella-azul.png", "base/button.mpeg","base/juanca.mp3"],
   "permissions": [
     "tabs",
     "notifications",
