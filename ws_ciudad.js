@@ -42,9 +42,7 @@ function ciudad()
   }
   window.addEventListener("keydown", function (event) 
   { 
-    console.log(event)
     if (event.key==' '){
-      console.log("aca estamos");
       document.getElementById("frm_edificios").submit();
     }
   });
@@ -168,12 +166,10 @@ function ciudad()
   if(LOCAL.getGobernantes()!=null)
     if(LOCAL.getGobernantes()[region]==LOCAL.getImperio()["clan"])
     {
-      console.log("usted Goblierna esta region");
       switch (GLOBAL.getPartida())
           {
             case 'KENARON':
             case 'GARDIS':
-              console.log("su mapa es GAIA");
               switch(region)
               {
               case 1:
@@ -248,7 +244,6 @@ function ciudad()
              break;
             case 'ZULA':
             case 'NUMIAN':
-              console.log("su mapa es LEZA");
               switch(region)
               { 
                 case 1:
@@ -285,7 +280,6 @@ function ciudad()
                   break;
               }
             case 'FANTASY':
-              console.log("su mapa es JADPIAN");
               switch(region)
               {
                 case 11:
@@ -514,7 +508,6 @@ function ciudad()
       }
         
     });
-    console.log("la rentabilidad mas alta es de: "+masRentable);
   }
 
   function ciudad_calcular(inicio, estrella)

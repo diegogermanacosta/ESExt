@@ -36,7 +36,6 @@ function imperio()
 	var count = 1;
 	while(ibPaci <= idReducido){
 		idReducido = idReducido - 0.1*(100-idReducido);
-		console.log(`IB al paso numero ${count} con: ${idReducido}`)
 		if(ibPaci <= idReducido){
 			count++;
 		}

@@ -17,7 +17,6 @@ function gobierno()
 	for( i=1 ; i<=n_regiones ; i++)
 	{
 		gobernante[i]= $("#region"+i).text().trim().substring(0,3);
-		console.log(gobernante[i]);
 		
 	}
 	LOCAL.setGobernantes(gobernante);

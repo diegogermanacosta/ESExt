@@ -46,7 +46,6 @@ function politica()
         nombre=nombre.split("Coste: ");
         nombre= removeAccents(nombre[0].toLowerCase().replace(" ","").replace(" ",""));
         politicas[nombre][1]=contador;
-        console.log(`${nombre} tiene ${politicas[nombre][1]} estrellas`);
     });
     politicas.imperio= LOCAL.getImperio()["nombre"];
     LOCAL.setPoliticas(politicas);

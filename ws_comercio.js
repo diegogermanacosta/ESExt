@@ -155,7 +155,7 @@ function compraJusta(oroRaza)
 }
 
 function reset()
-{console.log("reset");
+{
 	$(".lista1 tr").each(function(index, obj) 
 	{	
 		if(index == 0)

@@ -45,12 +45,10 @@ function atacar()
 
 	$("#rra .bonus_ataque").each(function(index,obj){
 		var bonus= obj.className + $(obj).text();
-		console.log("tu bonus es: "+ bonus);
 		ataque.bonus.push(bonus);
 	});
 	
 	$("#rra .round").each(function(index,obj){
-		console.log($(obj).text());
 		ataque.round.push($(obj).text());
 	});
 	var ataques = new Array();
