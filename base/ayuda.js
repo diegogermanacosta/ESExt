@@ -1,0 +1,1 @@
+$('.ayudaExt').tooltip();

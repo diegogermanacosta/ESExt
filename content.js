@@ -29,7 +29,7 @@ function executeProcess(url){
 		LOCAL.clean();
 		API.wakeUp();
 		if($(".cabecera:first").text().trim()=="MrCosmo"){
-			var saludo = new Audio (chrome.extension.getURL('base/juanca.mp3'));
+			var saludo = new Audio (chrome.runtine.getURL('base/juanca.mp3'));
 			saludo.play();
 		}
 		return;
@@ -62,7 +62,7 @@ function executeProcess(url){
 
 	if(url.indexOf(_WS_CIUDAD) != -1)
 	{
-		ciudad();
+		//ciudad();
 		return;
 	}
 

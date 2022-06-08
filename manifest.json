@@ -1,11 +1,11 @@
 {
   "name": "Empire Strike - extension Multicuenta Edition",
   "version": "1.0",
+  "manifest_version": 3,
   "description": "El que sabe, Sabe, y el que no, usa esta extension",
   "icons": { "128": "base/icon.png" },
-  "background": { "scripts": ["background.js"] },
+  "background": { "service_worker": "background.js" },
   "options_ui" : {
-    "chrome_style": true,
     "page": "options/options.html"
   },
   "content_scripts": [
@@ -15,37 +15,90 @@
 			"base/jquery.min.js",
 			"base/util.js",
 			"localstorage.js",
-      "api.js",
-      "global.js",
-      "ws_atacar.js",
+			"api.js",
+			"global.js",
+			"ws_atacar.js",
 			"ws_escogerObjectivo.js",
 			"ws_clanes.js",
-      "ws_clan.js",
+      		"ws_clan.js",
 			"ws_imperio.js",
 			"ws_informes.js",
 			"ws_ultimosAtaques.js",
-      "ws_comercio.js",
-      "ws_rutascomerciales.js",
-      "ws_ciudad.js",
-      "ws_ranking.js",
-      "ws_mensajes.js",
-      "ws_politica.js",
-      "ws_gobierno.js",
-      "ws_movertropas.js",
+			"ws_comercio.js",
+			"ws_rutascomerciales.js",
+			"ws_ranking.js",
+			"ws_mensajes.js",
+			"ws_politica.js",
+			"ws_gobierno.js",
+			"ws_movertropas.js",
 			"content.js"
 		]
+	},
+	{
+		
+		"matches": ["https://www.empire-strike.com/ciudad.php?*"],
+		"js": ["content.js","ws_ciudad.js"]
 	}
   ],
-  "web_accessible_resources": ["base/moveIcon.png", "base/list.png", "base/house.png", "base/hero.png", "base/puzzle.png", "base/estrella-verde.png", "base/estrella-blanca.png", "base/estrella-azul.png", "base/button.mpeg","base/juanca.mp3"],
+	"web_accessible_resources": [
+		{
+			"resources" : ["base/setValueEdif.js"],
+			"matches"   : ["<all_urls>"]
+		},
+		{
+			"resources" : ["base/ayuda.js"],
+			"matches"   : ["<all_urls>"]
+		},
+		{
+			"resources" : ["base/moveIcon.png"],
+			"matches"   : ["https://www.empire-strike.com/*"]
+		},
+		{
+			"resources" : ["base/list.png"],
+			"matches"   : ["https://www.empire-strike.com/*"]
+		},
+		{
+			"resources" : ["base/house.png"],
+			"matches"   : ["https://www.empire-strike.com/*"]
+		},
+		{
+			"resources" : ["base/hero.png"],
+			"matches"   : ["https://www.empire-strike.com/*"]
+		},
+		{
+			"resources" : ["base/puzzle.png"],
+			"matches"   : ["https://www.empire-strike.com/*"]
+		},
+		{
+			"resources" : ["base/estrella-verde.png"],
+			"matches"   : ["https://www.empire-strike.com/*"]
+		},
+		{
+			"resources" : ["base/estrella-blanca.png"],
+			"matches"   : ["https://www.empire-strike.com/*"]
+		},
+		{
+			"resources" : ["base/estrella-azul.png"],
+			"matches"   : ["https://www.empire-strike.com/*"]
+		},
+		{
+			"resources" : ["base/button.mpeg"],
+			"matches"   : ["https://www.empire-strike.com/*"]
+		},
+		{
+			"resources" : ["base/juanca.mp3"],
+			"matches"   : ["https://www.empire-strike.com/*"]
+		}
+	],
   "permissions": [
+    "activeTab",
+		"scripting",
     "tabs",
     "notifications",
-    "storage",
-    "https://www.empire-strike.com/*"
+    "storage"
   ],
-  "page_action": {
+  "action": {
       "default_name": "Empire Strike",
       "default_icon": "base/marker.png"
-  },
-  "manifest_version": 2
+  }
 }

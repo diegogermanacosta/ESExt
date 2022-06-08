@@ -1,14 +1,9 @@
-chrome.pageAction.onClicked.addListener(
+chrome.action.onClicked.addListener(
 	function(tab) {
 		if (tab.url && tab.url.indexOf('https://www.empire-strike.com/') === 0)
 			chrome.tabs.create({ 'url': 'chrome://extensions/?options=' + chrome.runtime.id });
 });
 
-// Show page action icon in omnibar.
-chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab ) {
-	if (tab.url && tab.url.indexOf('https://www.empire-strike.com/') === 0)
-		chrome.pageAction.show(tabId);
-});
 
 // ------------- EXPERIMENTAL ------------- //
 

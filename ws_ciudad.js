@@ -369,11 +369,7 @@ function ciudad()
     if($(".c .nome").length == 0)
       return;
 
-    UTIL.injectCode( function()
-    {
-      $("body").append("<input id='valoresEdificio' type=hidden value=" + JSON.stringify(__edificio) + " />");
-      $("body").append("<input id='recursosActuales' type=hidden value=" + JSON.stringify(imp) + " />");
-    });
+    UTIL.injectCode("base/setValuesEdif.js");
 
     var costosIniciales = JSON.parse($("#valoresEdificio").val());
     var recursosActuales = JSON.parse($("#recursosActuales").val());
@@ -382,10 +378,7 @@ function ciudad()
 
     ciudad_cleanUsados(recursosUsados);
 
-    UTIL.injectCode(function(){
-      $("#valoresEdificio").remove();
-      $("#recursosActuales").remove();
-    });
+    
 
     var edificios = new Array();
     $(".c .nome").each(function(index, obj){
@@ -490,11 +483,11 @@ function ciudad()
       var construidoMat = edificioContruid == -1 ? 0 : costosTotales[edificio][edificioContruid].material*multiplicador;
 
       if((recursosActuales["ORO"] - recursosUsados["ORO"]) >= (costoOro - construidoOro) && (recursosActuales[recurso] - recursosUsados[recurso]) >= (costoMat - construidoMat))
-        {obj.src = chrome.extension.getURL('base/estrella-verde.png');
+        {obj.src = chrome.runtine.getURL('base/estrella-verde.png');
           if(renta<=masRentable)
             {
               masRentable=renta;
-              obj.src = chrome.extension.getURL('base/estrella-azul.png');
+              obj.src = chrome.runtine.getURL('base/estrella-azul.png');
             }
         } 
       else
@@ -503,7 +496,7 @@ function ciudad()
         if(renta<=masRentableI&&renta<masRentable)
         {
           masRentableI=renta;
-          obj.src = chrome.extension.getURL('base/estrella-blanca.png');
+          obj.src = chrome.runtine.getURL('base/estrella-blanca.png');
         }
       }
         
@@ -533,3 +526,4 @@ function ciudad()
   }
   GLOBAL.cargaImperio();
 }
+ciudad();

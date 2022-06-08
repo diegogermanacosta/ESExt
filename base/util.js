@@ -17,12 +17,13 @@ var UTIL = {
 
 		return UTIL.padLeft(hrs, 2, '0') + 'h:' + UTIL.padLeft(mins, 2, '0') + 'm';
 	},
-	injectCode: function(customFunction) {
-		var actualCode = '(' + customFunction + ')();';
+	injectCode: function(file) {
 		var script = document.createElement('script');
-		script.textContent = actualCode;
+		script.src = chrome.runtime.getURL(file);
+		script.onload = function() {
+			this.remove();
+		};
 		(document.head||document.documentElement).appendChild(script);
-		script.parentNode.removeChild(script);
 	}
 }
 
