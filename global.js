@@ -107,7 +107,7 @@ var GLOBAL = {
 				GLOBAL.showMessage("Nueva versión disponible de la extensión. <a target='_blank' href='" + url + "/ActualizacionManual'>¿Como la actualizo?</a> <a target='_blank' href='" + url + "/Release/" + data.Version.replace(".","_") + "'>¿Que hay de nuevo?</a>");
 
 			//if(data.Mensajes.length > 0)
-				//$("#notificaciones").append("<a style='padding-left: 28px;padding-bottom: 14px; background: url(" + chrome.runtine.getURL('base/puzzle.png') + "); background-size: 28px;'><span id='g_sucesos' data-r='0'>0</span></a>");
+				//$("#notificaciones").append("<a style='padding-left: 28px;padding-bottom: 14px; background: url(" + chrome.runtime.getURL('base/puzzle.png') + "); background-size: 28px;'><span id='g_sucesos' data-r='0'>0</span></a>");
 		});
 	},
 	showSuscription: function ()

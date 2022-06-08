@@ -29,7 +29,7 @@ function executeProcess(url){
 		LOCAL.clean();
 		API.wakeUp();
 		if($(".cabecera:first").text().trim()=="MrCosmo"){
-			var saludo = new Audio (chrome.runtine.getURL('base/juanca.mp3'));
+			var saludo = new Audio (chrome.runtime.getURL('base/juanca.mp3'));
 			saludo.play();
 		}
 		return;

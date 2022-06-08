@@ -66,17 +66,17 @@ function clanes_updateInformation(data)
 
 function clanes_generateIconRecursos(data)
 {
-	return "<img src='" + chrome.runtine.getURL('base/list.png') + "' class='ayuda ayudaExt' style='padding-left: 10px' width='13' height='13' data-tooltip-type='html' data-tooltip-html='#_tabrec" + data.id + "'> " + clanes_generateTablaRecursos(data.recurso);
+	return "<img src='" + chrome.runtime.getURL('base/list.png') + "' class='ayuda ayudaExt' style='padding-left: 10px' width='13' height='13' data-tooltip-type='html' data-tooltip-html='#_tabrec" + data.id + "'> " + clanes_generateTablaRecursos(data.recurso);
 }
 
 function clanes_generateIconCiudades(data)
 {
-	return "<img src='" + chrome.runtine.getURL('base/house.png') + "' class='ayuda ayudaExt' style='padding-left: 10px' width='13' height='13' data-tooltip-type='html' data-tooltip-html='#_tabciu" + data.id + "'> " + clanes_generateTablaCiudades(data);
+	return "<img src='" + chrome.runtime.getURL('base/house.png') + "' class='ayuda ayudaExt' style='padding-left: 10px' width='13' height='13' data-tooltip-type='html' data-tooltip-html='#_tabciu" + data.id + "'> " + clanes_generateTablaCiudades(data);
 }
 
 function clanes_generateIconHeroe(data)
 {
-	return "<img src='" + chrome.runtine.getURL('base/hero.png') + "' class='ayuda ayudaExt' style='padding-left: 10px' width='13' height='13' data-tooltip-type='html' data-tooltip-html='#_tabhero" + data.id + "'> " + clanes_generateTablaHeroe(data);
+	return "<img src='" + chrome.runtime.getURL('base/hero.png') + "' class='ayuda ayudaExt' style='padding-left: 10px' width='13' height='13' data-tooltip-type='html' data-tooltip-html='#_tabhero" + data.id + "'> " + clanes_generateTablaHeroe(data);
 }
 
 function clanes_generateTablaHeroe(data)

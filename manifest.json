@@ -7,7 +7,56 @@
   "background": { "service_worker": "background.js" },
   "options_ui" : {
     "page": "options/options.html"
-  },
+  },"web_accessible_resources": [
+	{
+		"resources" : ["base/setvalueedif.js"],
+		"matches"   : ["<all_urls>"]
+	},
+	{
+		"resources" : ["base/ayuda.js"],
+		"matches"   : ["<all_urls>"]
+	},
+	{
+		"resources" : ["base/moveIcon.png"],
+		"matches"   : ["https://www.empire-strike.com/*"]
+	},
+	{
+		"resources" : ["base/list.png"],
+		"matches"   : ["https://www.empire-strike.com/*"]
+	},
+	{
+		"resources" : ["base/house.png"],
+		"matches"   : ["https://www.empire-strike.com/*"]
+	},
+	{
+		"resources" : ["base/hero.png"],
+		"matches"   : ["https://www.empire-strike.com/*"]
+	},
+	{
+		"resources" : ["base/puzzle.png"],
+		"matches"   : ["https://www.empire-strike.com/*"]
+	},
+	{
+		"resources" : ["base/estrella-verde.png"],
+		"matches"   : ["https://www.empire-strike.com/*"]
+	},
+	{
+		"resources" : ["base/estrella-blanca.png"],
+		"matches"   : ["https://www.empire-strike.com/*"]
+	},
+	{
+		"resources" : ["base/estrella-azul.png"],
+		"matches"   : ["https://www.empire-strike.com/*"]
+	},
+	{
+		"resources" : ["base/button.mpeg"],
+		"matches"   : ["https://www.empire-strike.com/*"]
+	},
+	{
+		"resources" : ["base/juanca.mp3"],
+		"matches"   : ["https://www.empire-strike.com/*"]
+	}
+],
   "content_scripts": [
     {
 		"matches": ["https://www.empire-strike.com/*"],
@@ -40,56 +89,6 @@
 		"js": ["content.js","ws_ciudad.js"]
 	}
   ],
-	"web_accessible_resources": [
-		{
-			"resources" : ["base/setValueEdif.js"],
-			"matches"   : ["<all_urls>"]
-		},
-		{
-			"resources" : ["base/ayuda.js"],
-			"matches"   : ["<all_urls>"]
-		},
-		{
-			"resources" : ["base/moveIcon.png"],
-			"matches"   : ["https://www.empire-strike.com/*"]
-		},
-		{
-			"resources" : ["base/list.png"],
-			"matches"   : ["https://www.empire-strike.com/*"]
-		},
-		{
-			"resources" : ["base/house.png"],
-			"matches"   : ["https://www.empire-strike.com/*"]
-		},
-		{
-			"resources" : ["base/hero.png"],
-			"matches"   : ["https://www.empire-strike.com/*"]
-		},
-		{
-			"resources" : ["base/puzzle.png"],
-			"matches"   : ["https://www.empire-strike.com/*"]
-		},
-		{
-			"resources" : ["base/estrella-verde.png"],
-			"matches"   : ["https://www.empire-strike.com/*"]
-		},
-		{
-			"resources" : ["base/estrella-blanca.png"],
-			"matches"   : ["https://www.empire-strike.com/*"]
-		},
-		{
-			"resources" : ["base/estrella-azul.png"],
-			"matches"   : ["https://www.empire-strike.com/*"]
-		},
-		{
-			"resources" : ["base/button.mpeg"],
-			"matches"   : ["https://www.empire-strike.com/*"]
-		},
-		{
-			"resources" : ["base/juanca.mp3"],
-			"matches"   : ["https://www.empire-strike.com/*"]
-		}
-	],
   "permissions": [
     "activeTab",
 		"scripting",
