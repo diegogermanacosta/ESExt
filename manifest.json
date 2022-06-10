@@ -64,6 +64,7 @@
 			"base/jquery.min.js",
 			"base/util.js",
 			"localstorage.js",
+			"base/datos.js",
 			"api.js",
 			"global.js",
 			"ws_atacar.js",

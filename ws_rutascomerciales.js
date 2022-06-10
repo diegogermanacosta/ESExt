@@ -52,7 +52,7 @@ function rutasComerciales()
   {
     if(index == 0)
     {
-      $(obj.children[1]).append("<span style='color: #990000; font-weight: bold'>("+GLOBAL.getPartida().substring(0,3)+")");
+      $(obj.children[1]).append("<span style='color: #990000'>("+GLOBAL.getPartida().substring(0,3)+")</span>");
       return
     }
 
@@ -64,13 +64,13 @@ function rutasComerciales()
     var poblacion = parseInt($(obj.children[2]).text().replace(".",""));
     var edificios = parseInt($(obj.children[3]).text());
     var oroideal=parseInt((3000+poblacion/10+edificios*30)*1.44*k_politica);
-    $(obj.children[1]).append("<span style='color: #990000; font-weight: bold'>("+oroideal+")");
+    $(obj.children[1]).append("<span style='color: #990000; font-weight: bold'>("+oroideal+")</span>");
     if(bonoRutas!=null)
     {
       for (var i = bonoRutas.length - 1; i >= 0; i--) 
       {
         if(bonoRutas[i]==$(obj.children[0]).text())
-          $(obj.children[1]).append("<span style='color: #001199; font-weight: bold'>"+multiplicadorRutas);
+          $(obj.children[1]).append("<span style='color: #001199; font-weight: bold'>"+multiplicadorRutas+"</span>");
       }
     }
       
@@ -85,12 +85,12 @@ function rutasComerciales()
       "ronda": GLOBAL.getRonda()
     });
   });
-  document.querySelector(".titulo.uppercase").innerHTML += (`<button onclick='document.querySelector("#popRutas").style.display = "block"'>+</button>`)
+  /*document.querySelector(".titulo.uppercase").innerHTML += (`<button onclick='document.querySelector("#popRutas").style.display = "block"'>+</button>`)
   document.querySelector("body").innerHTML += (`<div id='popRutas' style='z-index: 99999;position: fixed;top: 20%;left: 60%; display: none;'>
   <textarea id="rutasCar"></textarea>
   <button id="llenar">Llenar</button>
   </div>`)
-  //API.getRutas(rutas, rutasComerciales_populate);
+  //API.getRutas(rutas, rutasComerciales_populate);*/
 }
 
 function rutasComerciales_populate(data)
