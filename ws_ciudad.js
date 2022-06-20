@@ -8,6 +8,7 @@ class edificio{
 		this.seleccionado=-1;
 	}
 }
+var dataCiudad= new Array();
 var produccionCiudad        = {};
 var masRentable             = 99990;
 var masRentableI            = 99990;
@@ -38,8 +39,12 @@ var multiplicador = {
 	"FAMA"			: 1
 }
 
+var pobla = document.getElementById("poblacionciudad").innerText.trim();
+pobla = pobla  .replace(".", "");
+pobla = parseInt(pobla);
+
 function ciudad(){
-	var N_clan=get_clan_cantidad(GLOBAL.getPartida());
+	
 
 	window.addEventListener("keydown", function (event) { 
 		if (event.key==' '){
@@ -47,9 +52,7 @@ function ciudad(){
 		}
 	});
 	document.getElementById('flotante').style.left="35%";
-	var pobla = $("#poblacionciudad").html().trim();
-	    pobla = pobla  .replace(".", "");
-	    pobla = parseInt(pobla);
+	
 	var _edificios= parseInt($(document.querySelector("#contenido > div.ciudad_info > div:nth-child(3) > span")).text());
 
 	
