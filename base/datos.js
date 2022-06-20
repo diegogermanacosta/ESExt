@@ -63,4 +63,4 @@ const PRODUCCION_BASE = {
 	"almacen"       : [175,"ALIMENTOS"]
 }
 
-const k_poblacion = 1/335786.7
+const k_poblacion = 1/337524.1
