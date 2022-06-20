@@ -12,7 +12,7 @@ var dataCiudad= new Array();
 var produccionCiudad        = {};
 var masRentable             = 99990;
 var masRentableI            = 99990;
-var rBase					= 1;
+var rBase					= 30*2*1.44;
 var kTurnos					= 4000;
 var k_P						= 1;
 var terreno;
@@ -38,284 +38,276 @@ var multiplicador = {
 	"ORO"			: 1,
 	"FAMA"			: 1
 }
+//tomo poblacion, quito espacios, punto de mil y parceo a entero
+var pobla = parseInt(document.getElementById("poblacionciudad").innerText.trim().replace(".", ""));
 
-var pobla = document.getElementById("poblacionciudad").innerText.trim();
-pobla = pobla  .replace(".", "");
-pobla = parseInt(pobla);
-
-function ciudad(){
-	
-
-	window.addEventListener("keydown", function (event) { 
-		if (event.key==' '){
-			document.getElementById("frm_edificios").submit();
-		}
-	});
-	document.getElementById('flotante').style.left="35%";
-	
-	var _edificios= parseInt($(document.querySelector("#contenido > div.ciudad_info > div:nth-child(3) > span")).text());
-
-	
-	if (LOCAL.getPacifico())
-	    k_P = 1.2;
-
-	if(LOCAL.getPoliticas()!=null){
-		let politicas  = LOCAL.getPoliticas();
-		    multiplicador.KARMA    = 1+0.05*politicas.losdioses[1];
-		    multiplicador.MANA     = 1+0.05*politicas.magiaarcana[1];
-		    multiplicador.PIEDRA   = 1+0.02*(politicas.arquitectura[1]+politicas.esclavitud[1]);
-		    multiplicador.BLOQUES  = 1+0.02*politicas.arquitectura[1];
-		    multiplicador.MADERA   = 1+0.02*(politicas.esclavitud[1]/2+politicas.naturaleza[1]);
-		    multiplicador.AGUA     = 1+0.01*politicas.lamujer[1];
-		    multiplicador.TABLAS   = 1+0.02*politicas.naturaleza[1];
-		    multiplicador.ALIMENTOS= 1+0.01*politicas.lamujer[1];
-		    multiplicador.PLATA    = 1+0.02*politicas.profundidadcuevas[1];
-		    multiplicador.HIERRO   = (1+0.02*politicas.profundidadcuevas[1])*(1+0.02*politicas.esclavitud[1]);
-		    multiplicador.MITHRIL  = 1+0.01*politicas.profundidadcuevas[1];
-		    multiplicador.ORO      = (1+(0.02*politicas.burguesia[1]))*(1-(0.02*politicas.aduanas[1]))*(1-(0.02*politicas.nobleza[1]));
+window.addEventListener("keydown", function (event) { 
+	if (event.key==' '){
+		document.getElementById("frm_edificios").submit();
 	}
+});
+document.getElementById('flotante').style.left="35%";
 
-	if (LOCAL.getImperio().clan==null)
-		rBase=0;
-	//Valores de produccion base de cada edificio
-	
-	//CALCULO EFICIENCIA EN TERRENO
-	var subtitulo    = $(".subtitulo").text();
-	var inicioCadena = subtitulo.indexOf(":")+2;
-	var finCadeba    = subtitulo.indexOf(";")
-	terreno      = subtitulo.substring(inicioCadena,finCadeba);
-	var region       = parseInt(subtitulo.split("#")[1]);
-	switch(terreno) {
-		case 'Llanura': 
-			multiplicador.ALIMENTOS *= 1.8;
-			break;
-		case 'Bosque': 
-			multiplicador.MADERA 	*= 2;
-			break;
-		case 'Montaña': 
-			multiplicador.HIERRO  	*= 1.4;
-			multiplicador.MITHRIL 	*= 1.3;
-			break;
-		case 'Río': 
-			multiplicador.AGUA 		*= 2.4;
-			break;
-		case 'Costa': 
-			multiplicador.ALIMENTOS *= 1.6;
-			break;
-		case 'Colina': 
-			multiplicador.PIEDRA  	*= 1.6;
-			multiplicador.GEMAS		*= 1.3;
-			break;
-	}
-	//fin CALCULO EFICIENCIA EN TERRENO
-	if(LOCAL.getGobernantes()!=null)
-		if(LOCAL.getGobernantes()[region]==LOCAL.getImperio()["clan"]){
-			switch (GLOBAL.getPartida()){
-				case 'KENARON':
-				case 'GARDIS':
-					switch(region){
-						case 1:
-							multiplicador.ALIMENTOS 	*= 3;
-							break;
-						case 2:
-							multiplicador.MANA			*= 2;
-							break;
-						case 4:
-							multiplicador.MADERA    	*= 2;
-							multiplicador.TABLAS    	*= 2;
-							break;
-						case 5:
-							multiplicador.ORO       	*= 2;
-							break;
-						case 6:
-							multiplicador.FAMA      	*= 1.5;
-							break;
-						case 10:
-							multiplicador.HERRAMIENTAS	*= 2;
-							multiplicador.HIERRO		*= 2;
-							break;
-						case 11:
-							multiplicador.MADERA 		*= 2;
-							multiplicador.AGUA  		*= 2;
-							break;
-						case 12:
-							multiplicador.MADERA 		*= 3;
-							break;
-						case 14:
-							multiplicador.ARMAS			*= 2;
-							multiplicador.HIERRO		*= 2;
-							break;
-						case 15:
-							multiplicador.MITHRIL  		*= 2;
-							multiplicador.RELIQUIAS 	*= 2;
-							break;
-						case 17:
-							multiplicador.PIEDRA		*= 3;
-							break;
-						case 20:
-							multiplicador.AGUA  		*= 3;
-							break;
-						case 23:
-							multiplicador.GEMAS  		*= 3;
-							break;
-						case 26:
-							multiplicador.PLATA  		*= 2;
-							multiplicador.JOYAS		 	*= 2;
-							break;
-						case 28:
-							multiplicador.KARMA		 	*= 1.5;
-							break;
-						case 29:
-							multiplicador.PIEDRA  		*= 2;
-							multiplicador.BLOQUES	 	*= 2;
-							break;
-						case 30:
-							multiplicador.PLATA		 	*= 1.5;
-							multiplicador.GEMAS		 	*= 1.5;
-							multiplicador.JOYAS		 	*= 1.5;
-							multiplicador.CRISTAL	 	*= 1.5;
-							break;
-						case 9:
-						case 13:
-						case 27:
-							rBase*=2;
-						break;
-					}
-				break;
-				case 'ZULA':
-				case 'NUMIAN':
-					switch(region){ 
-						case 1:
-							multiplicador.ARMAS			*= 2;
-							multiplicador.HERRAMIENTAS	*= 2;
-							break;
-						case 5:
-							multiplicador.PIEDRA  		*= 2.5;
-							multiplicador.BLOQUES	 	*= 2.5;
-							break;
-						case 6:
-							multiplicador.KARMA		 	*= 2;
-							break;
-						case 7:
-							multiplicador.MADERA    	*= 3;
-							multiplicador.TABLAS    	*= 3;
-							break;
-						case 9:
-							rBase=rBase*3;
-							break;
-						case 11:
-							multiplicador.ALIMENTOS 	*= 2;
-							multiplicador.AGUA		 	*= 2;
-							break;
-						case 11:
-							multiplicador.ALIMENTOS 	*= 1.5;
-							multiplicador.AGUA		 	*= 1.5;
-							break;
-						case 16:
-							multiplicador.FAMA		 	*= 1.5;
-							break;
-					}
-				case 'FANTASY':
-					switch(region){
-						case 11:
-							multiplicador.FAMA		 	*= 1.5/0.9;
-							break;
-						case 12:
-							multiplicador.ORO 			*= 1.5;
-							multiplicador.MADERA   		*= 2;
-							break;
-						case 13:
-							multiplicador.KARMA			*=1.2;
-							multiplicador.MANA			*=1.2;
-						case 6:
-							rBase*=2;
-						break;
-						case 7:							
-							multiplicador.MANA			*=2;
-							break;
-						case 15:
-							multiplicador.KARMA			*=2;
-							break;
-					}
-				break;
-			}
-		}
-	if (LOCAL.getImperio()!=null)
-		if(LOCAL.getImperio()["raza"]=="Humanos"){ 
-			multiplicador.joyeria      = multiplicador.joyeria*2;
-			multiplicador.forjamithril = multiplicador.forjamithril*2;
-		}
-	var felicidad = 1;
-	if(document.querySelector("#acciones_ciudad_wrapper > table:nth-child(2) > tbody > tr:nth-child(2) > td:nth-child(1) > div").children.length!=2)
-		if(document.querySelector("#acciones_ciudad_wrapper > table:nth-child(2) > tbody > tr:nth-child(2) > td:nth-child(1) > div").children[2].textContent.split(':')[0]=='Felicidad')
-			felicidad = 1.2;
-	$("#tablaproduccion tr").each(function(index,obj){
-		switch(index){
-			case 0:
-				produccionCiudad.turnos       = parseInt($(obj.children[1]).text().replace(/\./g,"").trim());
-				produccionCiudad.hierro       = parseInt($(obj.children[3]).text().replace(/\./g,"").trim());
-				produccionCiudad.herramientas = parseInt($(obj.children[5]).text().replace(/\./g,"").trim());
-				produccionCiudad.armas        = parseInt($(obj.children[7]).text().replace(/\./g,"").trim());
-			break;
-			case 1:
-				produccionCiudad.mana    = parseInt($(obj.children[1]).text().replace(/\./g,"").trim());
-				produccionCiudad.piedra  = parseInt($(obj.children[3]).text().replace(/\./g,"").trim());
-				produccionCiudad.bloques = parseInt($(obj.children[5]).text().replace(/\./g,"").trim());
-			break;
-			case 2:
-				produccionCiudad.karma  = parseInt($(obj.children[1]).text().replace(/\./g,"").trim());
-				produccionCiudad.madera = parseInt($(obj.children[3]).text().replace(/\./g,"").trim());
-				produccionCiudad.tablas = parseInt($(obj.children[5]).text().replace(/\./g,"").trim());
-			break;
-			case 3:
-				produccionCiudad.oro       = parseInt($(obj.children[1]).text().replace(/\./g,"").trim());
-				produccionCiudad.mithril   = parseInt($(obj.children[3]).text().replace(/\./g,"").trim());
-				produccionCiudad.reliquias = parseInt($(obj.children[5]).text().replace(/\./g,"").trim());
-			break;
-			case 4:
-				produccionCiudad.alimentos = parseInt($(obj.children[1]).text().replace(/\./g,"").trim());
-				produccionCiudad.plata     = parseInt($(obj.children[3]).text().replace(/\./g,"").trim());
-				produccionCiudad.joyas     = parseInt($(obj.children[5]).text().replace(/\./g,"").trim());
-			break;
-			case 5:
-				produccionCiudad.agua    = parseInt($(obj.children[1]).text().replace(/\./g,"").trim());
-				produccionCiudad.gemas   = parseInt($(obj.children[3]).text().replace(/\./g,"").trim());
-				produccionCiudad.cristal = parseInt($(obj.children[5]).text().replace(/\./g,"").trim());
-			break;
-			default:
-			return
-		}
-	});
-	chrome.storage.sync.get({ construcciones: true }, function(items) {
-		if(items.construcciones)
-			ciudad_process();
-	});
+var _edificios= parseInt($(document.querySelector("#contenido > div.ciudad_info > div:nth-child(3) > span")).text());
 
-	
 
-	
-	
-	if (LOCAL.getCiudad()!=null){
-		var ciudades = LOCAL.getCiudad()
-		var idCiudad = parseInt($(".tituloimperio").text().split("#")[1]);
-		for (var i = 0; i < ciudades.length; i++){
-			if(ciudades[i].idCiudad==idCiudad){
-				ciudades[i].cargada=true;
-				LOCAL.setCiudad(ciudades);
-			}
-		}
-	}
-	GLOBAL.cargaImperio();
+if (LOCAL.getPacifico())
+    k_P = 1.2;
+
+if(LOCAL.getPoliticas()!=null){
+	let politicas  = LOCAL.getPoliticas();
+	    multiplicador.KARMA    = 1+0.05*politicas.losdioses[1];
+	    multiplicador.MANA     = 1+0.05*politicas.magiaarcana[1];
+	    multiplicador.PIEDRA   = 1+0.02*(politicas.arquitectura[1]+politicas.esclavitud[1]);
+	    multiplicador.BLOQUES  = 1+0.02*politicas.arquitectura[1];
+	    multiplicador.MADERA   = 1+0.02*(politicas.esclavitud[1]/2+politicas.naturaleza[1]);
+	    multiplicador.AGUA     = 1+0.01*politicas.lamujer[1];
+	    multiplicador.TABLAS   = 1+0.02*politicas.naturaleza[1];
+	    multiplicador.ALIMENTOS= 1+0.01*politicas.lamujer[1];
+	    multiplicador.PLATA    = 1+0.02*politicas.profundidadcuevas[1];
+	    multiplicador.HIERRO   = (1+0.02*politicas.profundidadcuevas[1])*(1+0.02*politicas.esclavitud[1]);
+	    multiplicador.MITHRIL  = 1+0.01*politicas.profundidadcuevas[1];
+	    multiplicador.ORO      = (1+(0.02*politicas.burguesia[1]))*(1-(0.02*politicas.aduanas[1]))*(1-(0.02*politicas.nobleza[1]));
+	    rBase				  *= 1+(0.06*politicas.rutasdecontrabando[1]); 
 }
 
-function renta_edif_base (costoOro,costoMat,recurso,nombre){
+//Valores de produccion base de cada edificio
+
+//CALCULO EFICIENCIA EN TERRENO
+var subtitulo    = $(".subtitulo").text();
+var inicioCadena = subtitulo.indexOf(":")+2;
+var finCadeba    = subtitulo.indexOf(";")
+terreno      = subtitulo.substring(inicioCadena,finCadeba);
+var region       = parseInt(subtitulo.split("#")[1]);
+switch(terreno) {
+	case 'Llanura': 
+		multiplicador.ALIMENTOS *= 1.8;
+		break;
+	case 'Bosque': 
+		multiplicador.MADERA 	*= 2;
+		break;
+	case 'Montaña': 
+		multiplicador.HIERRO  	*= 1.4;
+		multiplicador.MITHRIL 	*= 1.3;
+		break;
+	case 'Río': 
+		multiplicador.AGUA 		*= 2.4;
+		break;
+	case 'Costa': 
+		multiplicador.ALIMENTOS *= 1.6;
+		break;
+	case 'Colina': 
+		multiplicador.PIEDRA  	*= 1.6;
+		multiplicador.GEMAS		*= 1.3;
+		break;
+}
+//fin CALCULO EFICIENCIA EN TERRENO
+if(LOCAL.getGobernantes()!=null)
+	if(LOCAL.getGobernantes()[region]==LOCAL.getImperio()["clan"]){
+		switch (GLOBAL.getPartida()){
+			case 'KENARON':
+			case 'GARDIS':
+				switch(region){
+					case 1:
+						multiplicador.ALIMENTOS 	*= 3;
+						break;
+					case 2:
+						multiplicador.MANA			*= 2;
+						break;
+					case 4:
+						multiplicador.MADERA    	*= 2;
+						multiplicador.TABLAS    	*= 2;
+						break;
+					case 5:
+						multiplicador.ORO       	*= 2;
+						break;
+					case 6:
+						multiplicador.FAMA      	*= 1.5;
+						break;
+					case 10:
+						multiplicador.HERRAMIENTAS	*= 2;
+						multiplicador.HIERRO		*= 2;
+						break;
+					case 11:
+						multiplicador.MADERA 		*= 2;
+						multiplicador.AGUA  		*= 2;
+						break;
+					case 12:
+						multiplicador.MADERA 		*= 3;
+						break;
+					case 14:
+						multiplicador.ARMAS			*= 2;
+						multiplicador.HIERRO		*= 2;
+						break;
+					case 15:
+						multiplicador.MITHRIL  		*= 2;
+						multiplicador.RELIQUIAS 	*= 2;
+						break;
+					case 17:
+						multiplicador.PIEDRA		*= 3;
+						break;
+					case 20:
+						multiplicador.AGUA  		*= 3;
+						break;
+					case 23:
+						multiplicador.GEMAS  		*= 3;
+						break;
+					case 26:
+						multiplicador.PLATA  		*= 2;
+						multiplicador.JOYAS		 	*= 2;
+						break;
+					case 28:
+						multiplicador.KARMA		 	*= 1.5;
+						break;
+					case 29:
+						multiplicador.PIEDRA  		*= 2;
+						multiplicador.BLOQUES	 	*= 2;
+						break;
+					case 30:
+						multiplicador.PLATA		 	*= 1.5;
+						multiplicador.GEMAS		 	*= 1.5;
+						multiplicador.JOYAS		 	*= 1.5;
+						multiplicador.CRISTAL	 	*= 1.5;
+						break;
+					case 9:
+					case 13:
+					case 27:
+						rBase*=2;
+					break;
+				}
+			break;
+			case 'ZULA':
+			case 'NUMIAN':
+				switch(region){ 
+					case 1:
+						multiplicador.ARMAS			*= 2;
+						multiplicador.HERRAMIENTAS	*= 2;
+						break;
+					case 5:
+						multiplicador.PIEDRA  		*= 2.5;
+						multiplicador.BLOQUES	 	*= 2.5;
+						break;
+					case 6:
+						multiplicador.KARMA		 	*= 2;
+						break;
+					case 7:
+						multiplicador.MADERA    	*= 3;
+						multiplicador.TABLAS    	*= 3;
+						break;
+					case 9:
+						rBase=rBase*3;
+						break;
+					case 11:
+						multiplicador.ALIMENTOS 	*= 2;
+						multiplicador.AGUA		 	*= 2;
+						break;
+					case 11:
+						multiplicador.ALIMENTOS 	*= 1.5;
+						multiplicador.AGUA		 	*= 1.5;
+						break;
+					case 16:
+						multiplicador.FAMA		 	*= 1.5;
+						break;
+				}
+			case 'FANTASY':
+				switch(region){
+					case 11:
+						multiplicador.FAMA		 	*= 1.5/0.9;
+						break;
+					case 12:
+						multiplicador.ORO 			*= 1.5;
+						multiplicador.MADERA   		*= 2;
+						break;
+					case 13:
+						multiplicador.KARMA			*=1.2;
+						multiplicador.MANA			*=1.2;
+					case 6:
+						rBase*=2;
+					break;
+					case 7:							
+						multiplicador.MANA			*=2;
+						break;
+					case 15:
+						multiplicador.KARMA			*=2;
+						break;
+				}
+			break;
+		}
+	}
+if (LOCAL.getImperio()!=null)
+	if(LOCAL.getImperio()["raza"]=="Humanos"){ 
+		multiplicador.joyeria      = multiplicador.joyeria*2;
+		multiplicador.forjamithril = multiplicador.forjamithril*2;
+	}
+var felicidad = 1;
+if(document.querySelector("#acciones_ciudad_wrapper > table:nth-child(2) > tbody > tr:nth-child(2) > td:nth-child(1) > div").children.length!=2)
+	if(document.querySelector("#acciones_ciudad_wrapper > table:nth-child(2) > tbody > tr:nth-child(2) > td:nth-child(1) > div").children[2].textContent.split(':')[0]=='Felicidad')
+		felicidad = 1.2;
+$("#tablaproduccion tr").each(function(index,obj){
+	switch(index){
+		case 0:
+			produccionCiudad.turnos       = parseInt($(obj.children[1]).text().replace(/\./g,"").trim());
+			produccionCiudad.hierro       = parseInt($(obj.children[3]).text().replace(/\./g,"").trim());
+			produccionCiudad.herramientas = parseInt($(obj.children[5]).text().replace(/\./g,"").trim());
+			produccionCiudad.armas        = parseInt($(obj.children[7]).text().replace(/\./g,"").trim());
+		break;
+		case 1:
+			produccionCiudad.mana    = parseInt($(obj.children[1]).text().replace(/\./g,"").trim());
+			produccionCiudad.piedra  = parseInt($(obj.children[3]).text().replace(/\./g,"").trim());
+			produccionCiudad.bloques = parseInt($(obj.children[5]).text().replace(/\./g,"").trim());
+		break;
+		case 2:
+			produccionCiudad.karma  = parseInt($(obj.children[1]).text().replace(/\./g,"").trim());
+			produccionCiudad.madera = parseInt($(obj.children[3]).text().replace(/\./g,"").trim());
+			produccionCiudad.tablas = parseInt($(obj.children[5]).text().replace(/\./g,"").trim());
+		break;
+		case 3:
+			produccionCiudad.oro       = parseInt($(obj.children[1]).text().replace(/\./g,"").trim());
+			produccionCiudad.mithril   = parseInt($(obj.children[3]).text().replace(/\./g,"").trim());
+			produccionCiudad.reliquias = parseInt($(obj.children[5]).text().replace(/\./g,"").trim());
+		break;
+		case 4:
+			produccionCiudad.alimentos = parseInt($(obj.children[1]).text().replace(/\./g,"").trim());
+			produccionCiudad.plata     = parseInt($(obj.children[3]).text().replace(/\./g,"").trim());
+			produccionCiudad.joyas     = parseInt($(obj.children[5]).text().replace(/\./g,"").trim());
+		break;
+		case 5:
+			produccionCiudad.agua    = parseInt($(obj.children[1]).text().replace(/\./g,"").trim());
+			produccionCiudad.gemas   = parseInt($(obj.children[3]).text().replace(/\./g,"").trim());
+			produccionCiudad.cristal = parseInt($(obj.children[5]).text().replace(/\./g,"").trim());
+		break;
+		default:
+		return
+	}
+});
+chrome.storage.sync.get({ construcciones: true }, function(items) {
+	if(items.construcciones)
+		ciudad_process();
+});
+
+if (LOCAL.getCiudad()!=null){
+	var ciudades = LOCAL.getCiudad()
+	var idCiudad = parseInt($(".tituloimperio").text().split("#")[1]);
+	for (var i = 0; i < ciudades.length; i++){
+		if(ciudades[i].idCiudad==idCiudad){
+			ciudades[i].cargada=true;
+			LOCAL.setCiudad(ciudades);
+		}
+	}
+}
+GLOBAL.cargaImperio();
+
+
+function renta_edif_base (costoOro,costoMat,recurso,nombre){	
 	var costo = costoOro + costoMat * MINIMOS[recurso];
-	var produccion = PRODUCCION_BASE[nombre];
+	var produccionEdif = 0;
+	if(PRODUCCION_BASE[nombre]!=null){
+		var recursoProducido = PRODUCCION_BASE[nombre][1];
+		produccionEdif = PRODUCCION_BASE[nombre][0];
+		produccionEdif= produccionEdif*MINIMOS[recursoProducido]*multiplicador[recursoProducido]*getKpobla(pobla);
+		}
 	
-	if(produccion!=null)
-		return  (costo / (produccion[0]*MINIMOS[produccion[1]]*multiplicador[produccion[1]] ));
-	else
-		return costo;
+	return costo/(produccionEdif+rBase);
 }
 var edificiosConstruidos = new Array();
 var costosTotales = new Array();
@@ -419,11 +411,11 @@ function ciudad_estrellas(costosTotales, recursosActuales, recursosUsados, edifi
 		}
 
 		var s             	= $(this).data('attr').split(',');
-		var multiplicador 	= parseInt(s[3]);
-		var costoOro 		= costosTotales[edificio][nroEdificio].oro*multiplicador;
-		var costoMat 		= costosTotales[edificio][nroEdificio].material*multiplicador;
+		var multiplicadorR 	= parseFloat(s[3]);
+		var costoOro 		= costosTotales[edificio][nroEdificio].oro*multiplicadorR;
+		var costoMat 		= costosTotales[edificio][nroEdificio].material*multiplicadorR;
 		var recurso  		= costosTotales[edificio][nroEdificio].recurso.toUpperCase();
-		var renta    		= costosTotales[edificio][nroEdificio].rentabilidad;
+		var renta    		= costosTotales[edificio][nroEdificio].rentabilidad*multiplicadorR;
 
 		var edificioContruid = edificiosConstruidos[edificio];
 		var construidoOro    = edificioContruid = -1 ? 0 : costosTotales[edificio][edificioContruid].oro*multiplicador;
@@ -467,4 +459,4 @@ function get_clan_cantidad(partida){
 			return 0;
 	}
 }
-ciudad();
+

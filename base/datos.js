@@ -63,4 +63,7 @@ const PRODUCCION_BASE = {
 	"almacen"       : [175,"ALIMENTOS"]
 }
 
-const k_poblacion = 1/337524.1
+function getKpobla(pobla){
+	let k_pobla=1/337524.1
+	return pobla+k_pobla
+}
