@@ -10,6 +10,17 @@ function movertropas()
 		}
 	});
 
+	window.addEventListener("keydown", function (event) { 
+		if (event.key=='2'){
+			cargarFormacion("o",$("#formacionesGuardadas").val());
+		}
+	});
+
+	window.addEventListener("keydown", function (event) { 
+		if (event.key=='3'){
+			cargarFormacion("d",$("#formacionesGuardadas").val());
+		}
+	});
 
 	$(".lista2 tr").each(function(index, obj) {
 		if(index == 0)
@@ -45,7 +56,7 @@ function movertropas()
 
 	function cargarFormacion(donde,nombre)
 	{
-		if(nombre!=0)
+		if(nombre!=0&&nombre!=null)
 		{	var _n= document.querySelector("#movera > form > table.lista1.tabla_mt > tbody").children.length-1;
 			for(index in formaciones){
 				if(formaciones[index]["nombre"]==nombre){
