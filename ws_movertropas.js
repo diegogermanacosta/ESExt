@@ -25,15 +25,22 @@ function movertropas()
 	boton.id= "botonazo";
 	function guardarFormacion(obj) 
 	{
-		let _formacion= [];
+		let tropas= [];
 		let nombre = window.prompt('ingrese el nombre de la formacion que desea Guardar');
+		if(nombre==null)
+			return;
 		for (var i = 2; i<= 21; i++) 
 		{
-			_formacion[i-2]=parseInt($(obj.children[i].querySelector("span")).text());
+			tropas[i-2]=parseInt($(obj.children[i].querySelector("span")).text());
 		}
 		var selected = false;
-		formaciones.push(generarFormacion(nombre,_formacion,selected));
+		var _formacion=generarFormacion(nombre,tropas,selected)
+		formaciones.push(_formacion);
 		LOCAL.setFormaciones(formaciones);
+		var obj = $("#formacionesGuardadas");
+		if(obj!=null){
+			obj.append(`<option id="formacion${obj.children.length}" value="${_formacion["nombre"]}">${_formacion["nombre"]}</option>`);
+		}
 	}
 
 	function cargarFormacion(donde,nombre)
@@ -61,10 +68,22 @@ function movertropas()
 		}
 	}
 
-	function generarFormacion(nombre,formacion){
+	function borrarFormacion(nombre){
+		for(index in formaciones){
+				if(formaciones[index]["nombre"]==nombre){
+					formaciones.splice(index,1);
+					LOCAL.setFormaciones(formaciones);
+					document.getElementById('formacion'+index).remove();
+					return;
+				}
+			}
+	}
+
+	function generarFormacion(nombre,formacion,selected){
 		return {
 			"nombre": nombre,
-			"formacion": formacion
+			"formacion": formacion,
+			"selected": selected
 		}
 		
 
@@ -77,10 +96,11 @@ function movertropas()
 			if($("#magiapura").text().length==0)
 			{
 				$(".lista1 .tabla_mt").append("<tr id=magiapura></tr>");
-				$("#magiapura").append(`<td ><select id=formacionesGuardadas><option value="0">- - Escoge - -</option></select></td>`);
+				$("#magiapura").append(`<td id="formaciones" ><select id=formacionesGuardadas><option value="0">- - Escoge - -</option></select></td>`);
+				GLOBAL.crearBoton("#formaciones","Borrar",function(){borrarFormacion($("#formacionesGuardadas").val())});
 				for(var i in formaciones)
 				{
-					$("#formacionesGuardadas").append(`<option value="${formaciones[i]["nombre"]}">${formaciones[i]["nombre"]}</option>`);
+					$("#formacionesGuardadas").append(`<option id="formacion${i}" value="${formaciones[i]["nombre"]}">${formaciones[i]["nombre"]}</option>`);
 					if(formaciones[i]["selected"])
 						document.getElementById("formacionesGuardadas").value = formaciones[i]["nombre"];
 				}
