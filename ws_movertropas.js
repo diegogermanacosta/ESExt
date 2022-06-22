@@ -3,6 +3,12 @@ function movertropas()
 	var formaciones = new Array;
 	if(LOCAL.getFormaciones()!=null)
 		formaciones = LOCAL.getFormaciones();
+	
+	window.addEventListener("keydown", function (event) { 
+		if (event.key=='1'){
+			actualizar();
+		}
+	});
 
 
 	$(".lista2 tr").each(function(index, obj) {
@@ -71,6 +77,8 @@ function movertropas()
 				{
 					$("#formacionesGuardadas").append(`<option value="${formaciones[i]["nombre"]}">${formaciones[i]["nombre"]}</option>`);
 				}
+				if(document.getElementById('formacionesGuardadas').children.length>1)
+					document.getElementById('formacionesGuardadas').value=formaciones[0]["nombre"];
 				$("#magiapura").append(`<td width="35%" id=cargaro>cargar origen</td>`);
 				GLOBAL.crearBoton("#cargaro","Cargar",function(){cargarFormacion("o",$("#formacionesGuardadas").val())})
 				$("#magiapura").append(`<td width="35%" id=cargard>cargar destino</td>`);
