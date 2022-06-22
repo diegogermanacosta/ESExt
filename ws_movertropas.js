@@ -51,6 +51,7 @@ function movertropas()
 							else
 								actualizao(i);
 					}
+					document.getElementById("calcula").click();
 				}
 				else{
 					formaciones[index]["selected"] = false;
@@ -87,6 +88,7 @@ function movertropas()
 				GLOBAL.crearBoton("#cargaro","Cargar",function(){cargarFormacion("o",$("#formacionesGuardadas").val())})
 				$("#magiapura").append(`<td width="35%" id=cargard>cargar destino</td>`);
 				GLOBAL.crearBoton("#cargard","Cargar",function(){cargarFormacion("d",$("#formacionesGuardadas").val())})
+				$("#magiapura").append(`<a id="calcula" style="display: none;" onclick="calculapotencial();">calcula</a>`);
 			}
 		}
 
