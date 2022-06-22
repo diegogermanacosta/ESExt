@@ -33,7 +33,8 @@ function movertropas()
 		{
 			_formacion[i-2]=parseInt($(obj.children[i].querySelector("span")).text());
 		}
-		formaciones.push(generarFormacion(nombre,_formacion));
+		var selected = false;
+		formaciones.push(generarFormacion(nombre,_formacion,selected));
 		LOCAL.setFormaciones(formaciones);
 	}
 
@@ -42,7 +43,8 @@ function movertropas()
 		if(nombre!=0)
 		{	var _n= document.querySelector("#movera > form > table.lista1.tabla_mt > tbody").children.length-1;
 			for(index in formaciones)
-				if(formaciones[index]["nombre"]==nombre)
+				if(formaciones[index]["nombre"]==nombre){
+					formaciones[index]["selected"] = true;
 					for (var i = 1; i<= _n; i++) 
 					{
 							console.log('tropa'+ donde + (i+1))
@@ -52,6 +54,10 @@ function movertropas()
 							else
 								actualizao(i);
 					}
+				}
+				else{
+					formaciones[index]["selected"] = false;
+				}
 		}
 	}
 
@@ -76,9 +82,9 @@ function movertropas()
 				for(var i in formaciones)
 				{
 					$("#formacionesGuardadas").append(`<option value="${formaciones[i]["nombre"]}">${formaciones[i]["nombre"]}</option>`);
+					if(formaciones[i]["selected"])
+						document.getElementById("formacionesGuardadas").value = formaciones[i]["nombre"];
 				}
-				if(document.getElementById('formacionesGuardadas').children.length>1)
-					document.getElementById('formacionesGuardadas').value=formaciones[0]["nombre"];
 				$("#magiapura").append(`<td width="35%" id=cargaro>cargar origen</td>`);
 				GLOBAL.crearBoton("#cargaro","Cargar",function(){cargarFormacion("o",$("#formacionesGuardadas").val())})
 				$("#magiapura").append(`<td width="35%" id=cargard>cargar destino</td>`);
