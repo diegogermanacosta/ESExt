@@ -40,7 +40,7 @@ function movertropas()
 	{
 		if(nombre!=0)
 		{	var _n= document.querySelector("#movera > form > table.lista1.tabla_mt > tbody").children.length-1;
-			for(index in formaciones)
+			for(index in formaciones){
 				if(formaciones[index]["nombre"]==nombre){
 					formaciones[index]["selected"] = true;
 					for (var i = 1; i<= _n; i++) 
@@ -55,6 +55,8 @@ function movertropas()
 				else{
 					formaciones[index]["selected"] = false;
 				}
+			}
+			LOCAL.setFormaciones(formaciones);
 		}
 	}
 
