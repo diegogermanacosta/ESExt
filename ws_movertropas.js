@@ -18,12 +18,10 @@ function movertropas()
 	  	if($(obj.children[0]).text()=="Total por niveles"||$(obj.children[0]).text()=="Nombre")
 			return;
 		
-		console.log($(obj.children[0]).text());
-		console.log(obj.children.length);
 		creaBoton(obj,"guardarFormacion", function(){guardarFormacion(obj)});
 	});
-	var actualiza= function(){actualizar()}
-	var boton = GLOBAL.crearBoton(".boton_tropas_wrapper","Actualizar",actualiza)
+
+	var boton = GLOBAL.crearBoton(".lista1","Actualizar",function(){actualizar()})
 	boton.id= "botonazo";
 	function guardarFormacion(obj) 
 	{
@@ -47,7 +45,6 @@ function movertropas()
 					formaciones[index]["selected"] = true;
 					for (var i = 1; i<= _n; i++) 
 					{
-							console.log('tropa'+ donde + (i+1))
 							document.getElementById('tropa'+ donde + (i)).value=formaciones[index]["formacion"][i-1];
 							if (donde=="o")
 								actualizad(i);
@@ -74,7 +71,6 @@ function movertropas()
 	{
 		if($("#movera").text().length!=0)
 		{
-			console.log("Habemus lista")
 			if($("#magiapura").text().length==0)
 			{
 				$(".lista1 .tabla_mt").append("<tr id=magiapura></tr>");
@@ -90,11 +86,7 @@ function movertropas()
 				$("#magiapura").append(`<td width="35%" id=cargard>cargar destino</td>`);
 				GLOBAL.crearBoton("#cargard","Cargar",function(){cargarFormacion("d",$("#formacionesGuardadas").val())})
 			}
-			else
-				console.log("a la cabida ni gilada");
 		}
-		else
-			console.log("tu vieja en tanga")
 
 	}
 	function actualizad(m) 
@@ -142,4 +134,3 @@ function creaBoton(obj,nombre,accion){
 		return button;
 		//boton creado
 	}
-	document.querySelector("#datos > tbody > tr:nth-child(5) > td:nth-child(3)")
