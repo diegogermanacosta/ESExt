@@ -6,18 +6,12 @@ function movertropas()
 	
 	window.addEventListener("keydown", function (event) { 
 		if (event.key=='1'){
-			actualizar();
-		}
-	});
-
-	window.addEventListener("keydown", function (event) { 
-		if (event.key=='2'){
 			cargarFormacion("o",$("#formacionesGuardadas").val());
 		}
 	});
 
 	window.addEventListener("keydown", function (event) { 
-		if (event.key=='3'){
+		if (event.key=='2'){
 			cargarFormacion("d",$("#formacionesGuardadas").val());
 		}
 	});
@@ -32,8 +26,22 @@ function movertropas()
 		creaBoton(obj,"guardarFormacion", function(){guardarFormacion(obj)});
 	});
 
-	var boton = GLOBAL.crearBoton(".lista1","Actualizar",function(){actualizar()})
-	boton.id= "botonazo";
+	$("body").append(`<a id="submit_tropas" style="display: none;" onclick="submit_page();">pedir tabla de tropas</a>`);
+	document.getElementById("submit_tropas").click();
+	actualizar();
+
+	const elementToObserve = document.querySelector("#movera");
+
+	// create a new instance of `MutationObserver` named `observer`,
+	// passing it a callback function
+	const observer = new MutationObserver(function() {
+	    actualizar();
+	    console.log("hola Juan Carlos")
+	});
+
+	// passing it the element to observe, and the options object
+	observer.observe(elementToObserve, {subtree: true, childList: true});
+
 	function guardarFormacion(obj) 
 	{
 		let tropas= [];
@@ -50,7 +58,7 @@ function movertropas()
 		LOCAL.setFormaciones(formaciones);
 		var obj = $("#formacionesGuardadas");
 		if(obj!=null){
-			obj.append(`<option id="formacion${obj.children.length}" value="${_formacion["nombre"]}">${_formacion["nombre"]}</option>`);
+			obj.append(`<option id="formacion${_formacion["nombre"]}" value="${_formacion["nombre"]}">${_formacion["nombre"]}</option>`);
 		}
 	}
 
@@ -84,7 +92,7 @@ function movertropas()
 				if(formaciones[index]["nombre"]==nombre){
 					formaciones.splice(index,1);
 					LOCAL.setFormaciones(formaciones);
-					document.getElementById('formacion'+index).remove();
+					document.getElementById('formacion'+nombre).remove();
 					return;
 				}
 			}
@@ -102,7 +110,7 @@ function movertropas()
 
 	function actualizar()
 	{
-		if($("#movera").text().length!=0)
+		if($(".lista1 .tabla_mt").text().length!=0)
 		{
 			if($("#magiapura").text().length==0)
 			{
@@ -111,7 +119,7 @@ function movertropas()
 				GLOBAL.crearBoton("#formaciones","Borrar",function(){borrarFormacion($("#formacionesGuardadas").val())});
 				for(var i in formaciones)
 				{
-					$("#formacionesGuardadas").append(`<option id="formacion${i}" value="${formaciones[i]["nombre"]}">${formaciones[i]["nombre"]}</option>`);
+					$("#formacionesGuardadas").append(`<option id="formacion${formaciones[i]["nombre"]}" value="${formaciones[i]["nombre"]}">${formaciones[i]["nombre"]}</option>`);
 					if(formaciones[i]["selected"])
 						document.getElementById("formacionesGuardadas").value = formaciones[i]["nombre"];
 				}
@@ -122,7 +130,6 @@ function movertropas()
 				$("#magiapura").append(`<a id="calcula" style="display: none;" onclick="calculapotencial();">calcula</a>`);
 			}
 		}
-
 	}
 	function actualizad(m) 
 	{
@@ -156,7 +163,6 @@ function movertropas()
 
 
 }
-
 
 function creaBoton(obj,nombre,accion){
 		//crear boton
