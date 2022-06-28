@@ -1,11 +1,11 @@
 class edificio{
-	constructor(id){
-		this.id = id;
-		this.nombre=null;
-		this.construido=-1;
-		this.costosIniciales=null;
-		this.produccion=0;
-		this.seleccionado=-1;
+	constructor(id,nombre,construido,costosIniciales,produccion){
+		this.#id = id;
+		this.#nombre=nombre;
+		this.#construido=construido;
+		this.#costosIniciales=costosIniciales;
+		this.#produccion=produccion;
+		//this.#seleccionado=-1;
 	}
 }
 var dataCiudad= new Array();
@@ -13,9 +13,7 @@ var produccionCiudad        = {};
 var masRentable             = 99990;
 var masRentableI            = 99990;
 var rBase					= 30*2*1.44;
-var kTurnos					= 4000;
-var k_P						= 1;
-var terreno;
+var k_Pacifico				= 1;
 
 var multiplicador = {
 	"ALIMENTOS"		: 1,
@@ -41,18 +39,18 @@ var multiplicador = {
 //tomo poblacion, quito espacios, punto de mil y parceo a entero
 var pobla = parseInt(document.getElementById("poblacionciudad").innerText.trim().replace(".", ""));
 
+//edifico con barra espaciadora
 window.addEventListener("keydown", function (event) { 
 	if (event.key==' '){
 		document.getElementById("frm_edificios").submit();
 	}
 });
+
+//coloco boton de construccion al centro
 document.getElementById('flotante').style.left="35%";
 
-var _edificios= parseInt($(document.querySelector("#contenido > div.ciudad_info > div:nth-child(3) > span")).text());
-
-
 if (LOCAL.getPacifico())
-    k_P = 1.2;
+    k_Pacifico = 1.2;
 
 if(LOCAL.getPoliticas()!=null){
 	let politicas  = LOCAL.getPoliticas();
@@ -77,7 +75,7 @@ if(LOCAL.getPoliticas()!=null){
 var subtitulo    = $(".subtitulo").text();
 var inicioCadena = subtitulo.indexOf(":")+2;
 var finCadeba    = subtitulo.indexOf(";")
-terreno      = subtitulo.substring(inicioCadena,finCadeba);
+var terreno      = subtitulo.substring(inicioCadena,finCadeba);
 var region       = parseInt(subtitulo.split("#")[1]);
 switch(terreno) {
 	case 'Llanura': 
@@ -239,10 +237,12 @@ if (LOCAL.getImperio()!=null)
 		multiplicador.joyeria      = multiplicador.joyeria*2;
 		multiplicador.forjamithril = multiplicador.forjamithril*2;
 	}
-var felicidad = 1;
+
 if(document.querySelector("#acciones_ciudad_wrapper > table:nth-child(2) > tbody > tr:nth-child(2) > td:nth-child(1) > div").children.length!=2)
 	if(document.querySelector("#acciones_ciudad_wrapper > table:nth-child(2) > tbody > tr:nth-child(2) > td:nth-child(1) > div").children[2].textContent.split(':')[0]=='Felicidad')
-		felicidad = 1.2;
+		for(index in multiplicador){
+			multiplicador[index] *=1.2;
+		}
 $("#tablaproduccion tr").each(function(index,obj){
 	switch(index){
 		case 0:
