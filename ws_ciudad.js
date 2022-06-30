@@ -1,14 +1,15 @@
 class edificio{
 	constructor(id,nombre,construido,costosIniciales,produccion){
-		this.#id = id;
-		this.#nombre=nombre;
-		this.#construido=construido;
-		this.#costosIniciales=costosIniciales;
-		this.#produccion=produccion;
+		this.id = id;
+		this.nombre=nombre;
+		this.construido=construido;
+		this.costosIniciales=costosIniciales;
+		this.produccion=produccion;
 		//this.#seleccionado=-1;
 	}
 }
 var dataCiudad= new Array();
+var ValorRecursos = MAXIMOS;
 var produccionCiudad        = {};
 var masRentable             = 99990;
 var masRentableI            = 99990;
@@ -299,15 +300,15 @@ GLOBAL.cargaImperio();
 
 
 function renta_edif_base (costoOro,costoMat,recurso,nombre){	
-	var costo = costoOro + costoMat * MINIMOS[recurso];
+	var costo = costoOro + costoMat * ValorRecursos[recurso];
 	var produccionEdif = 0;
 	if(PRODUCCION_BASE[nombre]!=null){
 		var recursoProducido = PRODUCCION_BASE[nombre][1];
 		produccionEdif = PRODUCCION_BASE[nombre][0];
-		produccionEdif= produccionEdif*MINIMOS[recursoProducido]*multiplicador[recursoProducido]*getKpobla(pobla);
+		produccionEdif= produccionEdif*ValorRecursos[recursoProducido]*multiplicador[recursoProducido]*getKpobla(pobla);
 		}
 	
-	return costo/(produccionEdif+rBase);
+	return costo/(produccionEdif+rBase*k_Pacifico);
 }
 var edificiosConstruidos = new Array();
 var costosTotales = new Array();
