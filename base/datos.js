@@ -16,7 +16,8 @@ const MINIMOS = {
 	"GEMAS"         : 20,
 	"JOYAS"         : 25,
 	"ORO"			: 1,
-	"FAMA"			: (5000+LOCAL.getValor())/3
+	"FAMA"			: (5000+LOCAL.getValor())/3,
+	"TURNOS"        : 56000*GLOBAL.getClanCantidad()/12*GLOBAL.getClanCantidad()+1
 }
 
 const MAXIMOS = {
@@ -36,7 +37,8 @@ const MAXIMOS = {
 	"GEMAS"         : 28,
 	"JOYAS"         : 37,
 	"ORO"			: 1,
-	"FAMA"			: (5000+LOCAL.getValor())/3
+	"FAMA"			: (5000+LOCAL.getValor())/3,
+	"TURNOS"        : 56000*GLOBAL.getClanCantidad()/(12*GLOBAL.getClanCantidad()+1)
 }
 
 const PRODUCCION_BASE = {
@@ -66,39 +68,39 @@ const PRODUCCION_BASE = {
 }
 
 const COSTOS_INICIALES = {
-	"castillo"      : [4000,200,"armas"],
-	"muralla"       : [2500,600,"bloques"],
-	"armeria"       : [1200,150,"armas"],
-	"foso"          : [2500,300,"herramientas"],
-	"cuartel"       : [3000,200,"hierro"],
-	"torremagica"   : [1800,150,"cristal"],
-	"universidad"   : [1300,200,"plata"],
-	"santuario"     : [700,100,"mithril"],
-	"templo"        : [2000,250,"mithril"],
-	"mercado"       : [600,1000,"alimentos"],
-	"mercadonegro"  : [600,150,"joyas"],
-	"minaoro"       : [600,400,"madera"],
-	"minaplata"     : [700,400,"madera"],
-	"minahierro"    : [600,500,"madera"],
-	"minapiedra"    : [600,400,"madera"],
-	"minamithril"   : [2000,800,"madera"],
-	"aserradero"    : [900,500,"alimentos"],
-	"cultivos"      : [500,1200,"agua"],
-	"yacimientos"   : [800,200,"herramientas"],
-	"pozos"         : [600,300,"piedra"],
-	"taller"        : [800,200,"hierro"],
-	"forjahierro"   : [1200,200,"herramientas"],
-	"forjamithril"  : [3000,250,"herramientas"],
-	"joyeria"       : [1800,200,"herramientas"],
-	"camaracristal" : [1300,400,"piedra"],
-	"cantera"       : [600,200,"herramientas"],
-	"carpinteria"   : [800,500,"madera"],
-	"monumentos"    : [1500,300,"piedra"],
-	"acueducto"     : [1200,300,"bloques"],
-	"almacen"       : [600,250,"tablas"],
-	"coliseo"       : [1500,400,"bloques"],
-	"burdeles"      : [900,300,"tablas"],
-	"escuela"       : [1500,300,"tablas"]
+	"castillo"      : [4000,200,"ARMAS"],
+	"muralla"       : [2500,600,"BLOQUES"],
+	"armeria"       : [1200,150,"ARMAS"],
+	"foso"          : [2500,300,"HERRAMIENTAS"],
+	"cuartel"       : [3000,200,"HIERRO"],
+	"torremagica"   : [1800,150,"CRISTAL"],
+	"universidad"   : [1300,200,"PLATA"],
+	"santuario"     : [700,100,"MITHRIL"],
+	"templo"        : [2000,250,"MITHRIL"],
+	"mercado"       : [600,1000,"ALIMENTOS"],
+	"mercadonegro"  : [600,150,"JOYAS"],
+	"minaoro"       : [600,400,"MADERA"],
+	"minaplata"     : [700,400,"MADERA"],
+	"minahierro"    : [600,500,"MADERA"],
+	"minapiedra"    : [600,400,"MADERA"],
+	"minamithril"   : [2000,800,"MADERA"],
+	"aserradero"    : [900,500,"ALIMENTOS"],
+	"cultivos"      : [500,1200,"AGUA"],
+	"yacimientos"   : [800,200,"HERRAMIENTAS"],
+	"pozos"         : [600,300,"PIEDRA"],
+	"taller"        : [800,200,"HIERRO"],
+	"forjahierro"   : [1200,200,"HERRAMIENTAS"],
+	"forjamithril"  : [3000,250,"HERRAMIENTAS"],
+	"joyeria"       : [1800,200,"HERRAMIENTAS"],
+	"camaracristal" : [1300,400,"PIEDRA"],
+	"cantera"       : [600,200,"HERRAMIENTAS"],
+	"carpinteria"   : [800,500,"MADERA"],
+	"monumentos"    : [1500,300,"PIEDRA"],
+	"acueducto"     : [1200,300,"BLOQUES"],
+	"almacen"       : [600,250,"TABLAS"],
+	"coliseo"       : [1500,400,"BLOQUES"],
+	"burdeles"      : [900,300,"TABLAS"],
+	"escuela"       : [1500,300,"TABLAS"]
 }
 
 function getKpobla(pobla){

@@ -98,7 +98,7 @@ function compraJusta(oroRaza)
 		
 	  	if(obj.children.length < 3)
 			return;		
-		var nombre = $(obj.children[0]).text().trim();
+		var nombre = $(obj.children[0]).text().trim().toUpperCase();
 		var venta = parseInt($(obj.children[3]).text().trim());
 		var compra = parseInt($(obj.children[2]).text().trim());
 		var OroTurno = oroRaza * parseInt(turnosGastados);

@@ -1,12 +1,10 @@
-class edificio{
-	constructor(id,nombre,construido,costosIniciales,produccion){
-		this.id = id;
-		this.nombre=nombre;
-		this.construido=construido;
-		this.costosIniciales=costosIniciales;
-		this.produccion=produccion;
-		//this.#seleccionado=-1;
-	}
+var edificio = {
+	id: 				"id",
+	nombre: 		 "value", 
+	construido:      "value", 
+	costosIniciales: "value", 
+	produccion:      "value" 
+	//#seleccionado=-1;
 }
 var dataCiudad= new Array();
 var ValorRecursos = MAXIMOS;
@@ -299,8 +297,15 @@ if (LOCAL.getCiudad()!=null){
 GLOBAL.cargaImperio();
 
 
-function renta_edif_base (costoOro,costoMat,recurso,nombre){	
-	var costo = costoOro + costoMat * ValorRecursos[recurso];
+function renta_edif_base (nroEstrella,nombre){
+	var gastoTurnos     = 2;
+	if(LOCAL.getImperio().raza=="Enanos")
+		gastoTurnos     =  1;
+	if(LOCAL.getPacifico())
+		gastoTurnos    += -0.5;
+	var costoTurnos     = gastoTurnos*ValorRecursos["TURNOS"];
+	var edificio=COSTOS_INICIALES[nombre];
+	var costo   = (edificio[0] + edificio[1] * ValorRecursos[edificio[2]])*nroEstrella;
 	var produccionEdif = 0;
 	if(PRODUCCION_BASE[nombre]!=null){
 		var recursoProducido = PRODUCCION_BASE[nombre][1];
@@ -308,7 +313,7 @@ function renta_edif_base (costoOro,costoMat,recurso,nombre){
 		produccionEdif= produccionEdif*ValorRecursos[recursoProducido]*multiplicador[recursoProducido]*getKpobla(pobla);
 		}
 	
-	return costo/(produccionEdif+rBase*k_Pacifico);
+	return (costo+costoTurnos)/(produccionEdif+rBase*k_Pacifico)-1;
 }
 var edificiosConstruidos = new Array();
 var costosTotales = new Array();
@@ -335,10 +340,9 @@ function ciudad_process(){
 			var oroInicial      = costosIniciales[i][0];
 			var materialInicial = costosIniciales[i][1];
 			var nombreRecurso   = costosIniciales[i][2];
-			var renta           = renta_edif_base(oroInicial,materialInicial,nombreRecurso.toUpperCase(),edificios[i]);
 			var costo           = new Array();
 			for (var j=1; j <=10; j++){
-				costo.push({ oro: ciudad_calcular(oroInicial, j), material: ciudad_calcular(materialInicial, j), recurso: nombreRecurso, rentabilidad: renta*j});
+				costo.push({ oro: ciudad_calcular(oroInicial, j), material: ciudad_calcular(materialInicial, j), recurso: nombreRecurso, rentabilidad: renta_edif_base(j,edificios[i])});
 			}
 			costosTotales.push(costo);
 		}
@@ -397,20 +401,13 @@ function ciudad_recalcular(costosTotales, recursosActuales, recursosUsados, edif
 
 function ciudad_estrellas(costosTotales, recursosActuales, recursosUsados, edificiosConstruidos){
 	$(".estrella").each(function(index, obj){
-		if(obj.src == "https://images.empire-strike.com/v2/interfaz/estrella-roja.png"){
+		if(obj.src == "https://images.empire-strike.com/v2/interfaz/estrella-roja.png"||obj.src == "https://images.empire-strike.com/v2/interfaz/estrella-amarilla.png"){
 			return;
 		}
 		
 		var estrella      = parseInt(obj.id.replace("edificio_estrella_",""));
 		var edificio      = Math.floor(estrella/10);
 		var nroEdificio   = estrella % 10;
-		
-		if (obj.src == "https://images.empire-strike.com/v2/interfaz/estrella-amarilla.png") {
-			if(nroEdificio > edificiosConstruidos[edificio])
-				edificiosConstruidos[edificio] = nroEdificio;
-			return
-		}
-
 		var s             	= $(this).data('attr').split(',');
 		var multiplicadorR 	= parseFloat(s[3]);
 		var costoOro 		= costosTotales[edificio][nroEdificio].oro*multiplicadorR;
@@ -419,8 +416,8 @@ function ciudad_estrellas(costosTotales, recursosActuales, recursosUsados, edifi
 		var renta    		= costosTotales[edificio][nroEdificio].rentabilidad*multiplicadorR;
 
 		var edificioContruid = edificiosConstruidos[edificio];
-		var construidoOro    = edificioContruid = -1 ? 0 : costosTotales[edificio][edificioContruid].oro*multiplicador;
-		var construidoMat    = edificioContruid = -1 ? 0 : costosTotales[edificio][edificioContruid].material*multiplicador;
+		var construidoOro    = edificioContruid == -1 ? 0 : costosTotales[edificio][edificioContruid].oro*multiplicadorR;
+		var construidoMat    = edificioContruid == -1 ? 0 : costosTotales[edificio][edificioContruid].material*multiplicadorR;
 
 		if((recursosActuales["ORO"] - recursosUsados["ORO"]) >= (costoOro - construidoOro) && (recursosActuales[recurso] - recursosUsados[recurso]) >= (costoMat - construidoMat)){
 			obj.src = chrome.runtime.getURL('base/estrella-verde.png');
@@ -445,19 +442,4 @@ function ciudad_calcular(inicio, estrella){
 	return result;
 }
 
-function get_clan_cantidad(partida){
-	switch(partida) {
-		case 'KENARON':
-			return 20;
-		case 'GARDIS':
-		case 'ZULA':
-			return 10;
-		case 'NUMIAN':
-			return 5;
-		case 'FANTASY':
-			return 3;
-		default:
-			return 0;
-	}
-}
 
