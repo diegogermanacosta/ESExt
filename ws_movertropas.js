@@ -3,7 +3,18 @@ function movertropas()
 	var formaciones = new Array;
 	if(LOCAL.getFormaciones()!=null)
 		formaciones = LOCAL.getFormaciones();
+	
+	window.addEventListener("keydown", function (event) { 
+		if (event.key=='1'){
+			cargarFormacion("o",$("#formacionesGuardadas").val());
+		}
+	});
 
+	window.addEventListener("keydown", function (event) { 
+		if (event.key=='2'){
+			cargarFormacion("d",$("#formacionesGuardadas").val());
+		}
+	});
 
 	$(".lista2 tr").each(function(index, obj) {
 		if(index == 0)
@@ -12,47 +23,86 @@ function movertropas()
 	  	if($(obj.children[0]).text()=="Total por niveles"||$(obj.children[0]).text()=="Nombre")
 			return;
 		
-		console.log($(obj.children[0]).text());
-		console.log(obj.children.length);
 		creaBoton(obj,"guardarFormacion", function(){guardarFormacion(obj)});
 	});
-	var actualiza= function(){actualizar()}
-	var boton = GLOBAL.crearBoton(".boton_tropas_wrapper","Actualizar",actualiza)
-	boton.id= "botonazo";
+
+	$("body").append(`<a id="submit_tropas" style="display: none;" onclick="submit_page();">pedir tabla de tropas</a>`);
+	document.getElementById("submit_tropas").click();
+	actualizar();
+
+	const elementToObserve = document.querySelector("#movera");
+
+	// create a new instance of `MutationObserver` named `observer`,
+	// passing it a callback function
+	const observer = new MutationObserver(function() {
+	    actualizar();
+	    console.log("hola Juan Carlos")
+	});
+
+	// passing it the element to observe, and the options object
+	observer.observe(elementToObserve, {subtree: true, childList: true});
+
 	function guardarFormacion(obj) 
 	{
-		let _formacion= [];
+		let tropas= [];
 		let nombre = window.prompt('ingrese el nombre de la formacion que desea Guardar');
+		if(nombre==null)
+			return;
 		for (var i = 2; i<= 21; i++) 
 		{
-			_formacion[i-2]=parseInt($(obj.children[i].querySelector("span")).text());
+			tropas[i-2]=parseInt($(obj.children[i].querySelector("span")).text());
 		}
-		formaciones.push(generarFormacion(nombre,_formacion));
+		var selected = false;
+		var _formacion=generarFormacion(nombre,tropas,selected)
+		formaciones.push(_formacion);
 		LOCAL.setFormaciones(formaciones);
+		var obj = $("#formacionesGuardadas");
+		if(obj!=null){
+			obj.append(`<option id="formacion${_formacion["nombre"]}" value="${_formacion["nombre"]}">${_formacion["nombre"]}</option>`);
+		}
 	}
 
 	function cargarFormacion(donde,nombre)
 	{
-		if(nombre!=0)
+		if(nombre!=0&&nombre!=null)
 		{	var _n= document.querySelector("#movera > form > table.lista1.tabla_mt > tbody").children.length-1;
-			for(index in formaciones)
-				if(formaciones[index]["nombre"]==nombre)
+			for(index in formaciones){
+				if(formaciones[index]["nombre"]==nombre){
+					formaciones[index]["selected"] = true;
 					for (var i = 1; i<= _n; i++) 
 					{
-							console.log('tropa'+ donde + (i+1))
 							document.getElementById('tropa'+ donde + (i)).value=formaciones[index]["formacion"][i-1];
 							if (donde=="o")
 								actualizad(i);
 							else
 								actualizao(i);
 					}
+					document.getElementById("calcula").click();
+				}
+				else{
+					formaciones[index]["selected"] = false;
+				}
+			}
+			LOCAL.setFormaciones(formaciones);
 		}
 	}
 
-	function generarFormacion(nombre,formacion){
+	function borrarFormacion(nombre){
+		for(index in formaciones){
+				if(formaciones[index]["nombre"]==nombre){
+					formaciones.splice(index,1);
+					LOCAL.setFormaciones(formaciones);
+					document.getElementById('formacion'+nombre).remove();
+					return;
+				}
+			}
+	}
+
+	function generarFormacion(nombre,formacion,selected){
 		return {
 			"nombre": nombre,
-			"formacion": formacion
+			"formacion": formacion,
+			"selected": selected
 		}
 		
 
@@ -60,28 +110,26 @@ function movertropas()
 
 	function actualizar()
 	{
-		if($("#movera").text().length!=0)
+		if($(".lista1 .tabla_mt").text().length!=0)
 		{
-			console.log("Habemus lista")
 			if($("#magiapura").text().length==0)
 			{
 				$(".lista1 .tabla_mt").append("<tr id=magiapura></tr>");
-				$("#magiapura").append(`<td ><select id=formacionesGuardadas><option value="0">- - Escoge - -</option></select></td>`);
+				$("#magiapura").append(`<td id="formaciones" ><select id=formacionesGuardadas><option value="0">- - Escoge - -</option></select></td>`);
+				GLOBAL.crearBoton("#formaciones","Borrar",function(){borrarFormacion($("#formacionesGuardadas").val())});
 				for(var i in formaciones)
 				{
-					$("#formacionesGuardadas").append(`<option value="${formaciones[i]["nombre"]}">${formaciones[i]["nombre"]}</option>`);
+					$("#formacionesGuardadas").append(`<option id="formacion${formaciones[i]["nombre"]}" value="${formaciones[i]["nombre"]}">${formaciones[i]["nombre"]}</option>`);
+					if(formaciones[i]["selected"])
+						document.getElementById("formacionesGuardadas").value = formaciones[i]["nombre"];
 				}
 				$("#magiapura").append(`<td width="35%" id=cargaro>cargar origen</td>`);
 				GLOBAL.crearBoton("#cargaro","Cargar",function(){cargarFormacion("o",$("#formacionesGuardadas").val())})
 				$("#magiapura").append(`<td width="35%" id=cargard>cargar destino</td>`);
 				GLOBAL.crearBoton("#cargard","Cargar",function(){cargarFormacion("d",$("#formacionesGuardadas").val())})
+				$("#magiapura").append(`<a id="calcula" style="display: none;" onclick="calculapotencial();">calcula</a>`);
 			}
-			else
-				console.log("a la cabida ni gilada");
 		}
-		else
-			console.log("tu vieja en tanga")
-
 	}
 	function actualizad(m) 
 	{
@@ -116,7 +164,6 @@ function movertropas()
 
 }
 
-
 function creaBoton(obj,nombre,accion){
 		//crear boton
 		const button = document.createElement('button'); 
@@ -128,4 +175,3 @@ function creaBoton(obj,nombre,accion){
 		return button;
 		//boton creado
 	}
-	document.querySelector("#datos > tbody > tr:nth-child(5) > td:nth-child(3)")

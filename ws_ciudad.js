@@ -68,8 +68,6 @@ if(LOCAL.getPoliticas()!=null){
 	    rBase				  *= 1+(0.06*politicas.rutasdecontrabando[1]); 
 }
 
-//Valores de produccion base de cada edificio
-
 //CALCULO EFICIENCIA EN TERRENO
 var subtitulo    = $(".subtitulo").text();
 var inicioCadena = subtitulo.indexOf(":")+2;
@@ -328,6 +326,7 @@ function ciudad_process(){
 		var recursosActuales     = JSON.parse($("#recursosActuales").val());
 		var recursosUsados       = JSON.parse($("#recursosActuales").val());
 		edificiosConstruidos = new Array();
+
 		ciudad_cleanUsados(recursosUsados);
 		var edificios = new Array();
 		$(".c .nome").each(function(index, obj){
@@ -425,7 +424,7 @@ function ciudad_estrellas(costosTotales, recursosActuales, recursosUsados, edifi
 				masRentable=renta;
 				obj.src = chrome.runtime.getURL('base/estrella-azul.png');
 			}
-		}else{
+		else{
 			obj.src = "https://images.empire-strike.com/v2/interfaz/estrella-vacia.png";
 			if(renta<=masRentableI&&renta<masRentable){
 				masRentableI = renta;
@@ -442,4 +441,47 @@ function ciudad_calcular(inicio, estrella){
 	return result;
 }
 
+function edifRequerido(edificio,nroEdificio){
+	switch(edificio){
+		case 20:
+		case 21:
+			if (nroEdificio<=edificiosConstruidos[13])
+				return true;
+			else
+				return false;
+			break;
+		case 22:
+			if (nroEdificio<=edificiosConstruidos[15])
+				return true;
+			else
+				return false;
+			break;
+		case 23:
+			if (nroEdificio<=edificiosConstruidos[12])
+				return true;
+			else
+				return false;
+			break;
+		case 24:
+			if (nroEdificio<=edificiosConstruidos[18])
+				return true;
+			else
+				return false;
+			break;
+		case 25:
+			if (nroEdificio<=edificiosConstruidos[14])
+				return true;
+			else
+				return false;
+			break;
+		case 26:
+			if (nroEdificio<=edificiosConstruidos[16])
+				return true;
+			else
+				return false;
+			break;
+		default:
+			return true;
 
+	}
+}

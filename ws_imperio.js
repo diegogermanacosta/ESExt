@@ -32,7 +32,7 @@ function imperio()
 	}
 	
 	var ibPaci = 15;
-	var idReducido = parseInt(ib);
+	var idReducido = parseFloat(ib);
 	var count = 1;
 	while(ibPaci <= idReducido){
 		idReducido = idReducido - 0.1*(100-idReducido);

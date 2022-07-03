@@ -86,12 +86,6 @@ function rutasComerciales()
       "ronda": GLOBAL.getRonda()
     });
   });
-  /*document.querySelector(".titulo.uppercase").innerHTML += (`<button onclick='document.querySelector("#popRutas").style.display = "block"'>+</button>`)
-  document.querySelector("body").innerHTML += (`<div id='popRutas' style='z-index: 99999;position: fixed;top: 20%;left: 60%; display: none;'>
-  <textarea id="rutasCar"></textarea>
-  <button id="llenar">Llenar</button>
-  </div>`)
-  //API.getRutas(rutas, rutasComerciales_populate);*/
 }
 
 function rutasComerciales_populate(data)
