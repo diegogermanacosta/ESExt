@@ -13,7 +13,6 @@ var _WS_ESCOGEROBJECTIVO = "/escogerobjetivo.php";
 var _WS_ATACAR = "/atacar.php";
 var _WS_COMERCIO = "/comercio.php";
 var _WS_RUTASCOMERCIALES = "/rutascomerciales.php"
-var _WS_CIUDAD = "/ciudad.php"
 var _WS_RANKING = "/rankings.php"
 var _WS_MENSAJES = "/mensajes.php"
 var _WS_POLITICA = "/politica.php"
@@ -57,12 +56,6 @@ function executeProcess(url){
 	if(url.indexOf(_WS_RANKING) != -1)
 	{
 		ranking();
-		return;
-	}
-
-	if(url.indexOf(_WS_CIUDAD) != -1)
-	{
-		//ciudad();
 		return;
 	}
 

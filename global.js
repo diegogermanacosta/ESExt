@@ -66,6 +66,21 @@ var GLOBAL = {
 	getPartida: function() {
 		return $($("#_infopartida").contents().filter(function() { return this.nodeType == Node.TEXT_NODE; })[1]).text().trim().replace("(Ronda ","").replace(")","").split(" ")[0];
 	},
+	getClanCantidad: function() {
+		switch(GLOBAL.getPartida()) {
+			case 'KENARON':
+				return 20;
+			case 'GARDIS':
+			case 'ZULA':
+				return 10;
+			case 'NUMIAN':
+				return 5;
+			case 'FANTASY':
+				return 3;
+			default:
+				return 0;
+		}
+	},
 	getRonda: function() {
 		return parseInt($($("#_infopartida").contents().filter(function() { return this.nodeType == Node.TEXT_NODE; })[1]).text().trim().replace("(Ronda ","").replace(")","").split(" ")[1]);
 	},
