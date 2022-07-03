@@ -7,7 +7,8 @@ function rutasComerciales()
   var bonoRutas = [];
   var multiplicadorRutas = null;
   if (gobernante==null){
-    $(".tabs").append(`<a style='color: #990000; font-weight: bold;font-size:26px; text-decoration: none' href="gobierno.php">¡¡¡CARGA MAPA/GOBIERNO GUAMPUDO CONCIENTE DEL ORTO!!!</a>`)
+    $(".tabs").append(`<a style='color: #990000; font-weight: bold;font-size:22px; text-decoration: none' href="gobierno.php">¡¡¡CARGA MAPA/GOBIERNO GUAMPUDO CONCIENTE DEL ORTO!!!</a>`)
+    $(".tabs").append("<br>");
   }
   else
   {
