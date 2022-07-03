@@ -424,6 +424,7 @@ function ciudad_estrellas(costosTotales, recursosActuales, recursosUsados, edifi
 				masRentable=renta;
 				obj.src = chrome.runtime.getURL('base/estrella-azul.png');
 			}
+		}
 		else{
 			obj.src = "https://images.empire-strike.com/v2/interfaz/estrella-vacia.png";
 			if(renta<=masRentableI&&renta<masRentable){
