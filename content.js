@@ -65,12 +65,6 @@ function executeProcess(url){
 		return;
 	}
 
-	if(url.indexOf(_WS_RUTASCOMERCIALES) != -1)
-	{
-		rutasComerciales();
-		return;
-	}
-
 	if(url.indexOf(_WS_ATACAR) != -1)
 	{
 		atacar();

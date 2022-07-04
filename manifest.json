@@ -70,12 +70,11 @@
 			"ws_atacar.js",
 			"ws_escogerObjectivo.js",
 			"ws_clanes.js",
-      		"ws_clan.js",
+      "ws_clan.js",
 			"ws_imperio.js",
 			"ws_informes.js",
 			"ws_ultimosAtaques.js",
 			"ws_comercio.js",
-			"ws_rutascomerciales.js",
 			"ws_ranking.js",
 			"ws_mensajes.js",
 			"ws_politica.js",
@@ -85,9 +84,12 @@
 		]
 	},
 	{
-		
 		"matches": ["https://www.empire-strike.com/ciudad.php?*"],
 		"js": ["content.js","ws_ciudad.js"]
+	},
+	{
+		"matches": ["https://www.empire-strike.com/rutascomerciales.php"],
+		"js": ["content.js","ws_rutascomerciales.js"]
 	}
   ],
   "permissions": [
