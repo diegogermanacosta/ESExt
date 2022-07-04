@@ -81,9 +81,9 @@ function getCiudadesBonoRegion(){
     let region = ciudades[i].region;
     let gobernanteRegion = LOCAL.getGobernantes();
     if (gobernanteRegion[ciudades[i].region]==miClan&&esRegionRutas(ciudades[i].region)){
-      ciudadConBono.push(ciudades[i].idCiudad);
+      ciudadesConBono.push(ciudades[i].idCiudad);
     }
   }
-  return ciudadConBono;
+  return ciudadesConBono;
 }
 
