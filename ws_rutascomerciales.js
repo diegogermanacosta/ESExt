@@ -13,7 +13,7 @@ else                               //Agrega mensaje para cargar gobernantes si n
 //Cargar Multiplicado de Politicas de Contrabando
 var multiplicadorPolitica=1;       //Valor por defecto sin Politicas cargadas.
 if (LOCAL.getPoliticas()!=null)
-  multiplicadorPolitica=1+0.06*LOCAL.getPoliticas().rutasdecontrabando[1];
+  multiplicadorPolitica=1+0.06*LOCAL.getPoliticas().rutasdecontrabando;
 else                               //Agrega mensaje para cargar politicas si no esta cargado
   GLOBAL.showError("La extensión no genero los parametros iniciales, por favor navega a la pagina de <a href='/politica.php'>Politicas</a>");
 
