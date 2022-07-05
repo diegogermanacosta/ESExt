@@ -4,7 +4,7 @@ var edificio = {
 	construido:      "value", 
 	costosIniciales: "value", 
 	produccion:      "value" 
-	//#seleccionado=-1;
+	//#seleccionado:  -1;
 }
 var dataCiudad= new Array();
 var ValorRecursos = MAXIMOS;
@@ -352,14 +352,16 @@ function ciudad_process(){
 				ciudad_recalcular(costosTotales, recursosActuales, recursosUsados, edificiosConstruidos); 
 			});
 			$(obj).click(function(){ 
-				masRentable = 99990
+				masRentable = 99990;
+				masRentableI = 99990;
 				ciudad_recalcular(costosTotales, recursosActuales, recursosUsados, edificiosConstruidos); 
 				ciudad_recalcular(costosTotales, recursosActuales, recursosUsados, edificiosConstruidos);
+				edificiosSeleccionados();
 			});
 		});
 
 		$(".elim").each(function(index, obj){
-			$(obj).click(function(){ ciudad_recalcular(costosTotales, recursosActuales, recursosUsados, edificiosConstruidos); });
+			$(obj).click(function(){ ciudad_recalcular(costosTotales, recursosActuales, recursosUsados, edificiosConstruidos); edificiosSeleccionados(); });
 		//  $(obj).hover(function(){ ciudad_recalcular(costosTotales, recursosActuales, recursosUsados); });
 		});
 		$(".edificios img:not(.estrella):not(.elim):not(._ayuda):not(.ayuda)").each(function(index, obj){
@@ -414,11 +416,11 @@ function ciudad_estrellas(costosTotales, recursosActuales, recursosUsados, edifi
 		var recurso  		= costosTotales[edificio][nroEdificio].recurso.toUpperCase();
 		var renta    		= costosTotales[edificio][nroEdificio].rentabilidad*multiplicadorR;
 
-		var edificioContruid = edificiosConstruidos[edificio];
+		var edificioContruid = estaConstruido(edificio);
 		var construidoOro    = edificioContruid == -1 ? 0 : costosTotales[edificio][edificioContruid].oro*multiplicadorR;
 		var construidoMat    = edificioContruid == -1 ? 0 : costosTotales[edificio][edificioContruid].material*multiplicadorR;
 
-		if((recursosActuales["ORO"] - recursosUsados["ORO"]) >= (costoOro - construidoOro) && (recursosActuales[recurso] - recursosUsados[recurso]) >= (costoMat - construidoMat)){
+		if((recursosActuales["ORO"] - recursosUsados["ORO"]) >= (costoOro - construidoOro) && (recursosActuales[recurso] - recursosUsados[recurso]) >= (costoMat - construidoMat)&&edifRequerido(edificio,nroEdificio)){
 			obj.src = chrome.runtime.getURL('base/estrella-verde.png');
 			if(renta<=masRentable){
 				masRentable=renta;
@@ -446,37 +448,37 @@ function edifRequerido(edificio,nroEdificio){
 	switch(edificio){
 		case 20:
 		case 21:
-			if (nroEdificio<=edificiosConstruidos[13])
+			if (nroEdificio<=estaConstruido(13))
 				return true;
 			else
 				return false;
 			break;
 		case 22:
-			if (nroEdificio<=edificiosConstruidos[15])
+			if (nroEdificio<=estaConstruido(15))
 				return true;
 			else
 				return false;
 			break;
 		case 23:
-			if (nroEdificio<=edificiosConstruidos[12])
+			if (nroEdificio<=estaConstruido(12))
 				return true;
 			else
 				return false;
 			break;
 		case 24:
-			if (nroEdificio<=edificiosConstruidos[18])
+			if (nroEdificio<=estaConstruido(18))
 				return true;
 			else
 				return false;
 			break;
 		case 25:
-			if (nroEdificio<=edificiosConstruidos[14])
+			if (nroEdificio<=estaConstruido(14))
 				return true;
 			else
 				return false;
 			break;
 		case 26:
-			if (nroEdificio<=edificiosConstruidos[16])
+			if (nroEdificio<=estaConstruido(16))
 				return true;
 			else
 				return false;
@@ -485,4 +487,24 @@ function edifRequerido(edificio,nroEdificio){
 			return true;
 
 	}
+}
+
+function estaConstruido(id){
+	var seleccionado	 = document.getElementById("xx_txt_costo_edificio_estrella_seleccionada_" + id).value;
+	var construido   = edificiosConstruidos[id];
+	if (seleccionado>construido)
+		return seleccionado;
+	else
+		return construido;
+}
+
+function edificiosSeleccionados() {
+	casitas = 0;
+	for (var i = 0; i < edificiosConstruidos.length; i++) {
+		var seleccionados	 = document.getElementById("xx_txt_costo_edificio_estrella_seleccionada_" + i).value;
+		if (seleccionados>-1)
+			casitas += seleccionados - edificiosConstruidos[i];
+	}
+	$("#panel").append(`<span> <img align="absmiddle" src="//images.empire-strike.com/v2/iconos/icon_ciudad.gif" 
+	                    style="width: 15px;height: 15px;margin-bottom: 4px;"> ${casitas} </span>`)
 }
