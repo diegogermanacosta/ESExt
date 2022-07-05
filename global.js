@@ -187,6 +187,8 @@ var GLOBAL = {
 						parseInt($("#g_rubies").html().replace(/\./g,"")));
 	},
 	cargaImperio : function(){
+		if(LOCAL.getCarga()==null)
+			return
 		if(LOCAL.getCarga()["mode"]&&LOCAL.getCarga()["type"]=="imperio"){
 			if(LOCAL.getImperio()==null){
 				location.replace("tuimperio.php");

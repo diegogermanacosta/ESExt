@@ -303,7 +303,7 @@ function renta_edif_base (nroEstrella,nombre){
 		gastoTurnos    += -0.5;
 	var costoTurnos     = gastoTurnos*ValorRecursos["TURNOS"];
 	var edificio=COSTOS_INICIALES[nombre];
-	var costo   = (edificio[0] + edificio[1] * ValorRecursos[edificio[2]])*nroEstrella;
+	var costo   = (edificio["oro"] + edificio["cantidadRecurso"] * ValorRecursos[edificio["recurso"]])*nroEstrella;
 	var produccionEdif = 0;
 	if(PRODUCCION_BASE[nombre]!=null){
 		var recursoProducido = PRODUCCION_BASE[nombre][1];
