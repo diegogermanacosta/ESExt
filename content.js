@@ -15,7 +15,6 @@ var _WS_COMERCIO = "/comercio.php";
 var _WS_RUTASCOMERCIALES = "/rutascomerciales.php"
 var _WS_RANKING = "/rankings.php"
 var _WS_MENSAJES = "/mensajes.php"
-var _WS_POLITICA = "/politica.php"
 var _WS_LOGIN = "/login.php"
 var _WS_MOVERTROPAS = "/movertropas.php"
 var _WS_GOBIERNO = "/gobierno.php"
@@ -100,12 +99,6 @@ function executeProcess(url){
 		informes();
 		return;
 	}
-
-	if(url.indexOf(_WS_POLITICA) != -1)
-	{
-		politica();
-		return;
-	}
 	
 	if(url.indexOf(_WS_LOGIN) != -1)
 	{
@@ -124,12 +117,6 @@ function executeProcess(url){
 		movertropas();
 		return;
 	}
-
-	/*if(url.indexOf(_WS_INFORMES) != -1)
-	{
-		informes();
-		return;
-	}*/
 
 	if(url.indexOf(_WS_ESPIONAJEASEDIO) != -1 || url.indexOf(_WS_ESPIONAJEREGIONES) != -1
 	|| url.indexOf(_WS_ESPIONAJERECONQUISTA) != -1 || url.indexOf(_WS_ESPIONAJECONTRAATAQUE) != -1)

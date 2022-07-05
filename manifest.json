@@ -77,7 +77,6 @@
 			"ws_comercio.js",
 			"ws_ranking.js",
 			"ws_mensajes.js",
-			"ws_politica.js",
 			"ws_gobierno.js",
 			"ws_movertropas.js",
 			"content.js"
@@ -90,6 +89,10 @@
 	{
 		"matches": ["https://www.empire-strike.com/rutascomerciales.php"],
 		"js": ["content.js","ws_rutascomerciales.js"]
+	},
+	{
+		"matches": ["https://www.empire-strike.com/politica.php"],
+		"js": ["content.js","ws_politica.js"]
 	}
   ],
   "permissions": [
