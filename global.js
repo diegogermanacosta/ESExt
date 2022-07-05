@@ -15,7 +15,12 @@ function alwaysDo()
 	var botonaZong = new Audio (chrome.runtime.getURL("base/button.mpeg"));
 	var accion = function()
 	{
-		LOCAL.setCarga(true);
+		let carga = {
+			mode : true,
+			type : "imperio",
+			init : location.pathname
+		};
+		LOCAL.setCarga(carga);
 		GLOBAL.cargaImperio();
 		if(!LOCAL.getCarga())
 			botonaZong.play();
@@ -181,12 +186,12 @@ var GLOBAL = {
 						parseInt($("#g_armas").html().replace(/\./g,"")),
 						parseInt($("#g_rubies").html().replace(/\./g,"")));
 	},
-	cargaImperio : function()
-	{
-		if(LOCAL.getCarga==null)
-			LOCAL.setCarga(false);
-		if(LOCAL.getCarga())
-		{
+	cargaImperio : function(){
+		if(LOCAL.getCarga()["mode"]&&LOCAL.getCarga()["type"]=="imperio"){
+			if(LOCAL.getImperio()==null){
+				location.replace("tuimperio.php");
+				return;
+			}
 			if(LOCAL.getPoliticas()==null){
 				location.replace("politica.php");
 				return;
@@ -195,22 +200,25 @@ var GLOBAL = {
 				location.replace("gobierno.php");
 				return;
 			}
-			if (LOCAL.getCiudad()!=null) 
-			{
-				var ciudades = LOCAL.getCiudad();
-				var count=0;
-				for (var i = ciudades.length - 1; i >= 0; i--) {
-					if(!ciudades[i].cargada)
-						location.replace("ciudad.php?id="+ciudades[i].idCiudad);
-					else
-						count++;
-				}
-				if(count==ciudades.length){
-					LOCAL.setCarga(false);
-					console.log("imperio cargado con exito")
+			GLOBAL.cargaCiudad()
+			console.log("biyuya")
+			location.replace(LOCAL.getCarga()["init"]);
+			localStorage.removeItem("Carga")
+		}
+	},
+	cargaCiudad : function(){
+		if (LOCAL.getCiudad()!=null){
+			var ciudades = LOCAL.getCiudad();
+			var count=0;
+			for (var i = ciudades.length - 1; i >= 0; i--){
+				if(!ciudades[i].cargada){
+					location.replace("ciudad.php?id="+ciudades[i].idCiudad);
+					return
 				}
 			}
 		}
+		else
+			location.replace("tuimperio.php");
 	},
 	generateAsedios : function()
 	{

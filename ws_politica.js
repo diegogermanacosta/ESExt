@@ -1,26 +1,27 @@
-var politicas ={};
-politicas.losdioses         = 0;
-politicas.magiaarcana       = 0;
-politicas.rituales          = 0;
-politicas.cultodemoniaco    = 0;
-politicas.arquitectura      = 0;
-politicas.rutasdecontrabando= 0;
-politicas.profundidadcuevas = 0;
-politicas.esclavitud        = 0;
-politicas.patriotismo       = 0;
-politicas.serviciomilitar   = 0;
-politicas.torturas          = 0;
-politicas.aduanas           = 0;
-politicas.naturaleza        = 0;
-politicas.libertadpolitica  = 0;
-politicas.burguesia         = 0;
-politicas.gremios           = 0;
-politicas.lamujer           = 0;
-politicas.nobleza           = 0;
-politicas.justicia          = 0;
-politicas.medicina          = 0;
-politicas.escuelas          = 0;
-politicas.musica            = 0;
+var politicas ={
+losdioses         : 0,
+magiaarcana       : 0,
+rituales          : 0,
+cultodemoniaco    : 0,
+arquitectura      : 0,
+rutasdecontrabando: 0,
+profundidadcuevas : 0,
+esclavitud        : 0,
+patriotismo       : 0,
+serviciomilitar   : 0,
+torturas          : 0,
+aduanas           : 0,
+naturaleza        : 0,
+libertadpolitica  : 0,
+burguesia         : 0,
+gremios           : 0,
+lamujer           : 0,
+nobleza           : 0,
+justicia          : 0,
+medicina          : 0,
+escuelas          : 0,
+musica            : 0
+}
   
 $(".lista1 tr").each(function(index, obj) {
 	if(index == 0)
