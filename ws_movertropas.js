@@ -5,15 +5,13 @@ function movertropas()
 		formaciones = LOCAL.getFormaciones();
 	
 	window.addEventListener("keydown", function (event) { 
-		if (event.key=='1'){
+		if (event.key=='q')
 			cargarFormacion("o",$("#formacionesGuardadas").val());
-		}
 	});
 
 	window.addEventListener("keydown", function (event) { 
-		if (event.key=='2'){
+		if (event.key=='w')
 			cargarFormacion("d",$("#formacionesGuardadas").val());
-		}
 	});
 
 	$(".lista2 tr").each(function(index, obj) {
