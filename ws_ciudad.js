@@ -53,19 +53,19 @@ if (LOCAL.getPacifico())
 
 if(LOCAL.getPoliticas()!=null){
 	let politicas  = LOCAL.getPoliticas();
-	    multiplicador.KARMA    = 1+0.05*politicas.losdioses[1];
-	    multiplicador.MANA     = 1+0.05*politicas.magiaarcana[1];
-	    multiplicador.PIEDRA   = 1+0.02*(politicas.arquitectura[1]+politicas.esclavitud[1]);
-	    multiplicador.BLOQUES  = 1+0.02*politicas.arquitectura[1];
-	    multiplicador.MADERA   = 1+0.02*(politicas.esclavitud[1]/2+politicas.naturaleza[1]);
-	    multiplicador.AGUA     = 1+0.01*politicas.lamujer[1];
-	    multiplicador.TABLAS   = 1+0.02*politicas.naturaleza[1];
-	    multiplicador.ALIMENTOS= 1+0.01*politicas.lamujer[1];
-	    multiplicador.PLATA    = 1+0.02*politicas.profundidadcuevas[1];
-	    multiplicador.HIERRO   = (1+0.02*politicas.profundidadcuevas[1])*(1+0.02*politicas.esclavitud[1]);
-	    multiplicador.MITHRIL  = 1+0.01*politicas.profundidadcuevas[1];
-	    multiplicador.ORO      = (1+(0.02*politicas.burguesia[1]))*(1-(0.02*politicas.aduanas[1]))*(1-(0.02*politicas.nobleza[1]));
-	    rBase				  *= 1+(0.06*politicas.rutasdecontrabando[1]); 
+	    multiplicador.KARMA    = 1+0.05*politicas.losdioses;
+	    multiplicador.MANA     = 1+0.05*politicas.magiaarcana;
+	    multiplicador.PIEDRA   = 1+0.02*(politicas.arquitectura+politicas.esclavitud);
+	    multiplicador.BLOQUES  = 1+0.02*politicas.arquitectura;
+	    multiplicador.MADERA   = 1+0.02*(politicas.esclavitud/2+politicas.naturaleza);
+	    multiplicador.AGUA     = 1+0.01*politicas.lamujer;
+	    multiplicador.TABLAS   = 1+0.02*politicas.naturaleza;
+	    multiplicador.ALIMENTOS= 1+0.01*politicas.lamujer;
+	    multiplicador.PLATA    = 1+0.02*politicas.profundidadcuevas;
+	    multiplicador.HIERRO   = (1+0.02*politicas.profundidadcuevas)*(1+0.02*politicas.esclavitud);
+	    multiplicador.MITHRIL  = 1+0.01*politicas.profundidadcuevas;
+	    multiplicador.ORO      = (1+(0.02*politicas.burguesia))*(1-(0.02*politicas.aduanas))*(1-(0.02*politicas.nobleza));
+	    rBase				  *= 1+(0.06*politicas.rutasdecontrabando); 
 }
 
 //CALCULO EFICIENCIA EN TERRENO

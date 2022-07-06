@@ -202,9 +202,8 @@ var GLOBAL = {
 				location.replace("gobierno.php");
 				return;
 			}
-			GLOBAL.cargaCiudad()
-			console.log("biyuya")
-			location.replace(LOCAL.getCarga()["init"]);
+			if(location.pathname!=LOCAL.getCarga()["init"])
+				location.replace(LOCAL.getCarga()["init"]);
 			localStorage.removeItem("Carga")
 		}
 	},
