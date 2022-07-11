@@ -35,9 +35,7 @@ document.querySelectorAll(".lista1 tr").forEach(function callback(obj , index){
   var poblacion = parseInt(obj.children[2].innerText.replace(".",""));
   var edificios = parseInt(obj.children[3].innerText);
   
-  //Calcula e imprime de oro ideal
-  var oroideal=parseInt((3000+poblacion/10+edificios*30)*1.44*multiplicadorPolitica);
-  obj.children[1].innerHTML+="<span style='color: #990000; font-weight: bold'>("+oroideal+")</span>";
+  obj.children[1].innerHTML+="<span style='color: #990000; font-weight: bold'>("+oroIdeal({"poblacion": poblacion,"edificios": edificios})+")</span>";
   //Si la ciudad tiene bono de region, imprime
   for (i in ciudadConBonoRegion) {
     if(ciudadConBonoRegion[i]==obj.children[0].innerText)
@@ -53,10 +51,10 @@ document.querySelectorAll(".lista1 tr").forEach(function callback(obj , index){
       "imperio" : LOCAL.getImperio().nombre,
       "partida": GLOBAL.getPartida(),
       "ronda": GLOBAL.getRonda(),
-      "fecha": new Date().formatDate()
+      "fecha": new Date()
     });
 });
-
+console.log(new Date().formatDate())
 rutasComerciales_populate(rutas);
 //fin de implementacion e inicio lista de funciones
 
@@ -101,13 +99,10 @@ function getCiudadesBonoRegion(){
 
 function rutasComerciales_populate(data)
 {
-
-    console.log(data)
   document.querySelectorAll(".lista1 tbody tr").forEach(function callback(obj , index){
     if(obj.children.length != 7)    //Si la fila no tiene 7 columnas, no es una fila de ciudad, salta de fila.
       return;
     var rutaIndex = calculaRuta(rutas[index/2],data)
-    console.log(rutaIndex)
     //RUTA 1
     if(data.length > 0)
     {
@@ -155,7 +150,7 @@ function rutasComerciales_generateTablaCiudades(idCiudad, idRuta)
   tabla += "<tr style='height: 20px'>";
   tabla += "<td style='width: 60px'><img align='absmiddle' src='https://images.empire-strike.com/v2/iconos/icon_poblacion.png' height='16' width='16'> " + idRuta.poblacion + "</td>";
   tabla += "<td style='width: 60px'><img align='absmiddle' src='https://images.empire-strike.com/v2/iconos/icon_ciudad.gif' height='16' width='16'> " + idRuta.edificios + "</td>";
-  tabla += "<td style='text-align: right;'>Hace " + idRuta.fecha + "</td>";
+  tabla += "<td style='text-align: right;'>Hace " + parseInt((new Date().getTime()-idRuta.fecha.getTime())/3600000) + " Horas</td>";
   tabla += "</tr>";
   tabla += "<tr style='height: 20px'>";
   tabla += "<td colspan='3' style='color:#990000'><b>Click para asignar la ciudad como ruta</b></td>";
@@ -168,23 +163,20 @@ function rutasComerciales_generateTablaCiudades(idCiudad, idRuta)
 function calculaRuta(ciudad,listaCiudades){
   
   var rutasCiudad = new Array;
-  oroideal=parseInt((3000+ciudad.poblacion/10+ciudad.edificios*30)*1.44*multiplicadorPolitica);
   for (var i = 0; i < listaCiudades.length; i++) {
 
     if(listaCiudades[i].idCiudad==ciudad.idCiudad){
       continue
     }
     let rutaCiudad  = {
-      index   : 0,
+      index   : i,
       valor   : 0
     }
-    let pobla                  = 0;
-    let edificios              = 0;
+    
     let multiplicadorCiudad    = multiplicadorPolitica;
     rutaCiudad.index           = i;
-
-    pobla = menor(listaCiudades[i].poblacion,ciudad.poblacion)
-    edificios = menor(listaCiudades[i].edificios,ciudad.edificios)
+    let pobla = menor(listaCiudades[i].poblacion,ciudad.poblacion)
+    let edificios = menor(listaCiudades[i].edificios,ciudad.edificios)
 
     if( Math.abs( listaCiudades[i].poblacion - ciudad.poblacion)<=5000)
       multiplicadorCiudad     *= 1.2;
@@ -197,7 +189,7 @@ function calculaRuta(ciudad,listaCiudades){
       rutasCiudad.push(rutaCiudad);
       continue;
     }
-    if(rutasCiudad[1].valor==oroideal&&rutasCiudad[0].valor==oroideal){
+    if(rutasCiudad[1].valor==oroIdeal(ciudad)&&rutasCiudad[0].valor==oroIdeal(ciudad)){
       return rutasCiudad;
     }
     let j = 0;
@@ -218,3 +210,7 @@ function menor(a,b){
   else
     return b;
 }
+
+function oroIdeal(ciudad){
+  return parseInt((3000+ciudad.poblacion/10+ciudad.edificios*30)*1.44*multiplicadorPolitica);
+} 
