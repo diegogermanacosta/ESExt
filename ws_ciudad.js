@@ -35,7 +35,7 @@ var multiplicador = {
 	"ORO"			: 1,
 	"FAMA"			: 1
 }
-//tomo poblacion, quito espacios, punto de mil y parceo a entero
+//tomo poblacion, quito espacios, punto de mil y parseo a entero
 var pobla = parseInt(document.getElementById("poblacionciudad").innerText.trim().replace(".", ""));
 
 //edifico con barra espaciadora
@@ -57,7 +57,7 @@ if(LOCAL.getPoliticas()!=null){
 	    multiplicador.MANA     = 1+0.05*politicas.magiaarcana;
 	    multiplicador.PIEDRA   = 1+0.02*(politicas.arquitectura+politicas.esclavitud);
 	    multiplicador.BLOQUES  = 1+0.02*politicas.arquitectura;
-	    multiplicador.MADERA   = 1+0.02*(politicas.esclavitud/2+politicas.naturaleza);
+	    multiplicador.MADERA   = 1+0.01*(politicas.esclavitud+2*politicas.naturaleza);
 	    multiplicador.AGUA     = 1+0.01*politicas.lamujer;
 	    multiplicador.TABLAS   = 1+0.02*politicas.naturaleza;
 	    multiplicador.ALIMENTOS= 1+0.01*politicas.lamujer;
@@ -69,7 +69,7 @@ if(LOCAL.getPoliticas()!=null){
 }
 
 //CALCULO EFICIENCIA EN TERRENO
-var subtitulo    = $(".subtitulo").text();
+var subtitulo    = document.querySelector(".subtitulo").innerText;
 var inicioCadena = subtitulo.indexOf(":")+2;
 var finCadeba    = subtitulo.indexOf(";")
 var terreno      = subtitulo.substring(inicioCadena,finCadeba);
@@ -240,38 +240,38 @@ if(document.querySelector("#acciones_ciudad_wrapper > table:nth-child(2) > tbody
 		for(index in multiplicador){
 			multiplicador[index] *=1.2;
 		}
-$("#tablaproduccion tr").each(function(index,obj){
+document.querySelectorAll("#tablaproduccion tr").forEach(function callback(obj, index){
 	switch(index){
 		case 0:
-			produccionCiudad.turnos       = parseInt($(obj.children[1]).text().replace(/\./g,"").trim());
-			produccionCiudad.hierro       = parseInt($(obj.children[3]).text().replace(/\./g,"").trim());
-			produccionCiudad.herramientas = parseInt($(obj.children[5]).text().replace(/\./g,"").trim());
-			produccionCiudad.armas        = parseInt($(obj.children[7]).text().replace(/\./g,"").trim());
+			produccionCiudad.turnos       = parseInt(obj.children[1].innerText.replace(/\./g,"").trim());
+			produccionCiudad.hierro       = parseInt(obj.children[3].innerText.replace(/\./g,"").trim());
+			produccionCiudad.herramientas = parseInt(obj.children[5].innerText.replace(/\./g,"").trim());
+			produccionCiudad.armas        = parseInt(obj.children[7].innerText.replace(/\./g,"").trim());
 		break;
 		case 1:
-			produccionCiudad.mana    = parseInt($(obj.children[1]).text().replace(/\./g,"").trim());
-			produccionCiudad.piedra  = parseInt($(obj.children[3]).text().replace(/\./g,"").trim());
-			produccionCiudad.bloques = parseInt($(obj.children[5]).text().replace(/\./g,"").trim());
+			produccionCiudad.mana    = parseInt(obj.children[1].innerText.replace(/\./g,"").trim());
+			produccionCiudad.piedra  = parseInt(obj.children[3].innerText.replace(/\./g,"").trim());
+			produccionCiudad.bloques = parseInt(obj.children[5].innerText.replace(/\./g,"").trim());
 		break;
 		case 2:
-			produccionCiudad.karma  = parseInt($(obj.children[1]).text().replace(/\./g,"").trim());
-			produccionCiudad.madera = parseInt($(obj.children[3]).text().replace(/\./g,"").trim());
-			produccionCiudad.tablas = parseInt($(obj.children[5]).text().replace(/\./g,"").trim());
+			produccionCiudad.karma  = parseInt(obj.children[1].innerText.replace(/\./g,"").trim());
+			produccionCiudad.madera = parseInt(obj.children[3].innerText.replace(/\./g,"").trim());
+			produccionCiudad.tablas = parseInt(obj.children[5].innerText.replace(/\./g,"").trim());
 		break;
 		case 3:
-			produccionCiudad.oro       = parseInt($(obj.children[1]).text().replace(/\./g,"").trim());
-			produccionCiudad.mithril   = parseInt($(obj.children[3]).text().replace(/\./g,"").trim());
-			produccionCiudad.reliquias = parseInt($(obj.children[5]).text().replace(/\./g,"").trim());
+			produccionCiudad.oro       = parseInt(obj.children[1].innerText.replace(/\./g,"").trim());
+			produccionCiudad.mithril   = parseInt(obj.children[3].innerText.replace(/\./g,"").trim());
+			produccionCiudad.reliquias = parseInt(obj.children[5].innerText.replace(/\./g,"").trim());
 		break;
 		case 4:
-			produccionCiudad.alimentos = parseInt($(obj.children[1]).text().replace(/\./g,"").trim());
-			produccionCiudad.plata     = parseInt($(obj.children[3]).text().replace(/\./g,"").trim());
-			produccionCiudad.joyas     = parseInt($(obj.children[5]).text().replace(/\./g,"").trim());
+			produccionCiudad.alimentos = parseInt(obj.children[1].innerText.replace(/\./g,"").trim());
+			produccionCiudad.plata     = parseInt(obj.children[3].innerText.replace(/\./g,"").trim());
+			produccionCiudad.joyas     = parseInt(obj.children[5].innerText.replace(/\./g,"").trim());
 		break;
 		case 5:
-			produccionCiudad.agua    = parseInt($(obj.children[1]).text().replace(/\./g,"").trim());
-			produccionCiudad.gemas   = parseInt($(obj.children[3]).text().replace(/\./g,"").trim());
-			produccionCiudad.cristal = parseInt($(obj.children[5]).text().replace(/\./g,"").trim());
+			produccionCiudad.agua    = parseInt(obj.children[1].innerText.replace(/\./g,"").trim());
+			produccionCiudad.gemas   = parseInt(obj.children[3].innerText.replace(/\./g,"").trim());
+			produccionCiudad.cristal = parseInt(obj.children[5].innerText.replace(/\./g,"").trim());
 		break;
 		default:
 		return
@@ -284,7 +284,7 @@ chrome.storage.sync.get({ construcciones: true }, function(items) {
 
 if (LOCAL.getCiudad()!=null){
 	var ciudades = LOCAL.getCiudad()
-	var idCiudad = parseInt($(".tituloimperio").text().split("#")[1]);
+	var idCiudad = parseInt(document.querySelector(".tituloimperio").innerText.split("#")[1]);
 	for (var i = 0; i < ciudades.length; i++){
 		if(ciudades[i].idCiudad==idCiudad){
 			ciudades[i].cargada=true;
@@ -292,8 +292,10 @@ if (LOCAL.getCiudad()!=null){
 		}
 	}
 }
-GLOBAL.cargaImperio();
+var edificiosConstruidos = new Array();
+var costosTotales = new Array();
 
+GLOBAL.cargaImperio();
 
 function renta_edif_base (nroEstrella,nombre){
 	var gastoTurnos     = 2;
@@ -313,28 +315,25 @@ function renta_edif_base (nroEstrella,nombre){
 	
 	return (costo+costoTurnos)/(produccionEdif+rBase*k_Pacifico)-1;
 }
-var edificiosConstruidos = new Array();
-var costosTotales = new Array();
 
 function ciudad_process(){
-	if($(".c .nome").length == 0)
+	if(document.querySelector(".c .nome").length == 0)
 		return;
 	UTIL.injectCode("base/setvalueedif.js");
 	setTimeout(() => {
 		//Time out para la lectura de los edificios
-		var costosIniciales      = JSON.parse($("#valoresEdificio").val());
-		var recursosActuales     = JSON.parse($("#recursosActuales").val());
-		var recursosUsados       = JSON.parse($("#recursosActuales").val());
+		var costosIniciales      = JSON.parse(document.getElementById("valoresEdificio").value);
+		var recursosActuales     = JSON.parse(document.getElementById("recursosActuales").value);
+		var recursosUsados       = JSON.parse(document.getElementById("recursosActuales").value);
 		edificiosConstruidos = new Array();
 
 		ciudad_cleanUsados(recursosUsados);
 		var edificios = new Array();
-		$(".c .nome").each(function(index, obj){
-			var nombre = $(obj).text().trim().replace(" ","").replace("á","a").replace("é","e").replace("í","i").replace("ó","o").replace("ú","u").toLowerCase();
+		document.querySelectorAll(".c .nome").forEach(function callback(obj , index){
+			var nombre = obj.innerText.trim().replace(" ","").replace("á","a").replace("é","e").replace("í","i").replace("ó","o").replace("ú","u").toLowerCase();
 			edificios.push(nombre);
 			edificiosConstruidos.push(-1)
 		});
-		costosTotales = new Array();
 		for(var i = 0; i < edificios.length; i++){
 			var oroInicial      = costosIniciales[i][0];
 			var materialInicial = costosIniciales[i][1];
@@ -345,26 +344,25 @@ function ciudad_process(){
 			}
 			costosTotales.push(costo);
 		}
-
 		ciudad_estrellas(costosTotales, recursosActuales, recursosUsados, edificiosConstruidos);
-		$(".estrella").each(function(index, obj){
-			$(obj).mouseenter(function(){
+		document.querySelectorAll(".estrella").forEach(function callback(obj , index){
+			obj.addEventListener("mouseenter" , function(){
 				ciudad_recalcular(costosTotales, recursosActuales, recursosUsados, edificiosConstruidos); 
 			});
-			$(obj).click(function(){ 
+			obj.addEventListener("click" , function(){ 
 				masRentable = 99990;
 				masRentableI = 99990;
 				ciudad_recalcular(costosTotales, recursosActuales, recursosUsados, edificiosConstruidos); 
 				ciudad_recalcular(costosTotales, recursosActuales, recursosUsados, edificiosConstruidos);
 				edificiosSeleccionados();
+				console.log("la rentabilidad mas alta es de: "+masRentable)
 			});
 		});
 
-		$(".elim").each(function(index, obj){
-			$(obj).click(function(){ ciudad_recalcular(costosTotales, recursosActuales, recursosUsados, edificiosConstruidos); edificiosSeleccionados(); });
-		//  $(obj).hover(function(){ ciudad_recalcular(costosTotales, recursosActuales, recursosUsados); });
+		document.querySelectorAll(".elim").forEach(function callback(obj , index){
+			obj.addEventListener("click", function(){ ciudad_recalcular(costosTotales, recursosActuales, recursosUsados, edificiosConstruidos); edificiosSeleccionados(); });
 		});
-		$(".edificios img:not(.estrella):not(.elim):not(._ayuda):not(.ayuda)").each(function(index, obj){
+		document.querySelectorAll(".edificios img:not(.estrella):not(.elim):not(._ayuda):not(.ayuda)").forEach(function callback(obj , index){
 			var id          = obj.id;
 			var estrella    = parseInt(id.replace("edificio_estrella_", ""));
 			var edificio    = Math.floor(estrella / 10);
@@ -373,7 +371,7 @@ function ciudad_process(){
 			if(nroEdificio > edificiosConstruidos[edificio])
 				edificiosConstruidos[edificio] = nroEdificio;
 		});
-
+		valorCiudad()
 		ciudad_recalcular(costosTotales, recursosActuales, recursosUsados, edificiosConstruidos);
 	},200);
 }
@@ -385,23 +383,23 @@ function ciudad_cleanUsados(recursosUsados){
 
 function ciudad_recalcular(costosTotales, recursosActuales, recursosUsados, edificiosConstruidos){
 	ciudad_cleanUsados(recursosUsados);
-	if($("#panel").html() == ""){
+	if(document.getElementById("panel").innerText == ""){
 		ciudad_estrellas(costosTotales, recursosActuales, recursosUsados, edificiosConstruidos);
 		return;
 	}
-	var costeOro = parseInt($("#panel #costeoro").html().trim());
-	recursosUsados["ORO"] = costeOro;
+	var costeOro = parseInt(document.querySelector("#panel #costeoro").innerText.trim());
+	recursosUsados["ORO"]=costeOro;
 
-	$("#panel [id*='coste']:not(#costeoro)").each(function(index, obj){
+	document.querySelectorAll("#panel [id*='coste']:not(#costeoro)").forEach(function callback(obj , index){
 		var nombre = obj.id.replace("coste", "");
-		var costo = parseInt($(obj).html().trim());
+		var costo = parseInt(obj.innerHTML.trim());
 		recursosUsados[nombre.toUpperCase()] = costo;
 	});
 	ciudad_estrellas(costosTotales, recursosActuales, recursosUsados, edificiosConstruidos);
 }
 
 function ciudad_estrellas(costosTotales, recursosActuales, recursosUsados, edificiosConstruidos){
-	$(".estrella").each(function(index, obj){
+	document.querySelectorAll(".estrella").forEach(function callback(obj , index){
 		if(obj.src == "https://images.empire-strike.com/v2/interfaz/estrella-roja.png"||obj.src == "https://images.empire-strike.com/v2/interfaz/estrella-amarilla.png"){
 			return;
 		}
@@ -409,7 +407,7 @@ function ciudad_estrellas(costosTotales, recursosActuales, recursosUsados, edifi
 		var estrella      = parseInt(obj.id.replace("edificio_estrella_",""));
 		var edificio      = Math.floor(estrella/10);
 		var nroEdificio   = estrella % 10;
-		var s             	= $(this).data('attr').split(',');
+		var s             	= obj.dataset.attr.split(',');
 		var multiplicadorR 	= parseFloat(s[3]);
 		var costoOro 		= costosTotales[edificio][nroEdificio].oro*multiplicadorR;
 		var costoMat 		= costosTotales[edificio][nroEdificio].material*multiplicadorR;
@@ -505,6 +503,21 @@ function edificiosSeleccionados() {
 		if (seleccionados>-1)
 			casitas += seleccionados - edificiosConstruidos[i];
 	}
-	$("#panel").append(`<span> <img align="absmiddle" src="//images.empire-strike.com/v2/iconos/icon_ciudad.gif" 
-	                    style="width: 15px;height: 15px;margin-bottom: 4px;"> ${casitas} </span>`)
+	if (casitas!=0);
+		document.getElementById("panel").innerHTML += `&nbsp;<nobr><span class="sprite-recurso absmiddle">
+		                                               <img style="width: 15px;height: 13px" src="//images.empire-strike.com/v2/iconos/icon_ciudad.gif" >
+		                                               </span><span>${casitas}</span></nobr>`
+}
+
+function valorCiudad(){
+	valorCiudad = 0;
+	for (var i = 0; i < costosTotales.length; i++) {
+		if (edificiosConstruidos[i]!=-1){	
+			var edificio = costosTotales[i][edificiosConstruidos[i]];
+			costo = edificio["oro"] + edificio["material"] * ValorRecursos[edificio["recurso"].toUpperCase()];
+			valorCiudad += costo;
+		}
+	
+	}
+	console.log("el valor de la ciudad es: "+valorCiudad);
 }

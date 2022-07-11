@@ -89,25 +89,6 @@ var API = {
 	{
 		if(LOCAL.getImperio() == null)
 			return;
-
-		rutas.push({
-			"guid": LOCAL.getImperio().guidImperio,
-      "partida": GLOBAL.getPartida(),
-      "ronda": GLOBAL.getRonda()
-		});
-
-		$.ajax({
-			method: "POST",
-			url: urlAPI + "rutas/",
-			async: true,
-			data: { "": rutas },
-			success: function(data, textStatus, jqXHR) {
-				callback(data);
-			},
-			error: function(xmlHttpRequest, textStatus, errorThrown){
-				GLOBAL.showConsole(xmlHttpRequest);
-			}
-		});
 	},
 	setAtaque: function(ataque)
 	{

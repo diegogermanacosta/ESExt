@@ -32,37 +32,55 @@ function alwaysDo()
 
 var GLOBAL = {
 	showError: function(msg, time)	{
-		$("#contenido").prepend("<div class='mensajeError'>" + msg + "</div>");
+		var mensajeError = document.createElement("div");
+		mensajeError.className = "mensajeError";
+		mensajeError.innerHTML = msg;
+		document.getElementById("contenido").prepend(mensajeError);
 
 		if(time != undefined)
 		{
 			setTimeout(function(){
-			 	$("#contenido").find(".mensajeOk").each(function(index, obj){ if($(obj).text() == msg) $(obj).remove() });
+			 	document.getElementById("contenido").querySelector(".mensajeOk").forEach(function callback(obj , index){ 
+			 		if(obj.innerText == msg) 
+			 			obj.remove() 
+			 	});
 			}, time * 1000);
 		}
 	},
 	showInfo: function(msg, time) {
-		$("#contenido").prepend("<div class='mensajeOk'>" + msg + "</div>");
+		var mensajeOk = document.createElement("div");
+		mensajeOk.className = "mensajeOk";
+		mensajeOk.innerHTML = msg;
+		document.getElementById("contenido").prepend(mensajeOk);
 
 		if(time != undefined)
 		{
 			setTimeout(function(){
-			 	$("#contenido").find(".mensajeOk").each(function(index, obj){ if($(obj).text() == msg) $(obj).remove() });
+			 	document.getElementById("contenido").querySelector(".mensajeOk").forEach(function callback(obj , index){ 
+			 		if(obj.innerText == msg)
+			 			obj.remove() 
+			 	});
 			}, time * 1000);
 		}
 	},
 	showMessage: function(msg, time) {
-		$("#contenido").prepend("<div class='mensajeInfo'>" + msg + "</div>");
+		var mensajeInfo = document.createElement("div");
+		mensajeInfo.className = "mensajeInfo";
+		mensajeInfo.innerHTML = msg;
+		document.getElementById("contenido").prepend(mensajeInfo);
 
 		if(time != undefined)
 		{
 			setTimeout(function(){
-			 	$("#contenido").find(".mensajeOk").each(function(index, obj){ if($(obj).text() == msg) $(obj).remove() });
+			 	document.getElementById("contenido").querySelector(".mensajeOk").forEach(function callback(obj , index){ 
+			 		if(obj.innerText == msg)
+			 			obj.remove() 
+			 	});
 			}, time * 1000);
 		}
 	},
 	showAntiBlock: function(msg, time)	{
-		$("#contenido").prepend("<div class='mensajeError'>Debido a que el sitio recientemente se cambio a HTTPS, esto involucra nuevos mecanismos de seguridad que no son compatibles con la extension. Para que la extension vuelva a funcionar es necesario desactivar el mecanismo de seguridad indicado en la imagen. <p></p><img src='http://www.empirestrikeextension.com/images/extension/habilitacion.png' style='padding-top: 10px'/></div>");
+		document.getElementById("contenido").innerHTML = "<div class='mensajeError'>Debido a que el sitio recientemente se cambio a HTTPS, esto involucra nuevos mecanismos de seguridad que no son compatibles con la extension. Para que la extension vuelva a funcionar es necesario desactivar el mecanismo de seguridad indicado en la imagen. <p></p><img src='http://www.empirestrikeextension.com/images/extension/habilitacion.png' style='padding-top: 10px'/></div>"+this;
 	},
 	showConsole: function(data)
 	{

@@ -24,10 +24,9 @@ function executeProcess(url){
 
 	if(url.indexOf(_WS_INDEX) != -1)
 	{
-		console.log("jelow")
 		LOCAL.clean();
 		//API.wakeUp();
-		if($(".cabecera:first").text().trim()=="MrCosmo"){
+		if(document.querySelector(".cabecera:first").innerText.trim()=="MrCosmo"){
 			var saludo = new Audio (chrome.runtime.getURL('base/juanca.mp3'));
 			saludo.play();
 		}

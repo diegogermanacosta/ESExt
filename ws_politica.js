@@ -23,14 +23,14 @@ escuelas          : 0,
 musica            : 0
 }
   
-$(".lista1 tr").each(function(index, obj) {
+document.querySelectorAll(".lista1 tr").forEach(function callback(obj, index) {
 	if(index == 0)
         return;
 
     if(obj.children.length < 3)
 	   return;  
 
-    var nombre = $(obj.children[1]).text().trim();
+    var nombre = obj.children[1].innerText.trim();
     var contador= 0;
     for (var i = 0; i < 10; i++) {
         if(obj.children[4].children[i].src=="https://images.empire-strike.com/v2/interfaz/estrella-roja.png")
