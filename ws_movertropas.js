@@ -34,7 +34,6 @@ function movertropas()
 	// passing it a callback function
 	const observer = new MutationObserver(function() {
 	    actualizar();
-	    console.log("hola Juan Carlos")
 	});
 
 	// passing it the element to observe, and the options object
