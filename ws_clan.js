@@ -1,5 +1,18 @@
+
+
+
+
+
+
 function clan()
 {
+	if (LOCAL.getImperio()==null)
+		return
+	var siglas = document.querySelector("#contenido > table > tbody > tr:nth-child(1) > td").innerText.split("(")[1].replace(")","");
+	if (LOCAL.getImperio().clan==siglas) {
+		LOCAL.setClan(cargarClan());
+		GLOBAL.cargaImperio();
+	}
  	var valorActual = LOCAL.getValor();
 	var minimoValor = Math.floor(valorActual / 2);
 	var maximoValor = valorActual * 2;
@@ -44,4 +57,20 @@ function clan()
 
 		$(obj.children[2]).append("<span style='font-size: 11px'><b>" + mensaje + "</b></span>")
 	})
+}
+
+function cargarClan(){
+	
+	var miClan = {
+		maravilla1: null,
+		maravilla2: null
+	}
+	if(document.getElementById("_ayudam1")==null)
+		return miClan;
+	miClan.maravilla1 = document.querySelector("#_ayudam1 h3").innerText;
+
+	if(document.getElementById("_ayudam2")==null)
+		return miClan;
+	miClan.maravilla2 = document.querySelector("#_ayudam2 h3").innerText;
+	return miClan;
 }

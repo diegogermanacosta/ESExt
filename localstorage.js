@@ -13,6 +13,7 @@ var LOCAL_PACIFICO = "Pacifico";
 var LOCAL_ATACAR = "Atacar";
 var LOCAL_EFICIENCIA = "Eficiencia";
 var LOCAL_CARGA = "Carga";
+var LOCAL_CLAN = "Clan";
 
 var LOCAL = {
 	clean: function()
@@ -116,7 +117,6 @@ var LOCAL = {
 			if(currentAsedios[i].marcado)
 				asediosMarcados.push(currentAsedios[i]);
 		}
-
 		localStorage[LOCAL_ASEDIOS] = JSON.stringify(asediosMarcados);
 	},
 	getAsedios: function()
@@ -133,16 +133,6 @@ var LOCAL = {
 				asedios.push(currentAsedios[i]);
 
 		asedios = asedios.sort(function(a,b){ return new Date(a.fecha) >= new Date(b.fecha); })
-
-		// var now = new Date();
-		// for(var i = 0; i < asedios.length; i++)
-		// {
-		// 	if(asedios[i].marcado && new Date(asedios[i].fecha) > now)
-		// 		chrome.runtime.sendMessage({message: "addAsedio", asedio: asedios[i]}, function(response) { console.log("addAsedio - RECIBIDO") });
-		// 	else
-		// 		chrome.runtime.sendMessage({message: "removeAsedio", asedio: asedios[i]}, function(response) { console.log("removeAsedio - RECIBIDO") });
-		// }
-
 		return asedios;
 	},
 	setImperio: function(obj) {
@@ -213,7 +203,6 @@ var LOCAL = {
 
 		return JSON.parse(localStorage[LOCAL_RECURSO]);
 	},
-	
 	setPoliticas:function(obj){
 		localStorage[LOCAL_POLITICAS] = JSON.stringify(obj);
 	},
@@ -223,7 +212,6 @@ var LOCAL = {
 
 	 	return JSON.parse(localStorage[LOCAL_POLITICAS]);
 	},
-
 	setGobernantes:function(obj){
 		localStorage[LOCAL_GOBERNANTES] = JSON.stringify(obj);
 	},
@@ -233,7 +221,6 @@ var LOCAL = {
 
 	 	return JSON.parse(localStorage[LOCAL_GOBERNANTES]);
 	},
-
 	setFormaciones:function(obj){
 		localStorage[LOCAL_FORMACIONES] = JSON.stringify(obj);
 	},
@@ -243,7 +230,7 @@ var LOCAL = {
 
 	 	return JSON.parse(localStorage[LOCAL_FORMACIONES]);
 	},
-		setPacifico:function(obj){
+	setPacifico:function(obj){
 		localStorage[LOCAL_PACIFICO] = JSON.stringify(obj);
 	},
 	getPacifico:function(){
@@ -252,11 +239,9 @@ var LOCAL = {
 
 	 	return JSON.parse(localStorage[LOCAL_PACIFICO]);
 	},
-
 	setAtaque:function(obj){
 		localStorage[LOCAL_ATACAR] = JSON.stringify(obj);
 	},
-
 	getAtaques:function(){
 		if(localStorage[LOCAL_ATACAR] == undefined || localStorage[LOCAL_ATACAR] == null)
 			return null;
@@ -266,7 +251,6 @@ var LOCAL = {
 	setEficiencia:function(obj){
 		localStorage[LOCAL_EFICIENCIA] = JSON.stringify(obj);
 	},
-
 	getEficiencia:function(){
 		if(localStorage[LOCAL_EFICIENCIA] == undefined || localStorage[LOCAL_EFICIENCIA] == null)
 			return null;
@@ -276,11 +260,19 @@ var LOCAL = {
 	setCarga:function(obj){
 		localStorage[LOCAL_CARGA] = JSON.stringify(obj);
 	},
-
 	getCarga:function(){
 		if(localStorage[LOCAL_CARGA] == undefined || localStorage[LOCAL_CARGA] == null)
 			return null;
 
 	 	return JSON.parse(localStorage[LOCAL_CARGA]);
+	},
+	setClan:function(obj){
+		localStorage[LOCAL_CLAN] = JSON.stringify(obj);
+	},
+	getClan:function(){
+		if(localStorage[LOCAL_CLAN] == undefined || localStorage[LOCAL_CLAN] == null)
+			return null;
+
+	 	return JSON.parse(localStorage[LOCAL_CLAN]);
 	}
 };

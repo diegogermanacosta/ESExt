@@ -50,6 +50,8 @@ document.getElementById('flotante').style.left="35%";
 
 if (LOCAL.getPacifico())
     k_Pacifico = 1.2;
+rBase             *= k_Pacifico;
+multiplicador.ORO *= k_Pacifico;
 
 if(LOCAL.getPoliticas()!=null){
 	let politicas  = LOCAL.getPoliticas();
@@ -66,6 +68,11 @@ if(LOCAL.getPoliticas()!=null){
 	    multiplicador.MITHRIL  = 1+0.01*politicas.profundidadcuevas;
 	    multiplicador.ORO      = (1+(0.02*politicas.burguesia))*(1-(0.02*politicas.aduanas))*(1-(0.02*politicas.nobleza));
 	    rBase				  *= 1+(0.06*politicas.rutasdecontrabando); 
+}
+if(LOCAL.getClan()!=null){
+		bonoMaravilla(LOCAL.getClan().maravilla1,1)
+		bonoMaravilla(LOCAL.getClan().maravilla2,2)
+
 }
 
 //CALCULO EFICIENCIA EN TERRENO
@@ -294,27 +301,9 @@ if (LOCAL.getCiudad()!=null){
 }
 var edificiosConstruidos = new Array();
 var costosTotales = new Array();
+var edificios = new Array();
 
 GLOBAL.cargaImperio();
-
-function renta_edif_base (nroEstrella,nombre){
-	var gastoTurnos     = 2;
-	if(LOCAL.getImperio().raza=="Enanos")
-		gastoTurnos     =  1;
-	if(LOCAL.getPacifico())
-		gastoTurnos    += -0.5;
-	var costoTurnos     = gastoTurnos*ValorRecursos["TURNOS"];
-	var edificio=COSTOS_INICIALES[nombre];
-	var costo   = (edificio["oro"] + edificio["cantidadRecurso"] * ValorRecursos[edificio["recurso"]])*nroEstrella;
-	var produccionEdif = 0;
-	if(PRODUCCION_BASE[nombre]!=null){
-		var recursoProducido = PRODUCCION_BASE[nombre][1];
-		produccionEdif = PRODUCCION_BASE[nombre][0];
-		produccionEdif= produccionEdif*ValorRecursos[recursoProducido]*multiplicador[recursoProducido]*getKpobla(pobla);
-		}
-	
-	return (costo+costoTurnos)/(produccionEdif+rBase*k_Pacifico)-1;
-}
 
 function ciudad_process(){
 	if(document.querySelector(".c .nome").length == 0)
@@ -328,7 +317,7 @@ function ciudad_process(){
 		edificiosConstruidos = new Array();
 
 		ciudad_cleanUsados(recursosUsados);
-		var edificios = new Array();
+		edificios = new Array();
 		document.querySelectorAll(".c .nome").forEach(function callback(obj , index){
 			var nombre = obj.innerText.trim().replace(" ","").replace("á","a").replace("é","e").replace("í","i").replace("ó","o").replace("ú","u").toLowerCase();
 			edificios.push(nombre);
@@ -344,7 +333,18 @@ function ciudad_process(){
 			}
 			costosTotales.push(costo);
 		}
-		ciudad_estrellas(costosTotales, recursosActuales, recursosUsados, edificiosConstruidos);
+		document.querySelectorAll(".elim").forEach(function callback(obj , index){
+			obj.addEventListener("click", function(){ ciudad_recalcular(costosTotales, recursosActuales, recursosUsados, edificiosConstruidos); edificiosSeleccionados(); });
+		});
+		document.querySelectorAll(".edificios img:not(.estrella):not(.elim):not(._ayuda):not(.ayuda)").forEach(function callback(obj , index){
+			var id          = obj.id;
+			var estrella    = parseInt(id.replace("edificio_estrella_", ""));
+			var edificio    = Math.floor(estrella / 10);
+			var nroEdificio = estrella % 10;
+
+			if(nroEdificio > edificiosConstruidos[edificio])
+				edificiosConstruidos[edificio] = nroEdificio;
+		});
 		document.querySelectorAll(".estrella").forEach(function callback(obj , index){
 			obj.addEventListener("mouseenter" , function(){
 				ciudad_recalcular(costosTotales, recursosActuales, recursosUsados, edificiosConstruidos); 
@@ -358,20 +358,8 @@ function ciudad_process(){
 				console.log("la rentabilidad mas alta es de: "+masRentable)
 			});
 		});
-
-		document.querySelectorAll(".elim").forEach(function callback(obj , index){
-			obj.addEventListener("click", function(){ ciudad_recalcular(costosTotales, recursosActuales, recursosUsados, edificiosConstruidos); edificiosSeleccionados(); });
-		});
-		document.querySelectorAll(".edificios img:not(.estrella):not(.elim):not(._ayuda):not(.ayuda)").forEach(function callback(obj , index){
-			var id          = obj.id;
-			var estrella    = parseInt(id.replace("edificio_estrella_", ""));
-			var edificio    = Math.floor(estrella / 10);
-			var nroEdificio = estrella % 10;
-
-			if(nroEdificio > edificiosConstruidos[edificio])
-				edificiosConstruidos[edificio] = nroEdificio;
-		});
 		valorCiudad()
+		ciudad_recalcular(costosTotales, recursosActuales, recursosUsados, edificiosConstruidos);
 		ciudad_recalcular(costosTotales, recursosActuales, recursosUsados, edificiosConstruidos);
 	},200);
 }
@@ -449,36 +437,42 @@ function edifRequerido(edificio,nroEdificio){
 			if (nroEdificio<=estaConstruido(13))
 				return true;
 			else
+				estrellaLila(nroEdificio,21,13)
 				return false;
 			break;
 		case 22:
 			if (nroEdificio<=estaConstruido(15))
 				return true;
 			else
+				estrellaLila(nroEdificio,22,15)
 				return false;
 			break;
 		case 23:
 			if (nroEdificio<=estaConstruido(12))
 				return true;
 			else
+				estrellaLila(nroEdificio,23,12)
 				return false;
 			break;
 		case 24:
 			if (nroEdificio<=estaConstruido(18))
 				return true;
 			else
+				estrellaLila(nroEdificio,24,18)
 				return false;
 			break;
 		case 25:
 			if (nroEdificio<=estaConstruido(14))
 				return true;
 			else
+				estrellaLila(nroEdificio,25,14)
 				return false;
 			break;
 		case 26:
 			if (nroEdificio<=estaConstruido(16))
 				return true;
 			else
+				estrellaLila(nroEdificio,26,16)
 				return false;
 			break;
 		default:
@@ -487,9 +481,34 @@ function edifRequerido(edificio,nroEdificio){
 	}
 }
 
+function renta_edif_base (nroEstrella,nombre){
+	return costoEdificio(nroEstrella,nombre)/produccionEdificio(nombre);
+}
+
+function produccionEdificio(nombre){
+	if(PRODUCCION_BASE[nombre]!=null){
+		var produccionEdif = 0;
+		var recursoProducido = PRODUCCION_BASE[nombre][1];
+		produccionEdif = PRODUCCION_BASE[nombre][0];
+		produccionEdif= produccionEdif*ValorRecursos[recursoProducido]*multiplicador[recursoProducido]*getKpobla(pobla)+rBase;
+	}
+	return produccionEdif;
+}
+function costoEdificio(nroEstrella,nombre){
+	var gastoTurnos     = 2;
+	if(LOCAL.getImperio().raza=="Enanos")
+		gastoTurnos     =  1;
+	if(LOCAL.getPacifico())
+		gastoTurnos    += -0.5;
+	var costoTurnos     = gastoTurnos*ValorRecursos["TURNOS"];
+	var edificio=COSTOS_INICIALES[nombre];
+	var costo   = (edificio["oro"] + edificio["cantidadRecurso"] * ValorRecursos[edificio["recurso"]])*nroEstrella;
+	return costo;
+}
+	
 function estaConstruido(id){
 	var seleccionado	 = document.getElementById("xx_txt_costo_edificio_estrella_seleccionada_" + id).value;
-	var construido   = edificiosConstruidos[id];
+	var construido       = edificiosConstruidos[id];
 	if (seleccionado>construido)
 		return seleccionado;
 	else
@@ -510,14 +529,68 @@ function edificiosSeleccionados() {
 }
 
 function valorCiudad(){
-	valorCiudad = 0;
+	valorCiudad = new Array;
+	valorCiudad.oro = 0;
+	valorCiudad.traducidoOro = 0;
 	for (var i = 0; i < costosTotales.length; i++) {
-		if (edificiosConstruidos[i]!=-1){	
-			var edificio = costosTotales[i][edificiosConstruidos[i]];
-			costo = edificio["oro"] + edificio["material"] * ValorRecursos[edificio["recurso"].toUpperCase()];
-			valorCiudad += costo;
-		}
-	
+		if (edificiosConstruidos[i]==-1)
+			continue;
+		var multiplicadorR        = 1;
+		if(LOCAL.getImperio().raza=="Orcos"&&i<5)
+			multiplicadorR        = 0.5;
+		var edificio              = costosTotales[i][edificiosConstruidos[i]];
+		var recurso               = edificio["recurso"].toUpperCase();
+		if(valorCiudad[recurso] == null)
+			valorCiudad[recurso]  = 0;
+		valorCiudad[recurso]     += edificio["material"] * multiplicadorR;
+		valorCiudad.oro          += edificio["oro"] * multiplicadorR;
+		valorCiudad.traducidoOro += (edificio["oro"] + edificio["material"] * ValorRecursos[recurso]) * multiplicadorR;
 	}
-	console.log("el valor de la ciudad es: "+valorCiudad);
+	console.log(valorCiudad);
+}
+
+function estrellaLila(estrella,id1,id2){
+
+	var produccionTotal = produccionEdificio(edificios[id1])+produccionEdificio(edificios[id2]);
+	var costo           = costoEdificio(estrella+1,edificios[id1])+costoEdificio(estrella+1,edificios[id2]);
+	if (costo/produccionTotal<=masRentable){
+		document.getElementById("edificio_estrella_"+id2+estrella).src = chrome.runtime.getURL('base/estrella-azul.png');
+		masRentable     = costo/produccionTotal;
+	}
+}
+
+function bonoMaravilla(maravilla,lugar){
+	if(maravilla==null)
+		return;
+	switch(maravilla){
+		case "Escalera del destino":
+			multiplicador.BLOQUES      *= 1+0.08/lugar;
+		    multiplicador.MADERA       *= 1+0.08/lugar;
+		    multiplicador.AGUA         *= 1+0.08/lugar;
+		    multiplicador.TABLAS       *= 1+0.08/lugar;
+		    multiplicador.ALIMENTOS    *= 1+0.08/lugar;
+		    multiplicador.PLATA        *= 1+0.08/lugar;
+		    multiplicador.HIERRO       *= 1+0.08/lugar;
+		    multiplicador.MITHRIL      *= 1+0.08/lugar;
+		    multiplicador.HERRAMIENTAS *= 1+0.08/lugar;
+		    multiplicador.PIEDRA       *= 1+0.08/lugar;
+		    multiplicador.ARMAS        *= 1+0.08/lugar;
+		    multiplicador.JOYAS        *= 1+0.08/lugar;
+		    multiplicador.CRISTAL      *= 1+0.08/lugar;
+		    multiplicador.GEMAS        *= 1+0.08/lugar;
+		    multiplicador.reliquias    *= 1+0.08/lugar;
+		    console.log("mara escalera en "+lugar+"° lugar");
+			break;
+		case "Gran Puerto Mercantil":
+			rBase                      *= 1.25/lugar;
+			console.log("mara de rutas en "+lugar+"° lugar");
+			break;
+		case "Estatua coloso":
+			multiplicador.FAMA         *= 1.25/lugar;
+			console.log("mara de fama en "+lugar+"° lugar");
+			break;
+		default:
+			console.log("la mara en "+lugar+"° lugar no es de produccion");
+	}
+	return;
 }

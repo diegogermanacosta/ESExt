@@ -1,7 +1,18 @@
 //Cargar Multiplicado de gobernante de region
-var multiplicadorRutas = "x2";     //Valor por defecto para Gardis, Kenaron y Fantasy
+var multiplicadorRutas = 2;     //Valor por defecto para Gardis, Kenaron y Fantasy
+document.querySelector("tfoot tr").children[0].innerHTML = "<span id='multiplicadores' style='color: #001199; font-weight: bold'></span>"
 if (GLOBAL.getPartida()=='ZULA'||GLOBAL.getPartida()=='NUMIAN')
-    multiplicadorRutas = "x3";
+    multiplicadorRutas = 3;
+if(LOCAL.getPacifico()){
+  multiplicadorRutas *=1.2
+
+    document.getElementById("multiplicadores").innerText = "Bonos: Pacifico=x"+1.2;
+}
+if(LOCAL.getClan()!=null){
+  maraRutas(LOCAL.getClan().maravilla1,1);
+  maraRutas(LOCAL.getClan().maravilla2,2);
+}
+
 
 //Almacenar Ciudades con bono de region segun Mapa  
 var ciudadConBonoRegion = [];
@@ -31,16 +42,21 @@ document.querySelectorAll(".lista1 tr").forEach(function callback(obj , index){
 
   //Carga datos de ciudad
   var idCiudad = parseInt(obj.children[0].innerText);
-  var nombre = obj.children[1].innerText;
   var poblacion = parseInt(obj.children[2].innerText.replace(".",""));
   var edificios = parseInt(obj.children[3].innerText);
-  
+  if(obj.children[1].innerText.length>7)
+    obj.children[1].querySelector("a").innerText = obj.children[1].innerText.substring(0,5)+"..."
+  var nombre = obj.children[1].innerText;
   obj.children[1].innerHTML+="<span style='color: #990000; font-weight: bold'>("+oroIdeal({"poblacion": poblacion,"edificios": edificios})+")</span>";
   //Si la ciudad tiene bono de region, imprime
+  
+
   for (i in ciudadConBonoRegion) {
     if(ciudadConBonoRegion[i]==obj.children[0].innerText)
-      obj.children[1].innerHTML+="<span style='color: #001199; font-weight: bold'>"+multiplicadorRutas+"</span>";
+      obj.children[1].innerHTML+="<span style='color: #001199; font-weight: bold'>x"+multiplicadorRutas.toFixed(1)+"</span>";
   }
+
+
   if(LOCAL.getImperio()==null)
     return;
   rutas.push({
@@ -102,26 +118,22 @@ function rutasComerciales_populate(data)
   document.querySelectorAll(".lista1 tbody tr").forEach(function callback(obj , index){
     if(obj.children.length != 7)    //Si la fila no tiene 7 columnas, no es una fila de ciudad, salta de fila.
       return;
-    var rutaIndex = calculaRuta(rutas[index/2],data)
+    var rutasCiudad = calculaRuta(rutas[index/2],data)
     //RUTA 1
     if(data.length > 0)
     {
-      var ruta = obj.children[0].innerText;
-      var nameRuta1 = "input[name=ruta1-" + ruta + "]";
-      var nameRuta2 = "input[name=ruta2-" + ruta + "]";
-      var ruta1 = data[rutaIndex[0].index];
-      ruta1.valor = rutaIndex[0].valor;
-      var ruta2   = data[rutaIndex[1].index];
-      ruta2.valor = rutaIndex[1].valor;
-      if (document.querySelector(nameRuta2).value==ruta1.idCiudad||document.querySelector(nameRuta1).value==ruta2.idCiudad){
-        let aux = ruta1;
-        ruta1   = ruta2;
-        ruta2   = aux;
+      var idCiudad = obj.children[0].innerText;
+      var nameRuta1 = "input[name=ruta1-" + idCiudad + "]";
+      var nameRuta2 = "input[name=ruta2-" + idCiudad + "]";
+      if (document.querySelector(nameRuta2).value==rutasCiudad[0].idCiudad||document.querySelector(nameRuta1).value==rutasCiudad[1].idCiudad){
+        let aux = rutasCiudad[0];
+        rutasCiudad[0]   = rutasCiudad[1];
+        rutasCiudad[1]   = aux;
       }
-      obj.children[4].innerHTML+= rutasComerciales_generateIcon(ruta , 1 , ruta1);
+      obj.children[4].innerHTML+= rutasComerciales_generateIcon(idCiudad , 1 , rutasCiudad[0]);
       obj.children[4].querySelectorAll("img").forEach(function callback(obj , index){
         obj.addEventListener("click" , function(){
-          document.querySelector(nameRuta1).value=ruta1.idCiudad;
+          document.querySelector(nameRuta1).value=rutasCiudad[0].idCiudad;
           document.querySelector(nameRuta1).onblur
         });
       });
@@ -129,10 +141,10 @@ function rutasComerciales_populate(data)
     //RUTA 2
     if(data.length > 1)
     {
-      obj.children[5].innerHTML+=rutasComerciales_generateIcon(ruta , 2 , ruta2);
+      obj.children[5].innerHTML+=rutasComerciales_generateIcon(idCiudad , 2 , rutasCiudad[1]);
       obj.children[5].querySelectorAll("img").forEach(function callback(obj , index){
         obj.addEventListener("click" , function(){
-          document.querySelector(nameRuta2).value=ruta2.idCiudad;
+          document.querySelector(nameRuta2).value=rutasCiudad[1].idCiudad;
           document.querySelector(nameRuta2).onblur
         });
       });
@@ -167,7 +179,7 @@ function rutasComerciales_generateTablaCiudades(idCiudad, index , idRuta)
   tabla += "<td colspan='3'><b>Diferencia: </b><span colspan='3'";
   if (diferenciaOro>0)
     tabla += "style='color:#990000; font-weight: bolder'> +<b";
-  tabla += ">"+ diferenciaOro + "</span><span class='sprite-recurso oro absmiddle'></span></td>";
+  tabla += ">"+ diferenciaOro + "</span><span class='sprite-recurso oro absmiddle'></span><span style='color: #001199; font-weight: bold'>("+parseInt(diferenciaOro*multiplicadorRutas)+")</span></td>";
   
   tabla += "</tr>";
   tabla += "<tr style='height: 20px'>";
@@ -182,23 +194,18 @@ function calculaRuta(ciudad,listaCiudades){
   
   var rutasCiudad = new Array;
   for (var i = 0; i < listaCiudades.length; i++) {
-
-    if(listaCiudades[i].idCiudad==ciudad.idCiudad){
+    let rutaCiudad  = listaCiudades[i];
+    if(rutaCiudad.idCiudad==ciudad.idCiudad){
       continue
-    }
-    let rutaCiudad  = {
-      index   : i,
-      valor   : 0
     }
     
     let multiplicadorCiudad    = multiplicadorPolitica;
-    rutaCiudad.index           = i;
-    let pobla = menor(listaCiudades[i].poblacion,ciudad.poblacion)
-    let edificios = menor(listaCiudades[i].edificios,ciudad.edificios)
+    let pobla = menor(rutaCiudad.poblacion,ciudad.poblacion)
+    let edificios = menor(rutaCiudad.edificios,ciudad.edificios)
 
-    if( Math.abs( listaCiudades[i].poblacion - ciudad.poblacion)<=5000)
+    if( Math.abs( rutaCiudad.poblacion - ciudad.poblacion)<=5000)
       multiplicadorCiudad     *= 1.2;
-    if( Math.abs( listaCiudades[i].edificios - ciudad.edificios)<=20)
+    if( Math.abs( rutaCiudad.edificios - ciudad.edificios)<=20)
       multiplicadorCiudad     *= 1.2;
 
     rutaCiudad.valor=parseInt((3000+pobla/10+edificios*30)*multiplicadorCiudad);
@@ -232,3 +239,17 @@ function menor(a,b){
 function oroIdeal(ciudad){
   return parseInt((3000+ciudad.poblacion/10+ciudad.edificios*30)*1.44*multiplicadorPolitica);
 } 
+
+function maraRutas(maravilla,lugar){
+  if(maravilla==null)
+    return;
+  if("Gran Puerto Mercantil"==maravilla){
+    multiplicadorRutas *= 1+0.25/lugar;
+    console.log("mara de rutas en "+lugar+"° lugar");
+    if(document.getElementById("multiplicadores").innerText.length>0)
+      document.getElementById("multiplicadores").innerText += " -";
+    else
+      document.getElementById("multiplicadores").innerText += "Bonos:"
+    document.getElementById("multiplicadores").innerText += " Maravilla=x"+ (1+0.25/lugar).toFixed(2);
+  }
+}

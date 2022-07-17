@@ -18,7 +18,7 @@ function alwaysDo()
 		let carga = {
 			mode : true,
 			type : "imperio",
-			init : location.pathname
+			init : location.href
 		};
 		LOCAL.setCarga(carga);
 		GLOBAL.cargaImperio();
@@ -78,9 +78,6 @@ var GLOBAL = {
 			 	});
 			}, time * 1000);
 		}
-	},
-	showAntiBlock: function(msg, time)	{
-		document.getElementById("contenido").innerHTML = "<div class='mensajeError'>Debido a que el sitio recientemente se cambio a HTTPS, esto involucra nuevos mecanismos de seguridad que no son compatibles con la extension. Para que la extension vuelva a funcionar es necesario desactivar el mecanismo de seguridad indicado en la imagen. <p></p><img src='http://www.empirestrikeextension.com/images/extension/habilitacion.png' style='padding-top: 10px'/></div>"+this;
 	},
 	showConsole: function(data)
 	{
@@ -220,7 +217,11 @@ var GLOBAL = {
 				location.replace("gobierno.php");
 				return;
 			}
-			if(location.pathname!=LOCAL.getCarga()["init"])
+			if(LOCAL.getClan()==null&&LOCAL.getImperio().clan!=''){
+				location.replace("clan.php?sclan="+LOCAL.getImperio().clan);
+				return;
+			}
+			if(location.href!=LOCAL.getCarga()["init"])
 				location.replace(LOCAL.getCarga()["init"]);
 			localStorage.removeItem("Carga")
 		}

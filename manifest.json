@@ -84,15 +84,15 @@
 	},
 	{
 		"matches": ["https://www.empire-strike.com/ciudad.php?*"],
-		"js": ["ws_ciudad.js"]
+		"js": ["content.js","ws_ciudad.js"]
 	},
 	{
 		"matches": ["https://www.empire-strike.com/rutascomerciales.php"],
-		"js": ["ws_rutascomerciales.js"]
+		"js": ["content.js","ws_rutascomerciales.js"]
 	},
 	{
 		"matches": ["https://www.empire-strike.com/politica.php"],
-		"js": ["ws_politica.js"]
+		"js": ["content.js","ws_politica.js"]
 	}
   ],
   "permissions": [
