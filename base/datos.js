@@ -17,7 +17,8 @@ const MINIMOS = {
 	"JOYAS"         : 25,
 	"ORO"			: 1,
 	"FAMA"			: (5000+LOCAL.getValor())/3,
-	"TURNOS"        : 56000*GLOBAL.getClanCantidad()/12*GLOBAL.getClanCantidad()+1
+	"TURNOS"        : 56000*GLOBAL.getClanCantidad()/12*GLOBAL.getClanCantidad()+1,
+	"KARMA"         : 70/15*GLOBAL.getClanCantidad()
 }
 
 const MAXIMOS = {
@@ -38,7 +39,8 @@ const MAXIMOS = {
 	"JOYAS"         : 37,
 	"ORO"			: 1,
 	"FAMA"			: (5000+LOCAL.getValor())/3,
-	"TURNOS"        : 56000*GLOBAL.getClanCantidad()/(12*GLOBAL.getClanCantidad()+1)
+	"TURNOS"        : 56000*GLOBAL.getClanCantidad()/(12*GLOBAL.getClanCantidad()+1),
+	"KARMA"         : 70/15*GLOBAL.getClanCantidad()
 }
 
 const PRODUCCION_BASE = {

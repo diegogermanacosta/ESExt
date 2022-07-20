@@ -334,7 +334,11 @@ function ciudad_process(){
 			costosTotales.push(costo);
 		}
 		document.querySelectorAll(".elim").forEach(function callback(obj , index){
-			obj.addEventListener("click", function(){ ciudad_recalcular(costosTotales, recursosActuales, recursosUsados, edificiosConstruidos); edificiosSeleccionados(); });
+			obj.addEventListener("click", function(){ 
+				ciudad_recalcular(costosTotales, recursosActuales, recursosUsados, edificiosConstruidos); 
+				edificiosSeleccionados();
+				document.getElementById("panel").innerHTML= "";
+			});
 		});
 		document.querySelectorAll(".edificios img:not(.estrella):not(.elim):not(._ayuda):not(.ayuda)").forEach(function callback(obj , index){
 			var id          = obj.id;
