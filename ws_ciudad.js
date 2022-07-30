@@ -238,8 +238,8 @@ if(LOCAL.getGobernantes()!=null)
 	}
 if (LOCAL.getImperio()!=null)
 	if(LOCAL.getImperio()["raza"]=="Humanos"){ 
-		multiplicador.joyeria      = multiplicador.joyeria*2;
-		multiplicador.forjamithril = multiplicador.forjamithril*2;
+		multiplicador.JOYAS     = multiplicador.JOYAS*2;
+		multiplicador.RELIQUIAS = multiplicador.RELIQUIAS*2;
 	}
 
 if(document.querySelector("#acciones_ciudad_wrapper > table:nth-child(2) > tbody > tr:nth-child(2) > td:nth-child(1) > div").children.length!=2)
@@ -582,7 +582,7 @@ function bonoMaravilla(maravilla,lugar){
 		    multiplicador.JOYAS        *= 1+0.08/lugar;
 		    multiplicador.CRISTAL      *= 1+0.08/lugar;
 		    multiplicador.GEMAS        *= 1+0.08/lugar;
-		    multiplicador.reliquias    *= 1+0.08/lugar;
+		    multiplicador.RELIQUIAS    *= 1+0.08/lugar;
 		    console.log("mara escalera en "+lugar+"° lugar");
 			break;
 		case "Gran Puerto Mercantil":

@@ -1,10 +1,11 @@
 //Cargar Multiplicado de gobernante de region
-var multiplicadorRutas = 2;     //Valor por defecto para Gardis, Kenaron y Fantasy
+var multiplicadorBase = 1;
 document.querySelector("tfoot tr").children[0].innerHTML = "<span id='multiplicadores' style='color: #001199; font-weight: bold'></span>"
+var multiplicadorGobernante = 2; 
 if (GLOBAL.getPartida()=='ZULA'||GLOBAL.getPartida()=='NUMIAN')
-    multiplicadorRutas = 3;
+    multiplicadorGobernante = 3;
 if(LOCAL.getPacifico()){
-  multiplicadorRutas *=1.2
+  multiplicadorBase *=1.2
 
     document.getElementById("multiplicadores").innerText = "Bonos: Pacifico=x"+1.2;
 }
@@ -52,8 +53,9 @@ document.querySelectorAll(".lista1 tr").forEach(function callback(obj , index){
   
 
   for (i in ciudadConBonoRegion) {
+    let multiplicadorRutas = multiplicadorBase;
     if(ciudadConBonoRegion[i]==obj.children[0].innerText)
-      obj.children[1].innerHTML+="<span style='color: #001199; font-weight: bold'>x"+multiplicadorRutas.toFixed(1)+"</span>";
+      obj.children[1].innerHTML+="<span id=multiplicadorCiudad style='color: #001199; font-weight: bold'>x"+multiplicadorRutas.toFixed(1)+"</span>";
   }
 
 
@@ -179,7 +181,7 @@ function rutasComerciales_generateTablaCiudades(idCiudad, index , idRuta)
   tabla += "<td colspan='3'><b>Diferencia: </b><span colspan='3'";
   if (diferenciaOro>0)
     tabla += "style='color:#990000; font-weight: bolder'> +<b";
-  tabla += ">"+ diferenciaOro + "</span><span class='sprite-recurso oro absmiddle'></span><span style='color: #001199; font-weight: bold'>("+parseInt(diferenciaOro*multiplicadorRutas)+")</span></td>";
+  tabla += ">"+ diferenciaOro + "</span><span class='sprite-recurso oro absmiddle'></span><span style='color: #001199; font-weight: bold'>("+parseInt(diferenciaOro*multiplicadorBase)+")</span></td>";
   
   tabla += "</tr>";
   tabla += "<tr style='height: 20px'>";
@@ -244,7 +246,7 @@ function maraRutas(maravilla,lugar){
   if(maravilla==null)
     return;
   if("Gran Puerto Mercantil"==maravilla){
-    multiplicadorRutas *= 1+0.25/lugar;
+    multiplicadorBase *= 1+0.25/lugar;
     console.log("mara de rutas en "+lugar+"° lugar");
     if(document.getElementById("multiplicadores").innerText.length>0)
       document.getElementById("multiplicadores").innerText += " -";
