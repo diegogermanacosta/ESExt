@@ -51,13 +51,13 @@ document.querySelectorAll(".lista1 tr").forEach(function callback(obj , index){
   obj.children[1].innerHTML+="<span style='color: #990000; font-weight: bold'>("+oroIdeal({"poblacion": poblacion,"edificios": edificios})+")</span>";
   //Si la ciudad tiene bono de region, imprime
   
-
+  let multiplicadorRutas = multiplicadorBase;
   for (i in ciudadConBonoRegion) {
-    let multiplicadorRutas = multiplicadorBase;
     if(ciudadConBonoRegion[i]==obj.children[0].innerText)
-      obj.children[1].innerHTML+="<span id=multiplicadorCiudad style='color: #001199; font-weight: bold'>x"+multiplicadorRutas.toFixed(1)+"</span>";
-  }
-
+      multiplicadorRutas *= multiplicadorGobernante;
+    }
+  obj.children[1].innerHTML+="<span id=multiplicadorCiudad"+obj.children[0].innerText+" style='color: #001199; font-weight: bold'>x"+multiplicadorRutas.toFixed(1)+"</span>";
+  
 
   if(LOCAL.getImperio()==null)
     return;
@@ -163,7 +163,6 @@ function rutasComerciales_generateIcon(idCiudad, index , idRuta)
 function rutasComerciales_generateTablaCiudades(idCiudad, index , idRuta)
 {
   var oroActual     = document.getElementById(idCiudad+"_bruta"+index).innerText.replace(".","");
-  console.log(idRuta)
   var diferenciaOro = idRuta.valor - parseInt(oroActual);
   var tabla = "<div id='_tabciu" + idCiudad +"_"+ index + "' style='display: none;'><table><tbody>";
   tabla += "<tr style='height: 20px'>";
@@ -181,7 +180,8 @@ function rutasComerciales_generateTablaCiudades(idCiudad, index , idRuta)
   tabla += "<td colspan='3'><b>Diferencia: </b><span colspan='3'";
   if (diferenciaOro>0)
     tabla += "style='color:#990000; font-weight: bolder'> +<b";
-  tabla += ">"+ diferenciaOro + "</span><span class='sprite-recurso oro absmiddle'></span><span style='color: #001199; font-weight: bold'>("+parseInt(diferenciaOro*multiplicadorBase)+")</span></td>";
+  multiplicadorEnesimo=parseFloat(document.getElementById("multiplicadorCiudad"+idCiudad).innerText.replace("x",""));
+  tabla += ">"+ diferenciaOro + "</span><span class='sprite-recurso oro absmiddle'></span><span style='color: #001199; font-weight: bold'>("+parseInt(diferenciaOro*multiplicadorEnesimo)+")</span></td>";
   
   tabla += "</tr>";
   tabla += "<tr style='height: 20px'>";
