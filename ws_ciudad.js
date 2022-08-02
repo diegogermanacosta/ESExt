@@ -557,7 +557,7 @@ function estrellaLila(estrella,id1,id2){
 
 	var produccionTotal = produccionEdificio(edificios[id1])+produccionEdificio(edificios[id2]);
 	var costo           = costoEdificio(estrella+1,edificios[id1])+costoEdificio(estrella+1,edificios[id2]);
-	if (costo/produccionTotal<=masRentable){
+	if (costo/produccionTotal<=masRentable&&document.getElementById("edificio_estrella_"+id2+estrella).src!="//images.empire-strike.com/v2/interfaz/estrella-vacia.png"){
 		document.getElementById("edificio_estrella_"+id2+estrella).src = chrome.runtime.getURL('base/estrella-azul.png');
 		masRentable     = costo/produccionTotal;
 	}
