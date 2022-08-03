@@ -6,8 +6,21 @@ var edificio = {
 	produccion:      "value" 
 	//#seleccionado:  -1;
 }
-var dataCiudad= new Array();
-var ValorRecursos = MAXIMOS;
+var ValorRecursos;
+var dataCiudad = new Array();
+var diaPartida = parseInt(document.getElementById("hora").innerText.split("DíA ")[1]);
+if(diaPartida<19){
+	ValorRecursos = MINIMOS;
+	console.log("MINIMOS");
+}
+else if(diaPartida<48){
+	ValorRecursos = MAXIMOS;
+	console.log("MAXIMOS");
+}
+else{
+	ValorRecursos = CIERRE;
+	console.log("CIERRE");
+}
 var produccionCiudad        = {};
 var masRentable             = 99990;
 var masRentableI            = 99990;
@@ -52,6 +65,7 @@ if (LOCAL.getPacifico())
     k_Pacifico = 1.2;
 rBase             *= k_Pacifico;
 multiplicador.ORO *= k_Pacifico;
+multiplicador.ORO *= 1+parseInt(document.getElementById("impuestoactual").innerText.replace("%",""))/100;
 
 if(LOCAL.getPoliticas()!=null){
 	let politicas  = LOCAL.getPoliticas();
@@ -66,7 +80,7 @@ if(LOCAL.getPoliticas()!=null){
 	    multiplicador.PLATA    = 1+0.02*politicas.profundidadcuevas;
 	    multiplicador.HIERRO   = (1+0.02*politicas.profundidadcuevas)*(1+0.02*politicas.esclavitud);
 	    multiplicador.MITHRIL  = 1+0.01*politicas.profundidadcuevas;
-	    multiplicador.ORO      = (1+(0.02*politicas.burguesia))*(1-(0.02*politicas.aduanas))*(1-(0.02*politicas.nobleza));
+	    multiplicador.ORO     *= (1+(0.02*politicas.burguesia))*(1-(0.02*politicas.aduanas))*(1-(0.02*politicas.nobleza));
 	    rBase				  *= 1+(0.06*politicas.rutasdecontrabando); 
 }
 if(LOCAL.getClan()!=null){

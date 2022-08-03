@@ -87,6 +87,10 @@
 		"js": ["content.js","ws_ciudad.js"]
 	},
 	{
+		"matches": ["https://www.empire-strike.com/quest.php?*"],
+		"js": ["ws_quest.js"]
+	},
+	{
 		"matches": ["https://www.empire-strike.com/rutascomerciales.php"],
 		"js": ["content.js","ws_rutascomerciales.js"]
 	},

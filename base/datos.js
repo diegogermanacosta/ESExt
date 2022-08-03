@@ -42,6 +42,27 @@ const MAXIMOS = {
 	"TURNOS"        : 56000*GLOBAL.getClanCantidad()/(12*GLOBAL.getClanCantidad()+1),
 	"KARMA"         : 70/15*GLOBAL.getClanCantidad()
 }
+const CIERRE = {
+	"ALIMENTOS"		: 3,
+	"AGUA"          : 3,
+	"HIERRO"        : 13,
+	"HERRAMIENTAS"  : 20,
+	"ARMAS"         : 30,
+	"PIEDRA"        : 8,
+	"MADERA"        : 7,
+	"BLOQUES"       : 14,
+	"TABLAS"        : 14,
+	"MITHRIL"       : 30,
+	"PLATA"         : 20,
+	"CRISTAL"       : 37,
+	"RELIQUIAS"     : 60,
+	"GEMAS"         : 30,
+	"JOYAS"         : 37,
+	"ORO"			: 1.5,
+	"FAMA"			: (5000+LOCAL.getValor())/3*1.5,
+	"TURNOS"        : 56000*GLOBAL.getClanCantidad()/(12*GLOBAL.getClanCantidad()+1),
+	"KARMA"         : 70/15*GLOBAL.getClanCantidad()
+}
 
 const PRODUCCION_BASE = {
 	"torremagica"   : [75,"MANA"],
