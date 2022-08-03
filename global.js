@@ -28,6 +28,10 @@ function alwaysDo()
 	var botonazo = GLOBAL.crearBoton("#subcabecera","Apretame este Boton", accion);
 	botonazo.style = "height: 35px"
 	var iframe= document.createElement("iframe");
+	var elementoLista = document.createElement("li");
+	elementoLista.innerHTML = `<li><a href="ultimosataques.php">Ataques recibidos</a></li>`;
+	document.querySelector("#sinfo  ul").children[2].innerHTML = `<a href="ultimosataquestuyos.php">Ataques realizados</a>`;
+	document.querySelector("#sinfo  ul").children[2].after(elementoLista);
 }
 
 var GLOBAL = {
