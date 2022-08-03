@@ -133,22 +133,18 @@ function rutasComerciales_populate(data)
         rutasCiudad[1]   = aux;
       }
       obj.children[4].innerHTML+= rutasComerciales_generateIcon(idCiudad , 1 , rutasCiudad[0]);
-      obj.children[4].querySelectorAll("img").forEach(function callback(obj , index){
-        obj.addEventListener("click" , function(){
-          document.querySelector(nameRuta1).value=rutasCiudad[0].idCiudad;
-          document.querySelector(nameRuta1).onblur
-        });
+      obj.children[4].querySelector(".ayudaExt").addEventListener("click" , function(){
+        document.querySelector(nameRuta1).value=rutasCiudad[0].idCiudad;
+        document.querySelector(nameRuta1).onblur
       });
     }
     //RUTA 2
     if(data.length > 1)
     {
       obj.children[5].innerHTML+=rutasComerciales_generateIcon(idCiudad , 2 , rutasCiudad[1]);
-      obj.children[5].querySelectorAll("img").forEach(function callback(obj , index){
-        obj.addEventListener("click" , function(){
-          document.querySelector(nameRuta2).value=rutasCiudad[1].idCiudad;
-          document.querySelector(nameRuta2).onblur
-        });
+      obj.children[5].querySelector(".ayudaExt").addEventListener("click" , function(){
+        document.querySelector(nameRuta2).value=rutasCiudad[1].idCiudad;
+        document.querySelector(nameRuta2).onblur
       });
     }
   });

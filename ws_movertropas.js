@@ -42,7 +42,7 @@ function movertropas()
 	function guardarFormacion(obj) 
 	{
 		let tropas= [];
-		let nombre = window.prompt('ingrese el nombre de la formacion que desea Guardar');
+		let nombre = window.prompt('ingrese el nombre de la formacion que desea Guardar',GLOBAL.getPartida().substring(0,3)+"_"+obj.children[1].innerText);
 		if(nombre==null)
 			return;
 		for (var i = 2; i<= 21; i++) 
