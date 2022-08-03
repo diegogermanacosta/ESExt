@@ -41,6 +41,10 @@
 		"matches"   : ["https://www.empire-strike.com/*"]
 	},
 	{
+		"resources" : ["base/estrella-lila.png"],
+		"matches"   : ["https://www.empire-strike.com/*"]
+	},
+	{
 		"resources" : ["base/estrella-blanca.png"],
 		"matches"   : ["https://www.empire-strike.com/*"]
 	},

@@ -9,6 +9,7 @@ var edificio = {
 var ValorRecursos;
 var dataCiudad = new Array();
 var diaPartida = parseInt(document.getElementById("hora").innerText.split("DíA ")[1]);
+var modoCierre = false;
 if(diaPartida<19){
 	ValorRecursos = MINIMOS;
 	console.log("MINIMOS");
@@ -19,7 +20,8 @@ else if(diaPartida<48){
 }
 else{
 	ValorRecursos = CIERRE;
-	console.log("CIERRE");
+	modoCierre    = true;
+	console.log("modo CIERRE");
 }
 var produccionCiudad        = {};
 var masRentable             = 99990;
@@ -426,6 +428,10 @@ function ciudad_estrellas(costosTotales, recursosActuales, recursosUsados, edifi
 
 		if((recursosActuales["ORO"] - recursosUsados["ORO"]) >= (costoOro - construidoOro) && (recursosActuales[recurso] - recursosUsados[recurso]) >= (costoMat - construidoMat)&&edifRequerido(edificio,nroEdificio)){
 			obj.src = chrome.runtime.getURL('base/estrella-verde.png');
+			if(modoCierre&&cierreEdif(nroEdificio+1,edificios[edificio])){
+				obj.src = chrome.runtime.getURL('base/estrella-lila.png');
+				console.log("que pasa aca? ",edificios[edificio])
+			}
 			if(renta<=masRentable){
 				masRentable=renta;
 				obj.src = chrome.runtime.getURL('base/estrella-azul.png');
@@ -523,7 +529,7 @@ function costoEdificio(nroEstrella,nombre){
 		gastoTurnos    += -0.5;
 	var costoTurnos     = gastoTurnos*ValorRecursos["TURNOS"];
 	var edificio=COSTOS_INICIALES[nombre];
-	var costo   = (edificio["oro"] + edificio["cantidadRecurso"] * ValorRecursos[edificio["recurso"]])*nroEstrella;
+	var costo   = (edificio["oro"]* ValorRecursos["ORO"] + edificio["cantidadRecurso"] * ValorRecursos[edificio["recurso"]])*nroEstrella;
 	return costo;
 }
 	
@@ -616,4 +622,17 @@ function bonoMaravilla(maravilla,lugar){
 			console.log("la mara en "+lugar+"° lugar no es de produccion");
 	}
 	return;
+}
+
+function cierreEdif(nroEstrella,nombre){
+	var costo=costoEdificio(nroEstrella,nombre);
+	var ganancia=(63-diaPartida)*produccionEdificio(nombre)+25000;
+	console.log(nombre)
+	console.log(nroEstrella)
+	console.log(costo)
+	console.log(ganancia)
+	if(ganancia>costo){
+		return true;
+	}
+	return false;
 }
