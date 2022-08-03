@@ -1,2 +1,2 @@
-document.querySelector(".tabs").prepend(document.getElementById("sumario"));
+$(".tabs").parent().after(document.getElementById("sumario"));
 document.getElementById("vertodasquest").click();
