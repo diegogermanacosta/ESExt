@@ -66,6 +66,7 @@ document.getElementById('flotante').style.left="35%";
 if (LOCAL.getPacifico())
     k_Pacifico = 1.2;
 rBase             *= k_Pacifico;
+multiplicador.FAMA*= k_Pacifico;
 multiplicador.ORO *= k_Pacifico;
 multiplicador.ORO *= 1+parseInt(document.getElementById("impuestoactual").innerText.replace("%",""))/100;
 
@@ -428,9 +429,8 @@ function ciudad_estrellas(costosTotales, recursosActuales, recursosUsados, edifi
 
 		if((recursosActuales["ORO"] - recursosUsados["ORO"]) >= (costoOro - construidoOro) && (recursosActuales[recurso] - recursosUsados[recurso]) >= (costoMat - construidoMat)&&edifRequerido(edificio,nroEdificio)){
 			obj.src = chrome.runtime.getURL('base/estrella-verde.png');
-			if(modoCierre&&cierreEdif(nroEdificio+1,edificios[edificio])){
+			if(modoCierre&&cierreEdif((nroEdificio+1)*multiplicadorR,edificios[edificio],)){
 				obj.src = chrome.runtime.getURL('base/estrella-lila.png');
-				console.log("que pasa aca? ",edificios[edificio])
 			}
 			if(renta<=masRentable){
 				masRentable=renta;
@@ -523,14 +523,14 @@ function produccionEdificio(nombre){
 }
 function costoEdificio(nroEstrella,nombre){
 	var gastoTurnos     = 2;
-	if(LOCAL.getImperio().raza=="Enanos")
+	if(LOCAL.getImperio().raza =="Enanos")
 		gastoTurnos     =  1;
 	if(LOCAL.getPacifico())
 		gastoTurnos    += -0.5;
 	var costoTurnos     = gastoTurnos*ValorRecursos["TURNOS"];
 	var edificio=COSTOS_INICIALES[nombre];
 	var costo   = (edificio["oro"]* ValorRecursos["ORO"] + edificio["cantidadRecurso"] * ValorRecursos[edificio["recurso"]])*nroEstrella;
-	return costo;
+	return costo+costoTurnos;
 }
 	
 function estaConstruido(id){
@@ -625,13 +625,8 @@ function bonoMaravilla(maravilla,lugar){
 }
 
 function cierreEdif(nroEstrella,nombre){
-	var costo=costoEdificio(nroEstrella,nombre);
 	var ganancia=(63-diaPartida)*produccionEdificio(nombre)+25000;
-	console.log(nombre)
-	console.log(nroEstrella)
-	console.log(costo)
-	console.log(ganancia)
-	if(ganancia>costo){
+	if(ganancia>costoEdificio(nroEstrella,nombre)){
 		return true;
 	}
 	return false;
