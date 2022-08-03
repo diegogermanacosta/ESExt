@@ -57,9 +57,9 @@ function atacar()
 	ataques.push(ataque)
 	LOCAL.setAtaque(ataques);
 	//API.setAtaque(ataque);
-
-
-
+	setTimeout(() => {
+		document.getElementById("ataque-rounds").prepend(document.querySelectorAll("table")[2]);
+	},200);
 }
 
 function atacar_generateTropas(nombre, nivel, inicio, porcentaje, fin)
