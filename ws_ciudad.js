@@ -260,10 +260,10 @@ if (LOCAL.getImperio()!=null)
 	}
 
 if(document.querySelector("#acciones_ciudad_wrapper > table:nth-child(2) > tbody > tr:nth-child(2) > td:nth-child(1) > div").children.length!=2)
-	if(document.querySelector("#acciones_ciudad_wrapper > table:nth-child(2) > tbody > tr:nth-child(2) > td:nth-child(1) > div").children[2].textContent.split(':')[0]=='Felicidad')
+	/*if(document.querySelector("#acciones_ciudad_wrapper > table:nth-child(2) > tbody > tr:nth-child(2) > td:nth-child(1) > div").children[2].textContent.split(':')[0]=='Felicidad')
 		for(index in multiplicador){
 			multiplicador[index] *=1.2;
-		}
+		}*/
 document.querySelectorAll("#tablaproduccion tr").forEach(function callback(obj, index){
 	switch(index){
 		case 0:

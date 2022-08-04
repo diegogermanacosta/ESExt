@@ -88,9 +88,15 @@ function comercio()
 
 function compraJusta(oroRaza) 
 {
-	var turnosGastados = document.getElementById("turnos").value;
-	var	oroGanado = document.getElementById("cobrar").value;
-	var	oroGastado = document.getElementById("pagar").value;
+	var turnosGastados     = parseInt(document.getElementById("turnos").value);
+	var	oroGanado          = parseInt(document.getElementById("cobrar").value);
+	var	oroGastado         = parseInt(document.getElementById("pagar").value);
+	var OroTurno           = oroRaza * turnosGastados;
+	var OroSumaGastoGanado = oroGanado+oroGastado;
+	var difOro             = OroTurno-OroSumaGastoGanado;
+	var difCompra          = 0;
+	var difVenta           = 0;
+	
 	$(".lista1 tr").each(function(index, obj) 
 	{	
 		if(index == 0)
@@ -101,20 +107,13 @@ function compraJusta(oroRaza)
 		var nombre = $(obj.children[0]).text().trim().toUpperCase();
 		var venta = parseInt($(obj.children[3]).text().trim());
 		var compra = parseInt($(obj.children[2]).text().trim());
-		var OroTurno = oroRaza * parseInt(turnosGastados);
-		var OroSumaGastoGanado = parseInt(oroGanado)+parseInt(oroGastado);
-		var difOro = parseInt(OroTurno)-parseInt(OroSumaGastoGanado);		
-		var difCompra=0;
-		var difVenta=0;
-		if(difOro!=0)
-		{
-			difOro=difOro-1
-			difCompra = Math.trunc(difOro/compra);			
-			difVenta = Math.trunc(difOro/venta);
+		if(difOro!=0){
+			difOro            += -1;
+			difCompra          = Math.trunc(difOro/compra);			
+			difVenta           = Math.trunc(difOro/venta);
 		}
 		document.querySelector('#c'+nombre).innerText = difCompra;
 		document.querySelector('#v'+nombre).innerText = difVenta;
-
 	});
 }
 
@@ -127,7 +126,6 @@ function reset()
 		
 	  	if(obj.children.length < 3)
 			return;
-		console.log("contando");
 		var nombre = $(obj.children[0]).text().trim();
 		document.querySelector('#c'+nombre).innerText = 0;
 		document.querySelector('#v'+nombre).innerText = 0;
