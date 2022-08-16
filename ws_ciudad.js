@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 var edificio = {
 	id: 				"id",
 	nombre: 		 "value", 
@@ -6,6 +7,16 @@ var edificio = {
 	produccion:      "value" 
 	//#seleccionado:  -1;
 }
+=======
+var interfaz = document.createElement("table")
+interfaz.innerHTML = `<tbody><tr><td class="cabecera"><span>Construir Edificios</span></td></tr><tr><td class="contenido" align="absmiddle"><input id="autoBuild" type="number" class="text" size="6"><span width="20" class="sprite-recurso flechita"></span><button name="Submit" value="Construir Edificios" onclick="return submitForm_edificios();" style="margin-top: 2px;">
+                    <nobr>Construir <img src="//images.empire-strike.com/archivos/icon_ciudad5.gif" border="0" alt="Construir edificios" align="absmiddle" width="14" height="14"></nobr>
+                </button></td></tr><tr><td class="pie"></td></tr></tbody>`
+interfaz.className="minipapiro";
+document.getElementById("contenido").prepend(interfaz)
+var autoBuild = document.getElementById("autoBuild");
+
+>>>>>>> Stashed changes
 var ValorRecursos;
 var dataCiudad = new Array();
 var diaPartida = parseInt(document.getElementById("hora").innerText.split("DíA ")[1]);
@@ -26,6 +37,7 @@ else{
 var produccionCiudad        = {};
 var masRentable             = 99990;
 var masRentableI            = 99990;
+var flagRentable            = false;
 var rBase					= 30*2*1.44;
 var k_Pacifico				= 1;
 
@@ -87,9 +99,14 @@ if(LOCAL.getPoliticas()!=null){
 	    rBase				  *= 1+(0.06*politicas.rutasdecontrabando); 
 }
 if(LOCAL.getClan()!=null){
+<<<<<<< Updated upstream
 		bonoMaravilla(LOCAL.getClan().maravilla1,1)
 		bonoMaravilla(LOCAL.getClan().maravilla2,2)
 
+=======
+		bonoMaravilla(LOCAL.getClan(),1)
+		bonoMaravilla(LOCAL.getClan(),2)
+>>>>>>> Stashed changes
 }
 
 //CALCULO EFICIENCIA EN TERRENO
@@ -332,7 +349,7 @@ function ciudad_process(){
 		var recursosActuales     = JSON.parse(document.getElementById("recursosActuales").value);
 		var recursosUsados       = JSON.parse(document.getElementById("recursosActuales").value);
 		edificiosConstruidos = new Array();
-
+		
 		ciudad_cleanUsados(recursosUsados);
 		edificios = new Array();
 		document.querySelectorAll(".c .nome").forEach(function callback(obj , index){
@@ -353,8 +370,7 @@ function ciudad_process(){
 		document.querySelectorAll(".elim").forEach(function callback(obj , index){
 			obj.addEventListener("click", function(){ 
 				ciudad_recalcular(costosTotales, recursosActuales, recursosUsados, edificiosConstruidos); 
-				edificiosSeleccionados();
-				document.getElementById("panel").innerHTML= "";
+				mostrarCasitas(edificiosSeleccionados());
 			});
 		});
 		document.querySelectorAll(".edificios img:not(.estrella):not(.elim):not(._ayuda):not(.ayuda)").forEach(function callback(obj , index){
@@ -366,6 +382,12 @@ function ciudad_process(){
 			if(nroEdificio > edificiosConstruidos[edificio])
 				edificiosConstruidos[edificio] = nroEdificio;
 		});
+		autoBuild.onkeyup = function(){
+			flagRentable = false;
+			ciudad_recalcular(costosTotales, recursosActuales, recursosUsados, edificiosConstruidos); 
+			flagRentable = true;
+			ciudad_recalcular(costosTotales, recursosActuales, recursosUsados, edificiosConstruidos);
+		}
 		document.querySelectorAll(".estrella").forEach(function callback(obj , index){
 			obj.addEventListener("mouseenter" , function(){
 				ciudad_recalcular(costosTotales, recursosActuales, recursosUsados, edificiosConstruidos); 
@@ -373,10 +395,11 @@ function ciudad_process(){
 			obj.addEventListener("click" , function(){ 
 				masRentable = 99990;
 				masRentableI = 99990;
+				flagRentable = false;
 				ciudad_recalcular(costosTotales, recursosActuales, recursosUsados, edificiosConstruidos); 
+				flagRentable = true;
 				ciudad_recalcular(costosTotales, recursosActuales, recursosUsados, edificiosConstruidos);
-				edificiosSeleccionados();
-				console.log("la rentabilidad mas alta es de: "+masRentable)
+				mostrarCasitas(edificiosSeleccionados());
 			});
 		});
 		valorCiudad()
@@ -434,7 +457,15 @@ function ciudad_estrellas(costosTotales, recursosActuales, recursosUsados, edifi
 			}
 			if(renta<=masRentable){
 				masRentable=renta;
-				obj.src = chrome.runtime.getURL('base/estrella-azul.png');
+				if(flagRentable){
+					console.log("la rentabilidad mas alta es de: "+renta);
+					if(autoBuild.value>edificiosSeleccionados()){
+						console.log("se ha construido "+edificios[edificio]);
+						obj.click();
+					}
+					else
+						obj.src = chrome.runtime.getURL('base/estrella-azul.png');
+				}
 			}
 		}
 		else{
@@ -549,10 +580,17 @@ function edificiosSeleccionados() {
 		if (seleccionados>-1)
 			casitas += seleccionados - edificiosConstruidos[i];
 	}
-	if (casitas!=0);
-		document.getElementById("panel").innerHTML += `&nbsp;<nobr><span class="sprite-recurso absmiddle">
+	return casitas;
+}
+function mostrarCasitas(casitas){
+	if (document.getElementById("casitas")==null){
+		document.getElementById("panel").innerHTML += `<span id="casitas">&nbsp;<nobr><span class="sprite-recurso absmiddle">
 		                                               <img style="width: 15px;height: 13px" src="//images.empire-strike.com/v2/iconos/icon_ciudad.gif" >
-		                                               </span><span>${casitas}</span></nobr>`
+		                                               </span><span>${casitas}</span></nobr></span>`
+	}
+	if(casitas==0){
+		document.getElementById("casitas").remove();
+	}
 }
 
 function valorCiudad(){
@@ -583,15 +621,23 @@ function estrellaLila(estrella,id1,id2){
 	if (costo/produccionTotal<=masRentable&&
 		document.getElementById("edificio_estrella_"+id2+estrella).src!='https://images.empire-strike.com/v2/interfaz/estrella-vacia.png'&&
 		document.getElementById("edificio_estrella_"+id2+estrella).src!='https://images.empire-strike.com/v2/interfaz/estrella-amarilla.png'){
-		document.getElementById("edificio_estrella_"+id2+estrella).src = chrome.runtime.getURL('base/estrella-azul.png');
 		masRentable     = costo/produccionTotal;
+		if(flagRentable){
+			console.log("la rentabilidad mas alta es de: "+masRentable);
+			if(autoBuild.value>edificiosSeleccionados()){
+				console.log("se ha construido "+edificios[id2]);
+				document.getElementById("edificio_estrella_"+id2+estrella).click()
+			}
+			else
+				document.getElementById("edificio_estrella_"+id2+estrella).src = chrome.runtime.getURL('base/estrella-azul.png');
+		}
 	}
 }
 
-function bonoMaravilla(maravilla,lugar){
-	if(maravilla==null)
+function bonoMaravilla(maravillas,lugar){
+	if(maravillas["maravilla"+lugar]==null)
 		return;
-	switch(maravilla){
+	switch(maravillas["maravilla"+lugar]){
 		case "Escalera del destino":
 			multiplicador.BLOQUES      *= 1+0.08/lugar;
 		    multiplicador.MADERA       *= 1+0.08/lugar;

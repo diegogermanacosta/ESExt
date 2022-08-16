@@ -1,11 +1,4 @@
-
-
-
-
-
-
-function clan()
-{
+function clan(){
 	if (LOCAL.getImperio()==null)
 		return
 	var siglas = document.querySelector("#contenido > table > tbody > tr:nth-child(1) > td").innerText.split("(")[1].replace(")","");
