@@ -1,4 +1,4 @@
-<<<<<<< Updated upstream
+
 var edificio = {
 	id: 				"id",
 	nombre: 		 "value", 
@@ -7,7 +7,7 @@ var edificio = {
 	produccion:      "value" 
 	//#seleccionado:  -1;
 }
-=======
+
 var interfaz = document.createElement("table")
 interfaz.innerHTML = `<tbody><tr><td class="cabecera"><span>Construir Edificios</span></td></tr><tr><td class="contenido" align="absmiddle"><input id="autoBuild" type="number" class="text" size="6"><span width="20" class="sprite-recurso flechita"></span><button name="Submit" value="Construir Edificios" onclick="return submitForm_edificios();" style="margin-top: 2px;">
                     <nobr>Construir <img src="//images.empire-strike.com/archivos/icon_ciudad5.gif" border="0" alt="Construir edificios" align="absmiddle" width="14" height="14"></nobr>
@@ -16,7 +16,6 @@ interfaz.className="minipapiro";
 document.getElementById("contenido").prepend(interfaz)
 var autoBuild = document.getElementById("autoBuild");
 
->>>>>>> Stashed changes
 var ValorRecursos;
 var dataCiudad = new Array();
 var diaPartida = parseInt(document.getElementById("hora").innerText.split("DíA ")[1]);
@@ -99,14 +98,11 @@ if(LOCAL.getPoliticas()!=null){
 	    rBase				  *= 1+(0.06*politicas.rutasdecontrabando); 
 }
 if(LOCAL.getClan()!=null){
-<<<<<<< Updated upstream
 		bonoMaravilla(LOCAL.getClan().maravilla1,1)
 		bonoMaravilla(LOCAL.getClan().maravilla2,2)
 
-=======
 		bonoMaravilla(LOCAL.getClan(),1)
 		bonoMaravilla(LOCAL.getClan(),2)
->>>>>>> Stashed changes
 }
 
 //CALCULO EFICIENCIA EN TERRENO
