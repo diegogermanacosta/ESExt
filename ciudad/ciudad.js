@@ -1,6 +1,7 @@
 import {ciudad}          from 'class_ciudad.js';
 import {edificio}        from 'class_edificio.js';
 import {multiplicadores} from 'class_multiplicador';
+import {MAXIMOS,MINIMOS,COSTOS_INICIALES,PRODUCCION_BASE} from 'base\datos';
 
 //construir edifico con barra espaciadora
 window.addEventListener("keydown", function (event) { 
@@ -19,9 +20,10 @@ var edificios     = new Array();
 listaElementosEdificios.forEach(function callback(obj , index){
 	let nombre = obj.innerText.trim().replace(" ","").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 	let construido = document.getElementById("txt_edificio_ya_compradas_"+index).value + 1;
-	edificios.push(new edificio(index,nombre,construido,costosIniciales,produccionBase,multiplicador));
+	edificios.push(new edificio(index,nombre,construido,COSTOS_INICIALES,PRODUCCION_BASE,multiplicador));
 });
-var ciudad = new ciudad;
+var ciudad = new ciudad();
+
 function getDataCiudad(){
 	let subtitulo    = document.querySelector(".subtitulo").innerText;
 	let inicioCadena = subtitulo.indexOf(":")+2;
