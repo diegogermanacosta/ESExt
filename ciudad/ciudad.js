@@ -18,7 +18,8 @@ var multiplicador = new multiplicadores(GLOBAL.getPartida(),gobiernoRegion(),get
 var edificios     = new Array();
 listaElementosEdificios.forEach(function callback(obj , index){
 	let nombre = obj.innerText.trim().replace(" ","").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-	edificios.push(new edificio(index,nombre,costosIniciales,produccionBase,multiplicador));
+	let construido = document.getElementById("txt_edificio_ya_compradas_"+index).value + 1;
+	edificios.push(new edificio(index,nombre,construido,costosIniciales,produccionBase,multiplicador));
 });
 var ciudad = new ciudad;
 function getDataCiudad(){
@@ -33,14 +34,14 @@ function getDataCiudad(){
 		impuestos : parseInt(document.getElementById("impuestoactual").innerText.replace("%",""))
 	}
 }
-//de
+
 function getDataImperio(){
 	return {
 		raza      : LOCAL.getImperio().raza,
 		pacifico  : LOCAL.getImperio().pacifico
 	}
 }
-//actualizo datos de ciudad
+
 function gobiernoRegion(){
 	return LOCAL.getGobernantes()[getDataCiudad().region]==LOCAL.getImperio().clan;
 }
