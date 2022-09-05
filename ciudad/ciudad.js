@@ -1,49 +1,103 @@
-import {ciudad}          from 'class_ciudad.js';
-import {edificio}        from 'class_edificio.js';
-import {multiplicadores} from 'class_multiplicador';
-import {MAXIMOS,MINIMOS,COSTOS_INICIALES,PRODUCCION_BASE} from 'base\datos';
-
-//construir edifico con barra espaciadora
-window.addEventListener("keydown", function (event) { 
-	if (event.key==' '){
-		document.getElementById("frm_edificios").submit();
-	}
-});
-//coloco boton de construccion al centro
-document.getElementById('flotante').style.left="35%";
+construirConTecla(" ");
+setStyle();
 //lista elementos de edificio: 0-32 = seleciona edificio || 0 = nombre, 1 = borrar, 2-11 = estrellas
 var listaElementosEdificios = document.querySelectorAll(".c .nome");
+var edificios               = new Array();
+var estrella                = new estrellas();
+var ciudad                  = null;
+var recursos                = null;
+var tablaEficiencia         = [];
 
-//cargo datos de ciudad
-var multiplicador = new multiplicadores(GLOBAL.getPartida(),gobiernoRegion(),getDataImperio(),getDataCiudad(),LOCAL.getPoliticas())
-var edificios     = new Array();
-listaElementosEdificios.forEach(function callback(obj , index){
-	let nombre = obj.innerText.trim().replace(" ","").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-	let construido = document.getElementById("txt_edificio_ya_compradas_"+index).value + 1;
-	edificios.push(new edificio(index,nombre,construido,COSTOS_INICIALES,PRODUCCION_BASE,multiplicador));
-});
-var ciudad = new ciudad();
+UTIL.injectCode("base/setvalueedif.js");
+setTimeout(() => {
+	let recursosActuales    = JSON.parse(document.getElementById("recursosActuales").value);
+	//cargo datos de ciudad
+		recursos            = new recursosClass(recursosActuales);
+	let multiplicador       = new multiplicadores(GLOBAL.getPartida(),GLOBAL.gobiernoRegion(),LOCAL.getImperio(),getDataCiudad(),LOCAL.getPoliticas(),LOCAL.getClan());
+	listaElementosEdificios.forEach(function callback(obj , index){
+		let nombre          = obj.innerText.trim().replace(" ","").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+		let construido      = parseInt(document.getElementById("txt_edificio_ya_compradas_"+index).value) + 1;
+		edificios.push(new edificioclass(nombre,construido,COSTOS_INICIALES,PRODUCCION_BASE,multiplicador.getMultiplicador()));
+		setElementoEdificio(index);
+	});
+	tablaEficiencia.sort(comparar);
+	console.log(tablaEficiencia);
+	ciudad                  = new ciudadclass(getDataCiudad(),edificios,getEstado(),GLOBAL.gobiernoRegion());
+	calculaEstrellas()
+	cargaCiudad()
+},200);
 
-function getDataCiudad(){
-	let subtitulo    = document.querySelector(".subtitulo").innerText;
-	let inicioCadena = subtitulo.indexOf(":")+2;
-	let finCadeba    = subtitulo.indexOf(";");
-	return {
-		idCiudad  : parseInt(document.querySelector(".tituloimperio").innerText.split("#")[1]),
-		poblacion : parseInt(document.getElementById("poblacionciudad").innerText.trim().replace(".", "")),
-		terreno   : subtitulo.substring(inicioCadena,finCadeba),
-		region    : parseInt(subtitulo.split("#")[1]),
-		impuestos : parseInt(document.getElementById("impuestoactual").innerText.replace("%",""))
+function calculaEstrellas(){
+	for (let i = 0; i < edificios.length; i++) {
+		estrellaVerde(i);
 	}
 }
-
-function getDataImperio(){
-	return {
-		raza      : LOCAL.getImperio().raza,
-		pacifico  : LOCAL.getImperio().pacifico
+function estrellaVerde(idEdificio){
+	let elementos = listaElementosEdificios[idEdificio].children;
+	for (let i = 2; i < elementos.length; i++){
+		if(elementos[i].src == "https://images.empire-strike.com/v2/interfaz/estrella-roja.png"||elementos[i].src == "https://images.empire-strike.com/v2/interfaz/estrella-amarilla.png"){
+			continue;
+		}
+		if (estrella.puedoconstruir(edificios[idEdificio],i-1,recursos.getRecursos()))
+			elementos[i].src = chrome.runtime.getURL('base/estrella-verde.png');
+		else
+			elementos[i].src = "https://images.empire-strike.com/v2/interfaz/estrella-vacia.png";
 	}
 }
+function setElementoEdificio(idEdificio){
+	let elementoEdificio = listaElementosEdificios[idEdificio];
+	elementoEdificio.addEventListener("mouseout" , function(){
+		estrellaVerde(idEdificio);
+		if(idEdificio>0)
+			estrellaVerde(idEdificio-1);
+		estrellaAzul();
+	});
+	setClicks(elementoEdificio.children[1],idEdificio);
+	elementoEdificio.querySelectorAll(".estrella").forEach(function callback(obj){
+		let estrella = parseInt(obj.dataset.attr.split(',')[1])+1;
+		tablaEficiencia.push([idEdificio , estrella , edificios[idEdificio].getRentabilizacion(MINIMOS,estrella,2)])
+		setClicks(obj,idEdificio);
+		obj.addEventListener("mouseover",function(){
+			estrellaVerde(idEdificio);
+			estrellaAzul();
+		});
+	});
+}
+function cargaCiudad(){
+	if (LOCAL.getCiudad()==null)
+		return
+	let ciudades = LOCAL.getCiudad()
+	let idCiudad = parseInt(document.querySelector(".tituloimperio").innerText.split("#")[1]);
+	for (let i = 0; i < ciudades.length; i++){
+		if(ciudades[i].idCiudad != idCiudad)
+			continue;
+		ciudades[i].cargada = true;
+		ciudades[i].data    = ciudad.getData();
+		LOCAL.setCiudad(ciudades);
+	}
+}
+function setClicks(elemento,idEdificio){
+	elemento.addEventListener("click",function(){
+		let seleccionados = parseInt(document.getElementById("xx_txt_costo_edificio_estrella_seleccionada_"+idEdificio).value) + 1;
+		edificios[idEdificio].setSeleccionado(seleccionados);
+		recursos.setVariacionRecursos(getRecursosUsados());
+		calculaEstrellas();
+		estrellaAzul()
+	});
+}
 
-function gobiernoRegion(){
-	return LOCAL.getGobernantes()[getDataCiudad().region]==LOCAL.getImperio().clan;
+function estrellaAzul(){
+	let blue = false;
+	let i    = 0;
+	while(!blue&&i<tablaEficiencia.length){
+		let idEdificio = tablaEficiencia[i][0];
+		let edificio   = edificios[idEdificio];
+		let numeroEstrella   = tablaEficiencia[i][1];
+		let obj        = listaElementosEdificios[idEdificio].children[numeroEstrella+1];
+		if (estrella.puedoconstruir(edificio,numeroEstrella,recursos.getRecursos())&&edificio.getConstruido()<numeroEstrella){
+			obj.src = chrome.runtime.getURL('base/estrella-azul.png');
+			blue = true
+		}
+		i++;
+	}
 }

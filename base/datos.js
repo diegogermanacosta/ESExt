@@ -18,7 +18,8 @@ const MINIMOS = {
 	"ORO"			: 1,
 	"FAMA"			: (5000+LOCAL.getValor())/3,
 	"TURNOS"        : 56000*GLOBAL.getClanCantidad()/12*GLOBAL.getClanCantidad()+1,
-	"KARMA"         : 70/15*GLOBAL.getClanCantidad()
+	"KARMA"         : 70/15*GLOBAL.getClanCantidad(),
+	"MANA"          : 15
 }
 
 const MAXIMOS = {
@@ -40,7 +41,8 @@ const MAXIMOS = {
 	"ORO"			: 1,
 	"FAMA"			: (5000+LOCAL.getValor())/3,
 	"TURNOS"        : 56000*GLOBAL.getClanCantidad()/(12*GLOBAL.getClanCantidad()+1),
-	"KARMA"         : 70/15*GLOBAL.getClanCantidad()
+	"KARMA"         : 70/15*GLOBAL.getClanCantidad(),
+	"MANA"          : 15
 }
 const CIERRE = {
 	"ALIMENTOS"		: 3,
@@ -61,7 +63,8 @@ const CIERRE = {
 	"ORO"			: 1.5,
 	"FAMA"			: (5000+LOCAL.getValor())/3*1.5,
 	"TURNOS"        : 56000*GLOBAL.getClanCantidad()/(12*GLOBAL.getClanCantidad()+1),
-	"KARMA"         : 70/15*GLOBAL.getClanCantidad()
+	"KARMA"         : 70/15*GLOBAL.getClanCantidad(),
+	"MANA"          : 15
 }
 
 const PRODUCCION_BASE = {
@@ -87,7 +90,17 @@ const PRODUCCION_BASE = {
 	"carpinteria"   : [115,"TABLAS"],
 	"monumentos"    : [1,"FAMA"],
 	"acueducto"     : [200,"AGUA"],
-	"almacen"       : [175,"ALIMENTOS"]
+	"almacen"       : [175,"ALIMENTOS"],
+	"castillo"      : [0,"ORO"],
+	"muralla"       : [0,"ORO"],
+	"armeria"       : [0,"ORO"],
+	"foso"          : [0,"ORO"],
+	"cuartel"       : [0,"ORO"],
+	"universidad"   : [0,"ORO"],
+	"santuario"     : [0,"ORO"],
+	"coliseo"       : [0,"ORO"],
+	"burdeles"      : [0,"ORO"],
+	"escuela"       : [0,"ORO"]
 }
 
 const COSTOS_INICIALES = {
@@ -126,7 +139,18 @@ const COSTOS_INICIALES = {
 	"escuela"       : {oro:1500,cantidadRecurso:300,recurso:"TABLAS"}
 }
 
+const K_POBLACION = 1/337524.1;
 function getKpobla(pobla){
 	let k_pobla=1/337524.1
 	return 1+pobla*k_pobla
+}
+const BONO_GOBIERNO = {
+	"GAIA" : [[["ALIMENTOS",3]],
+	          [["MANA",2]],
+	          [[]],
+	          [["MADERA",2],["TABLAS",2]],
+	          [["ORO",2]],
+	          [["FAMA",1.5]]
+	          ]
+
 }

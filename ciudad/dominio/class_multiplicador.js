@@ -1,5 +1,6 @@
 class multiplicadores {
-	constructor(partida, gobierno, imperio, ciudad,politicas){
+	#multiplicador;
+	constructor(partida, gobierno, imperio, ciudad,politicas,maravillas){
 		this.#multiplicador = {
 			"ALIMENTOS"		: (1+ciudad.poblacion*K_POBLACION)*(1+0.01*politicas.lamujer),
 			"AGUA"          : (1+ciudad.poblacion*K_POBLACION)*(1+0.01*politicas.lamujer),
@@ -144,7 +145,7 @@ class multiplicadores {
 				break;
 				case 'ZULA':
 				case 'NUMIAN':
-					switch(region){ 
+					switch(ciudad.region){ 
 						case 1:
 							this.#multiplicador.ARMAS		*= 2;
 							this.#multiplicador.HERRAMIENTAS*= 2;
@@ -176,7 +177,7 @@ class multiplicadores {
 							break;
 					}
 				case 'FANTASY':
-					switch(region){
+					switch(ciudad.region){
 						case 11:
 							this.#multiplicador.FAMA		*= 1.5/0.9;
 							break;
@@ -199,9 +200,41 @@ class multiplicadores {
 					}
 				break;
 			}
+			this.#bonoMaravilla(maravillas)
 		}
 	}
 	getMultiplicador(){
 		return this.#multiplicador;
+	}
+	#bonoMaravilla(maravillas){
+		if(maravillas==null)
+			return;
+		for (var lugar = 1; lugar <= 2; lugar++) {
+			switch(maravillas["maravilla"+lugar]){
+				case "Escalera del destino":
+					this.#multiplicador.BLOQUES      *= 1+0.08/lugar;
+				    this.#multiplicador.MADERA       *= 1+0.08/lugar;
+				    this.#multiplicador.AGUA         *= 1+0.08/lugar;
+				    this.#multiplicador.TABLAS       *= 1+0.08/lugar;
+				    this.#multiplicador.ALIMENTOS    *= 1+0.08/lugar;
+				    this.#multiplicador.PLATA        *= 1+0.08/lugar;
+				    this.#multiplicador.HIERRO       *= 1+0.08/lugar;
+				    this.#multiplicador.MITHRIL      *= 1+0.08/lugar;
+				    this.#multiplicador.HERRAMIENTAS *= 1+0.08/lugar;
+				    this.#multiplicador.PIEDRA       *= 1+0.08/lugar;
+				    this.#multiplicador.ARMAS        *= 1+0.08/lugar;
+				    this.#multiplicador.JOYAS        *= 1+0.08/lugar;
+				    this.#multiplicador.CRISTAL      *= 1+0.08/lugar;
+				    this.#multiplicador.GEMAS        *= 1+0.08/lugar;
+					this.#multiplicador.RELIQUIAS    *= 1+0.08/lugar;
+					break;
+				case "Gran Puerto Mercantil":
+					this.#multiplicador.RUTAS        *= 1.25/lugar;
+					break;
+				case "Estatua coloso":
+					this.#multiplicador.FAMA         *= 1.25/lugar;
+					break;
+			}
+		}
 	}
 }

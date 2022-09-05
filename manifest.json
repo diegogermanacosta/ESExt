@@ -37,27 +37,11 @@
 		"matches"   : ["https://www.empire-strike.com/*"]
 	},
 	{
-		"resources" : ["base/estrella-verde.png"],
-		"matches"   : ["https://www.empire-strike.com/*"]
-	},
-	{
-		"resources" : ["base/estrella-lila.png"],
-		"matches"   : ["https://www.empire-strike.com/*"]
-	},
-	{
-		"resources" : ["base/estrella-blanca.png"],
-		"matches"   : ["https://www.empire-strike.com/*"]
-	},
-	{
-		"resources" : ["base/estrella-azul.png"],
+		"resources" : ["base/estrella-verde.png","base/estrella-lila.png","base/estrella-blanca.png","base/estrella-azul.png"],
 		"matches"   : ["https://www.empire-strike.com/*"]
 	},
 	{
 		"resources" : ["base/button.mpeg"],
-		"matches"   : ["https://www.empire-strike.com/*"]
-	},
-	{
-		"resources" : ["base/juanca.mp3"],
 		"matches"   : ["https://www.empire-strike.com/*"]
 	}
 ],
@@ -75,7 +59,6 @@
 			"ws_escogerObjectivo.js",
 			"ws_clanes.js",
       "ws_clan.js",
-			"ws_imperio.js",
 			"ws_informes.js",
 			"ws_ultimosAtaques.js",
 			"ws_comercio.js",
@@ -88,7 +71,24 @@
 	},
 	{
 		"matches": ["https://www.empire-strike.com/ciudad.php?*"],
-		"js": ["content.js","ws_ciudad.js"]
+		"js": [
+			"global.js",
+			"localstorage.js",
+			"base/datos.js",
+			"content.js"/*,
+			"ws_ciudad.js"*/,
+			"ciudad/dominio/class_edificio.js",
+			"ciudad/dominio/class_ciudad.js",
+			"ciudad/dominio/class_multiplicador.js",
+			"ciudad/dominio/class_recursos.js",
+			"ciudad/aplicacion/class_estrellas.js",
+			"ciudad/infraestructura/class_elemento_edificios.js",
+			"ciudad/infraestructura/funciones.js",
+			"ciudad/ciudad.js"]
+	},
+	{
+		"matches": ["https://www.empire-strike.com/tuimperio.php"],
+		"js": ["ws_imperio.js"]
 	},
 	{
 		"matches": ["https://www.empire-strike.com/quest.php?*"],

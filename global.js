@@ -2,7 +2,6 @@ var _NONE = 0;
 var _ASEDIO = 1;
 var _REGIONES = 2;
 var _RECONQUISTA = 3;
-
 var _INFORME = 1;
 var _INFORMECOMPARTIDO = 2;
 
@@ -149,20 +148,6 @@ var GLOBAL = {
 				//$("#notificaciones").append("<a style='padding-left: 28px;padding-bottom: 14px; background: url(" + chrome.runtime.getURL('base/puzzle.png') + "); background-size: 28px;'><span id='g_sucesos' data-r='0'>0</span></a>");
 		});
 	},
-	showSuscription: function ()
-	{
-		if(LOCAL.getImperio() == null)
-			return;
-
-		if(LOCAL.getImperio().premium == true)
-			return;
-
-		GLOBAL.showMessage("Prueba la version PREMIUM! </br>Mira las novedades en <a href='http://www.empirestrikeextension.com/#premium' target='_blank'>www.empirestrikeextension.com</a>");
-	},
-	showNews: function ()
-	{
-
-	},
 	getCode: function()
 	{
 		API.getCodigo();
@@ -205,6 +190,9 @@ var GLOBAL = {
 						parseInt($("#g_armas").html().replace(/\./g,"")),
 						parseInt($("#g_rubies").html().replace(/\./g,"")));
 	},
+	gobiernoRegion : function(region){
+	return LOCAL.getGobernantes()[region]==LOCAL.getImperio().clan;
+	},
 	cargaImperio : function(){
 		if(LOCAL.getCarga()==null)
 			return
@@ -243,10 +231,6 @@ var GLOBAL = {
 		}
 		else
 			location.replace("tuimperio.php");
-	},
-	generateAsedios : function()
-	{
-		return false;
 	}
 }
 

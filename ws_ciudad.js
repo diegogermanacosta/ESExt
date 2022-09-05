@@ -1,13 +1,3 @@
-
-var edificio = {
-	id: 				"id",
-	nombre: 		 "value", 
-	construido:      "value", 
-	costosIniciales: "value", 
-	produccion:      "value" 
-	//#seleccionado:  -1;
-}
-
 var interfaz = document.createElement("table")
 interfaz.innerHTML = `<tbody><tr><td class="cabecera"><span>Construir Edificios</span></td></tr><tr><td class="contenido" align="absmiddle"><input id="autoBuild" type="number" class="text" size="6"><span width="20" class="sprite-recurso flechita"></span><button name="Submit" value="Construir Edificios" onclick="return submitForm_edificios();" style="margin-top: 2px;">
                     <nobr>Construir <img src="//images.empire-strike.com/archivos/icon_ciudad5.gif" border="0" alt="Construir edificios" align="absmiddle" width="14" height="14"></nobr>
@@ -97,9 +87,6 @@ if(LOCAL.getPoliticas()!=null){
 	    rBase				  *= 1+(0.06*politicas.rutasdecontrabando); 
 }
 if(LOCAL.getClan()!=null){
-		bonoMaravilla(LOCAL.getClan().maravilla1,1)
-		bonoMaravilla(LOCAL.getClan().maravilla2,2)
-
 		bonoMaravilla(LOCAL.getClan(),1)
 		bonoMaravilla(LOCAL.getClan(),2)
 }
@@ -427,7 +414,7 @@ function ciudad_recalcular(costosTotales, recursosActuales, recursosUsados, edif
 
 function ciudad_estrellas(costosTotales, recursosActuales, recursosUsados, edificiosConstruidos){
 	document.querySelectorAll(".estrella").forEach(function callback(obj , index){
-		if(obj.src == "https://images.empire-strike.com/v2/interfaz/estrella-roja.png"||obj.src == "https://images.empire-strike.com/v2/interfaz/estrella-amarilla.png"){
+		if(obj.src == "https://images.empire-strike.com/v2/interfaz/estrella-amarilla.png"){
 			return;
 		}
 		
@@ -439,7 +426,7 @@ function ciudad_estrellas(costosTotales, recursosActuales, recursosUsados, edifi
 		var costoOro 		= costosTotales[edificio][nroEdificio].oro*multiplicadorR;
 		var costoMat 		= costosTotales[edificio][nroEdificio].material*multiplicadorR;
 		var recurso  		= costosTotales[edificio][nroEdificio].recurso.toUpperCase();
-		var renta    		= costosTotales[edificio][nroEdificio].rentabilidad*multiplicadorR;
+		var renta    		= costosTotales[edificio][nroEdificio].rentabilidad/multiplicadorR;
 
 		var edificioContruid = estaConstruido(edificio);
 		var construidoOro    = edificioContruid == -1 ? 0 : costosTotales[edificio][edificioContruid].oro*multiplicadorR;
@@ -475,7 +462,7 @@ function ciudad_estrellas(costosTotales, recursosActuales, recursosUsados, edifi
 
 function ciudad_calcular(inicio, estrella){
 	var result = 0;
-	for(var i = 0; i <= estrella; i++)
+	for(let i = 0; i <= estrella; i++)
 		result += inicio * i;
 	return result;
 }
@@ -570,7 +557,7 @@ function estaConstruido(id){
 
 function edificiosSeleccionados() {
 	casitas = 0;
-	for (var i = 0; i < edificiosConstruidos.length; i++) {
+	for (let i = 0; i < edificiosConstruidos.length; i++) {
 		var seleccionados	 = document.getElementById("xx_txt_costo_edificio_estrella_seleccionada_" + i).value;
 		if (seleccionados>-1)
 			casitas += seleccionados - edificiosConstruidos[i];
@@ -592,7 +579,7 @@ function valorCiudad(){
 	valorCiudad = new Array;
 	valorCiudad.oro = 0;
 	valorCiudad.traducidoOro = 0;
-	for (var i = 0; i < costosTotales.length; i++) {
+	for (let i = 0; i < costosTotales.length; i++) {
 		if (edificiosConstruidos[i]==-1)
 			continue;
 		var multiplicadorR        = 1;

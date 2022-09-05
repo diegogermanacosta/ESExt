@@ -26,22 +26,10 @@ function executeProcess(url){
 	{
 		LOCAL.clean();
 		//API.wakeUp();
-		if(document.querySelector(".cabecera:first").innerText.trim()=="MrCosmo"){
-			var saludo = new Audio (chrome.runtime.getURL('base/juanca.mp3'));
-			saludo.play();
-		}
 		return;
 	}
 
 	alwaysDo();
-
-	if(url.indexOf(_WS_IMPERIO) != -1)
-	{
-		imperio();
-		return;
-	}
-
-	GLOBAL.showSuscription();
 
 	if(LOCAL.getImperio() == null)
 		GLOBAL.showError("La extensión no genero los parametros iniciales, por favor navega a la pagina de tu <a href='/tuimperio.php'>Imperio</a>");
