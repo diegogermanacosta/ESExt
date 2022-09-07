@@ -62,7 +62,7 @@ function getCiudad(){
 		oro            : $(obj.children[7]).text().trim().replace(/\./g,"");
 		recursos       : $(obj.children[8]).text().trim().replace(/\./g,"");
 		edificios      : $(obj.children[9]).text().trim();
-		fama           : parseInt($(obj.children[5]).text().trim().substring(0, 3));
+		fama           : parseInt(obj.children[5].innerText.trim().substring(0, 3));
 		moral          : $(obj.children[14 - sinRutas]).text().trim().replace("%","");
 		defensa        : $(obj.children[1].children[0]).attr("src");//.replace("https://images.empire-strike.com/archivos/sistemas_defensivos/25/","").replace(".jpg","");
 		proteccion     : $(obj.children[15 - sinRutas]).text().trim();
