@@ -1,19 +1,20 @@
-var LOCAL_IMPERIO = "Imperio";
-var LOCAL_RECURSO = "Recurso";
-var LOCAL_CIUDADES = "Ciudades";
-var LOCAL_POLITICAS= "Politicas";
-var LOCAL_HEROES = "Heroes";
-var LOCAL_PRODUCCION = "Produccion";
-var LOCAL_ASEDIOS = "Asedios";
-var LOCAL_VALOR = "Valor";
-var LOCAL_POLITICAS = "Politicas";
+var LOCAL_IMPERIO     = "Imperio";
+var LOCAL_RECURSO     = "Recurso";
+var LOCAL_CIUDADES    = "Ciudades";
+var LOCAL_POLITICAS   = "Politicas";
+var LOCAL_HEROES      = "Heroes";
+var LOCAL_PRODUCCION  = "Produccion";
+var LOCAL_ASEDIOS     = "Asedios";
+var LOCAL_VALOR       = "Valor";
+var LOCAL_POLITICAS   = "Politicas";
 var LOCAL_GOBERNANTES = "Gobernantes";
 var LOCAL_FORMACIONES = "Formaciones";
-var LOCAL_PACIFICO = "Pacifico";
-var LOCAL_ATACAR = "Atacar";
-var LOCAL_EFICIENCIA = "Eficiencia";
-var LOCAL_CARGA = "Carga";
-var LOCAL_CLAN = "Clan";
+var LOCAL_PACIFICO    = "Pacifico";
+var LOCAL_ATACAR      = "Atacar";
+var LOCAL_EFICIENCIA  = "Eficiencia";
+var LOCAL_CARGA       = "Carga";
+var LOCAL_CANJES      = "Canjes";
+var LOCAL_CLAN        = "Clan";
 
 var LOCAL = {
 	clean: function()
@@ -265,6 +266,15 @@ var LOCAL = {
 			return null;
 
 	 	return JSON.parse(localStorage[LOCAL_CARGA]);
+	},
+	setCanjes:function(obj){
+		localStorage[LOCAL_CANJES] = JSON.stringify(obj);
+	},
+	getCanjes:function(){
+		if(localStorage[LOCAL_CANJES] == undefined || localStorage[LOCAL_CANJES] == null)
+			return null;
+
+	 	return JSON.parse(localStorage[LOCAL_CANJES]);
 	},
 	setClan:function(obj){
 		localStorage[LOCAL_CLAN] = JSON.stringify(obj);

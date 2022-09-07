@@ -218,6 +218,20 @@ var GLOBAL = {
 			localStorage.removeItem("Carga")
 		}
 	},
+	cargaHeroe : function(){
+		if (LOCAL.getHeroe()!=null){
+			var heroes = LOCAL.getHeroe();
+			var count=0;
+			for (var i = heroes.length - 1; i >= 0; i--){
+				if(!heroes[i].cargada){
+					location.replace(heroes[i].link);
+					return
+				}
+			}
+		}
+		else
+			location.replace("tuimperio.php");
+	},
 	cargaCiudad : function(){
 		if (LOCAL.getCiudad()!=null){
 			var ciudades = LOCAL.getCiudad();
