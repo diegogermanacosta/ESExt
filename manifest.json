@@ -99,6 +99,10 @@
 		"js": ["ws_canjearfama.js"]
 	},
 	{
+		"matches": ["https://www.empire-strike.com/heroe.php?*"],
+		"js": ["ws_heroe.js"]
+	},
+	{
 		"matches": ["https://www.empire-strike.com/rutascomerciales.php"],
 		"js": ["content.js","ws_rutascomerciales.js"]
 	},

@@ -1,5 +1,5 @@
 function getImperio(){
-	let info = $("#contenido .titulo").html().trim().toUpperCase();
+	let info = document.querySelector("#contenido .titulo").innerHTML.trim().toUpperCase();
 	info = info.replace("TU IMPERIO: ", "");
 	info = info.split("#");
 	return { 
@@ -8,7 +8,7 @@ function getImperio(){
 	}
 }
 function getValor(){
-	return parseInt($($(".valor")).html().replace(".", ""));
+	return parseInt(document.querySelector(".valor").innerHTML.replace(".", ""));
 }
 function getRaza(){
 	return document.querySelectorAll("#datos td")[2].innerHTML;

@@ -93,6 +93,7 @@ $(".lista2:first tr").each(function(index, obj){
 		return;
 
 	var nombre = $(obj.children[1]).find("strong").html().trim();
+	var link = obj.querySelector("a").href;
 	var clase = $(obj.children[2]).text().trim();
 	var nivel = parseInt($(obj.children[1]).text().replace(nombre, "").replace("N", "").trim());
 	var ataque = $(obj.children[5]).text().trim();
@@ -107,7 +108,7 @@ $(".lista2:first tr").each(function(index, obj){
 	var region = $(obj.children[4]).text().trim().replace("#", "");
 	var tropas = $(obj.children[14]).text().trim();
 
-	heroes.push(imperio_generateHeroe(nombre, clase, nivel, ataque, defensa, daño, vida, velocidad, moral, energia, habilidad, victorias, region, tropas));
+	heroes.push(imperio_generateHeroe(nombre, clase, nivel, ataque, defensa, daño, vida, velocidad, moral, energia, habilidad, victorias, region, tropas, link));
 
 });
 
@@ -244,7 +245,7 @@ function imperio_generateCiudad(idImperio, idCiudad, nombre, region, poblacion, 
 	}
 }
 
-function imperio_generateHeroe(nombre, clase, nivel, ataque, defensa, daño, vida, velocidad, moral, energia, habilidad, victorias, region, tropas)
+function imperio_generateHeroe(nombre, clase, nivel, ataque, defensa, daño, vida, velocidad, moral, energia, habilidad, victorias, region, tropas, link)
 {
 	return {
 		"nombre" : nombre,
@@ -260,7 +261,8 @@ function imperio_generateHeroe(nombre, clase, nivel, ataque, defensa, daño, vid
 		"habilidad" : habilidad,
 		"victorias" : victorias,
 		"region" : region,
-		"tropas" : tropas
+		"tropas" : tropas,
+		"link"   : link
 	}
 }
 

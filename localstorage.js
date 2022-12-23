@@ -13,12 +13,11 @@ var LOCAL_PACIFICO    = "Pacifico";
 var LOCAL_ATACAR      = "Atacar";
 var LOCAL_EFICIENCIA  = "Eficiencia";
 var LOCAL_CARGA       = "Carga";
-var LOCAL_CANJES      = "Canjes";
+var LOCAL_CANJES      = "Canjes"
 var LOCAL_CLAN        = "Clan";
-
+LOCAL.clean();
 var LOCAL = {
-	clean: function()
-	{
+	clean: function(){
 		for(var key in localStorage)
 		{
 			if(key == LOCAL_ASEDIOS||key==LOCAL_FORMACIONES||key==LOCAL_ATACAR)

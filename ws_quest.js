@@ -1,3 +1,6 @@
 $(".tabs").parent().after(document.getElementById("sumario"));
-document.getElementById("vertodasquest").click();
-//GLOBAL.cargaImperio();
+let quests = document.getElementById("vertodasquest");
+if(quests!=null)
+	quests.click();
+GLOBAL.cargaHeroe();
+GLOBAL.cargaImperio();

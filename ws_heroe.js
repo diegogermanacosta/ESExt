@@ -9,6 +9,6 @@ else{
 			LOCAL.setHeroe(Heroes);
 		}
 	}
-	//GLOBAL.cargaHeroe();
+	GLOBAL.cargaHeroe();
 }
 	GLOBAL.cargaImperio();}
