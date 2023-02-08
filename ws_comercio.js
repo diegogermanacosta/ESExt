@@ -19,7 +19,6 @@ function comercio()
 	{
 		oroRaza=40000;
 	}
-	
 	var valoresVenta = {};
 	$(".lista1 tr").each(function(index, obj) {
 		if(index == 0)
@@ -89,8 +88,8 @@ function comercio()
 function compraJusta(oroRaza) 
 {
 	var turnosGastados     = parseInt(document.getElementById("turnos").value);
-	var	oroGanado          = parseInt(document.getElementById("cobrar").value);
-	var	oroGastado         = parseInt(document.getElementById("pagar").value);
+	var	oroGanado          = parseInt(document.getElementById("cobrar").value.replaceAll(".",""));
+	var	oroGastado         = parseInt(document.getElementById("pagar").value.replaceAll(".",""));
 	var OroTurno           = oroRaza * turnosGastados;
 	var OroSumaGastoGanado = oroGanado+oroGastado;
 	var difOro             = OroTurno-OroSumaGastoGanado;

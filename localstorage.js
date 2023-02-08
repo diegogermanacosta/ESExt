@@ -15,7 +15,7 @@ var LOCAL_EFICIENCIA  = "Eficiencia";
 var LOCAL_CARGA       = "Carga";
 var LOCAL_CANJES      = "Canjes"
 var LOCAL_CLAN        = "Clan";
-LOCAL.clean();
+
 var LOCAL = {
 	clean: function(){
 		for(var key in localStorage)

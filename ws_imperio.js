@@ -20,7 +20,8 @@ if($($("#datos td")[5]).html().match(/\(...\)/g) != null && $($("#datos td")[5])
 var ciudades = new Array();
 var heroes = new Array();
 var produccion = {};
-var ib = $("#datos>tbody>tr:eq(4)")[0].outerText.replace('Índice Bélico','').split('%')[0].replace(',','.').trim();
+var ib = document.querySelector("#datos > tbody > tr:nth-child(3)").outerText.replace('Índice Bélico','').split('%')[0].replace(',','.').trim();
+
 //Formula 0.1*(100 - IB actual)
 var ibReducidoAlPaso = 0.1*(100-ib);
 var ibAlPaso = (ib - ibReducidoAlPaso).toFixed(1);
@@ -37,11 +38,19 @@ while(15 <= idReducido){
 var pacifico= false;
 if(ib<=15&&LOCAL.getValor()>500){	
 	var iconoP=`<span id="icono_pacifico"> <img src="//images.empire-strike.com/archivos/icon_paz.gif" width="15" height="15" align="absmiddle" hspace="2" title="Eres un imperio Pacífico"></span>`;
-	$("#datos>tbody>tr:eq(4)").append(`<td><b>IB al paso:</b> ${ibAlPaso}%${iconoP}</td>`);
+	document.querySelector("#datos > tbody > tr:nth-child(3)").innerHTML += (`<td><b>IB al paso:</b> ${ibAlPaso}%${iconoP}</td>`);
 	pacifico=true;
 }
 else
-	$("#datos>tbody>tr:eq(4)").append(`<td><b>IB al paso:</b> ${ibAlPaso}%, necesitas ${count} paso(s) para volver a pacifico</td>`);
+	document.querySelector("#datos > tbody > tr:nth-child(3)").innerHTML += (`<td id=ibcount><b>IB al paso:</b> ${ibAlPaso}%, </td>`);
+
+if(raza=="Elfos oscuros")
+	document.querySelector("#ibcount").innerHTML += "los EOs son Todos Putos"
+else
+	if(LOCAL.getValor()>500)
+		document.querySelector("#ibcount").innerHTML += `necesitas ${count} paso(s) para volver a pacifico`
+	else
+		document.querySelector("#ibcount").innerHTML += `necesitas subir tu valor a 500 para ser pacifico`
 LOCAL.setPacifico(pacifico);
 // OBTENER CIUDADES
 var famaProduccion = 0;

@@ -107,7 +107,7 @@
 		"js": ["content.js","ws_rutascomerciales.js"]
 	},
 	{
-		"matches": ["https://www.empire-strike.com/politica.php"],
+		"matches": ["https://www.empire-strike.com/politica.php*"],
 		"js": ["content.js","ws_politica.js"]
 	}
   ],
