@@ -102,7 +102,7 @@ function esRegionRutas(region){
 
 function getCiudadesBonoRegion(){
   //carga ciudades;
-  let ciudades = LOCAL.getImperio().ciudades;
+  let ciudades = LOCAL.getCiudad();
   let ciudadesConBono = [];
   for (var i = ciudades.length - 1; i >= 0; i--) {
     let miClan = LOCAL.getImperio()["clan"];
