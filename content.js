@@ -31,7 +31,7 @@ function executeProcess(url){
 
 	alwaysDo();
 
-	if(LOCAL.getImperio() == null)
+	if(LOCAL.getImperio() == null&&url.indexOf(_WS_IMPERIO)== -1)
 		GLOBAL.showError("La extensión no genero los parametros iniciales, por favor navega a la pagina de tu <a href='/tuimperio.php'>Imperio</a>");
 
 	if(url.indexOf(_WS_ESCOGEROBJECTIVO) != -1)

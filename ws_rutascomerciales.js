@@ -50,13 +50,16 @@ document.querySelectorAll(".lista1 tr").forEach(function callback(obj , index){
   var nombre = obj.children[1].innerText;
   obj.children[1].innerHTML+="<span style='color: #990000; font-weight: bold'>("+oroIdeal({"poblacion": poblacion,"edificios": edificios})+")</span>";
   //Si la ciudad tiene bono de region, imprime
-  
+  let color = "#001199";
   let multiplicadorRutas = multiplicadorBase;
   for (i in ciudadConBonoRegion) {
-    if(ciudadConBonoRegion[i]==obj.children[0].innerText)
+    if(ciudadConBonoRegion[i]==obj.children[0].innerText){
       multiplicadorRutas *= multiplicadorGobernante;
+      color = "#991199";
+
     }
-  obj.children[1].innerHTML+="<span id=multiplicadorCiudad"+obj.children[0].innerText+" style='color: #001199; font-weight: bold'>x"+multiplicadorRutas.toFixed(1)+"</span>";
+  }
+  obj.children[1].innerHTML+="<span id=multiplicadorCiudad"+obj.children[0].innerText+" style='color: "+color+"; font-weight: bold'>x"+multiplicadorRutas.toFixed(1)+"</span>";
   
 
   if(LOCAL.getImperio()==null)
