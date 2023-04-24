@@ -36,21 +36,26 @@ while(15 <= idReducido){
 		count++;
 }
 var pacifico= false;
+var descripcionIB = "";
+if(raza=="Elfos oscuros"){
+	descripcionIB = "Nunca vas a ser Pacifico porque los EOs son Todos Putos"
+	if(ibAlPaso<20)
+		ibAlPaso =20;
+}
+else
+	if(LOCAL.getValor()<500)
+		descripcionIB = `necesitas subir tu valor a 500 para ser pacifico`
+	else if(ib>=15)
+		descripcionIB = `necesitas ${count} paso(s) para volver a pacifico`
 if(ib<=15&&LOCAL.getValor()>500){	
 	var iconoP=`<span id="icono_pacifico"> <img src="//images.empire-strike.com/archivos/icon_paz.gif" width="15" height="15" align="absmiddle" hspace="2" title="Eres un imperio Pacífico"></span>`;
 	document.querySelector("#datos > tbody > tr:nth-child(3)").innerHTML += (`<td id=ibcount><b>IB al paso:</b> ${ibAlPaso}%${iconoP}</td>`);
 	pacifico=true;
 }
 else
-	document.querySelector("#datos > tbody > tr:nth-child(3)").innerHTML += (`<td id=ibcount><b>IB al paso:</b> ${ibAlPaso}%, </td>`);
+	document.querySelector("#datos > tbody > tr:nth-child(3)").innerHTML += (`<td id=ibcount><b>IB al paso:</b> ${ibAlPaso}%, ${descripcionIB}</td>`);
 
-if(raza=="Elfos oscuros")
-	document.querySelector("#ibcount").innerHTML += "los EOs son Todos Putos"
-else
-	if(LOCAL.getValor()<500)
-		document.querySelector("#ibcount").innerHTML += `necesitas subir tu valor a 500 para ser pacifico`
-	else if(ib>=15)
-		document.querySelector("#ibcount").innerHTML += `necesitas ${count} paso(s) para volver a pacifico`
+
 LOCAL.setPacifico(pacifico);
 // OBTENER CIUDADES
 var famaProduccion = 0;

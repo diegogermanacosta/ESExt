@@ -6,7 +6,6 @@ interfaz.className="minipapiro";
 document.getElementById("contenido").prepend(interfaz)
 var autoBuild = document.getElementById("autoBuild");
 var ValorRecursos;
-var dataCiudad = new Array();
 var diaPartida = parseInt(document.getElementById("hora").innerText.split("DíA ")[1]);
 var modoCierre = false;
 if(diaPartida<19){
