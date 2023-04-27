@@ -138,19 +138,29 @@ const COSTOS_INICIALES = {
 	"burdeles"      : {oro:900,cantidadRecurso:300,recurso:"TABLAS"},
 	"escuela"       : {oro:1500,cantidadRecurso:300,recurso:"TABLAS"}
 }
-
+const EDIFICIOS_REQUERIDOS = {
+	"20": 13,
+	"21": 13,
+	"22": 15,
+	"23": 12,
+	"24": 18,
+	"25": 14,
+	"26": 16
+}
 const K_POBLACION = 1/337524.1;
 function getKpobla(pobla){
 	let k_pobla=1/337524.1
 	return 1+pobla*k_pobla
 }
 const BONO_GOBIERNO = {
-	"GAIA" : [[["ALIMENTOS",3]],
-	          [["MANA",2]],
-	          [[]],
-	          [["MADERA",2],["TABLAS",2]],
-	          [["ORO",2]],
-	          [["FAMA",1.5]]
-	          ]
+	"GAIA" : 
+	[
+	  [["ALIMENTOS",3]],
+	  [["MANA",2]],
+	  [[]],
+	  [["MADERA",2],["TABLAS",2]],
+	  [["ORO",2]],
+	  [["FAMA",1.5]]
+	]
 
 }

@@ -42,7 +42,7 @@ function estrellaVerde(idEdificio){
 		if(elementos[i].src == "https://images.empire-strike.com/v2/interfaz/estrella-roja.png"||elementos[i].src == "https://images.empire-strike.com/v2/interfaz/estrella-amarilla.png"){
 			continue;
 		}
-		if (estrella.puedoconstruir(edificios[idEdificio],i-1,recursos.getRecursos()))
+		if (estrella.puedoconstruir(idEdificio,edificios,i-1,recursos.getRecursos()))
 			elementos[i].src = chrome.runtime.getURL('base/estrella-verde.png');
 		else
 			elementos[i].src = "https://images.empire-strike.com/v2/interfaz/estrella-vacia.png";
@@ -99,7 +99,7 @@ function estrellaAzul(){
 		let edificio   = edificios[idEdificio];
 		let numeroEstrella   = tablaEficiencia[i][1];
 		let obj        = listaElementosEdificios[idEdificio].children[numeroEstrella+1];
-		if (estrella.puedoconstruir(edificio,numeroEstrella,recursos.getRecursos())&&edificio.getConstruido()<numeroEstrella){
+		if (estrella.puedoconstruir(idEdificio,edificios,numeroEstrella,recursos.getRecursos())&&edificio.getConstruido()<numeroEstrella){
 			if(autoBuild.value>getEdificiosSeleccionados()){
 				obj.click();
 			}
