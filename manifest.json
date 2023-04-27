@@ -76,7 +76,7 @@
 			"localstorage.js",
 			"base/datos.js",
 			"content.js",
-			"ws_ciudad.js"/*,
+			//"ws_ciudad.js"/*,
 			"ciudad/dominio/class_edificio.js",
 			"ciudad/dominio/class_ciudad.js",
 			"ciudad/dominio/class_multiplicador.js",

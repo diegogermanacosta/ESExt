@@ -1,5 +1,6 @@
 construirConTecla(" ");
 setStyle();
+setEdificador()
 //lista elementos de edificio: 0-32 = seleciona edificio || 0 = nombre, 1 = borrar, 2-11 = estrellas
 var listaElementosEdificios = document.querySelectorAll(".c .nome");
 var edificios               = new Array();
@@ -7,13 +8,17 @@ var estrella                = new estrellas();
 var ciudad                  = null;
 var recursos                = null;
 var tablaEficiencia         = [];
+var autoBuild               = document.getElementById("autoBuild");
 
+autoBuild.onkeyup = function(){
+	estrellaAzul();
+}
 UTIL.injectCode("base/setvalueedif.js");
 setTimeout(() => {
 	let recursosActuales    = JSON.parse(document.getElementById("recursosActuales").value);
 	//cargo datos de ciudad
 		recursos            = new recursosClass(recursosActuales);
-	let multiplicador       = new multiplicadores(GLOBAL.getPartida(),GLOBAL.gobiernoRegion(),LOCAL.getImperio(),getDataCiudad(),LOCAL.getPoliticas(),LOCAL.getClan());
+	let multiplicador       = new multiplicadores(GLOBAL.getPartida(),GLOBAL.gobiernoRegion(),LOCAL.getImperio(),getDataCiudad(document),LOCAL.getPoliticas(),LOCAL.getClan());
 	listaElementosEdificios.forEach(function callback(obj , index){
 		let nombre          = obj.innerText.trim().replace(" ","").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 		let construido      = parseInt(document.getElementById("txt_edificio_ya_compradas_"+index).value) + 1;
@@ -21,8 +26,7 @@ setTimeout(() => {
 		setElementoEdificio(index);
 	});
 	tablaEficiencia.sort(comparar);
-	console.log(tablaEficiencia);
-	ciudad                  = new ciudadclass(getDataCiudad(),edificios,getEstado(),GLOBAL.gobiernoRegion());
+	ciudad                  = new ciudadclass(getDataCiudad(document),edificios,getEstado(document),GLOBAL.gobiernoRegion());
 	calculaEstrellas()
 	cargaCiudad()
 },200);
@@ -80,9 +84,10 @@ function setClicks(elemento,idEdificio){
 	elemento.addEventListener("click",function(){
 		let seleccionados = parseInt(document.getElementById("xx_txt_costo_edificio_estrella_seleccionada_"+idEdificio).value) + 1;
 		edificios[idEdificio].setSeleccionado(seleccionados);
-		recursos.setVariacionRecursos(getRecursosUsados());
+		recursos.setVariacionRecursos(getRecursosUsados(document));
 		calculaEstrellas();
-		estrellaAzul()
+		estrellaAzul();
+		mostrarCasitas(getEdificiosSeleccionados());
 	});
 }
 
@@ -95,8 +100,13 @@ function estrellaAzul(){
 		let numeroEstrella   = tablaEficiencia[i][1];
 		let obj        = listaElementosEdificios[idEdificio].children[numeroEstrella+1];
 		if (estrella.puedoconstruir(edificio,numeroEstrella,recursos.getRecursos())&&edificio.getConstruido()<numeroEstrella){
-			obj.src = chrome.runtime.getURL('base/estrella-azul.png');
-			blue = true
+			if(autoBuild.value>getEdificiosSeleccionados()){
+				obj.click();
+			}
+			else {
+				obj.src = chrome.runtime.getURL('base/estrella-azul.png');
+				blue = true;
+			}
 		}
 		i++;
 	}

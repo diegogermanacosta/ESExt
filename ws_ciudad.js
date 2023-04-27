@@ -555,7 +555,7 @@ function estaConstruido(id){
 }
 
 function edificiosSeleccionados() {
-	casitas = 0;
+	let casitas = 0;
 	for (let i = 0; i < edificiosConstruidos.length; i++) {
 		var seleccionados	 = document.getElementById("xx_txt_costo_edificio_estrella_seleccionada_" + i).value;
 		if (seleccionados>-1)
