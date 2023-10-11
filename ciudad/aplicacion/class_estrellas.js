@@ -4,7 +4,7 @@ class estrellas {
 		let recurso       = edificio.getCosto()["recurso"]
 		let costoOro      = this.costoEstrella(edificio.getConstruido(),estrella)*edificio.getCosto()["oro"];
 		let costoRecurso  = this.costoEstrella(edificio.getConstruido(),estrella)*edificio.getCosto()["cantidadRecurso"];
-		if (costoOro>recursosActuales["ORO"]||costoRecurso>recursosActuales[recurso]||this.requisitoEstrella(idEdificio,edificios,estrella,recursosActuales))
+		if (costoOro>recursosActuales["ORO"]||costoRecurso>recursosActuales[recurso]||!this.requisitoEstrella(idEdificio,edificios,estrella,recursosActuales))
 			return false;
 		else{
 			return true;
@@ -18,9 +18,9 @@ class estrellas {
 	}
 	requisitoEstrella(idEdificio,edificios,estrella,recursosActuales){
 		if(EDIFICIOS_REQUERIDOS[idEdificio]==null)
-			return false;
-		if(estrella>edificios[EDIFICIOS_REQUERIDOS[idEdificio]].getConstruido())
 			return true;
-		return false;
+		if(estrella>edificios[EDIFICIOS_REQUERIDOS[idEdificio]].getConstruido())
+			return false;
+		return true;
 	}
 }

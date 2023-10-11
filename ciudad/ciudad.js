@@ -9,7 +9,13 @@ var ciudad                  = null;
 var recursos                = null;
 var tablaEficiencia         = [];
 var autoBuild               = document.getElementById("autoBuild");
-
+var limpiarConstruido		= document.getElementById("clean");
+limpiarConstruido.onclick = function(){
+	document.querySelectorAll(".elim").forEach(function callback(obj , index){
+		obj.click();
+	});
+	mostrarCasitas();
+}
 autoBuild.onkeyup = function(){
 	estrellaAzul();
 }
@@ -60,6 +66,8 @@ function setElementoEdificio(idEdificio){
 	elementoEdificio.querySelectorAll(".estrella").forEach(function callback(obj){
 		let estrella = parseInt(obj.dataset.attr.split(',')[1])+1;
 		tablaEficiencia.push([idEdificio , estrella , edificios[idEdificio].getRentabilizacion(MINIMOS,estrella,2)])
+		if(EDIFICIOS_REQUERIDOS[idEdificio]&&EDIFICIOS_REQUERIDOS[idEdificio]<estrella)
+			tablaEficiencia.push([EDIFICIOS_REQUERIDOS[idEdificio] , estrella , edificios[idEdificio].getRentabilizacion(MINIMOS,estrella,2)])
 		setClicks(obj,idEdificio);
 		obj.addEventListener("mouseover",function(){
 			estrellaVerde(idEdificio);
@@ -92,22 +100,22 @@ function setClicks(elemento,idEdificio){
 }
 
 function estrellaAzul(){
-	let blue = false;
-	let i    = 0;
-	while(!blue&&i<tablaEficiencia.length){
+	for( i = 0 ; i<tablaEficiencia.length ; i++){
 		let idEdificio = tablaEficiencia[i][0];
 		let edificio   = edificios[idEdificio];
 		let numeroEstrella   = tablaEficiencia[i][1];
 		let obj        = listaElementosEdificios[idEdificio].children[numeroEstrella+1];
-		if (estrella.puedoconstruir(idEdificio,edificios,numeroEstrella,recursos.getRecursos())&&edificio.getConstruido()<numeroEstrella){
-			if(autoBuild.value>getEdificiosSeleccionados()){
-				obj.click();
-			}
-			else {
-				obj.src = chrome.runtime.getURL('base/estrella-azul.png');
-				blue = true;
-			}
+		if (edificio.getConstruido()>=numeroEstrella)
+			continue;
+		if(!estrella.puedoconstruir(idEdificio,edificios,numeroEstrella,recursos.getRecursos()))
+			continue;
+		if(autoBuild.value>getEdificiosSeleccionados()){
+			obj.click();
+			break;
 		}
-		i++;
+		else {
+			obj.src = chrome.runtime.getURL('base/estrella-azul.png');
+			break;
+		}
 	}
 }

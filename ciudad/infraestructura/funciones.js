@@ -48,6 +48,7 @@ function setEdificador(){
 	                <button name="Submit" value="Construir Edificios" onclick="return submitForm_edificios();" style="margin-top: 2px;">
                     	Construir <img src="//images.empire-strike.com/archivos/icon_ciudad5.gif" border="0" alt="⌂" align="absmiddle" width="14" height="14">
 	                </button>
+	                <img id="clean" src="//images.empire-strike.com/v2/iconos/icon_quitar.png" title="Eliminar selección">
 	            </td>
 	        </tr>
 	        <tr>
