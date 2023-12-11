@@ -8,19 +8,19 @@ class recursosClass {
 	setVariacionRecursos(recursos){
 		this.#variacionRecursos = this.getCeroRecursos();
 		if(recursos!=null)
-			for(var key in recursos)
+			for(let key in recursos)
 				this.#variacionRecursos[key] =recursos[key];
 	}
 	getCeroRecursos(){
 		let ceroRecursos = {};
-		for(var key in this.#recursosActuales){
+		for(let key in this.#recursosActuales){
 			ceroRecursos[key] = 0;
 		}
 		return ceroRecursos;
 	}
 	getRecursos(){
 		let recursosDisponibles = {};
-		for(var key in this.#recursosActuales){
+		for(let key in this.#recursosActuales){
 			recursosDisponibles[key] = this.#recursosActuales[key] + this.#variacionRecursos[key];
 		}
 		return recursosDisponibles;

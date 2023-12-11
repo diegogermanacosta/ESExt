@@ -10,19 +10,10 @@ function alwaysDo()
 	//GLOBAL.checkNews();
 	//GLOBAL.updateRecursos();
 	//GLOBAL.getCode();
-
 	var botonaZong = new Audio (chrome.runtime.getURL("base/button.mpeg"));
 	var accion = function()
 	{
-		let carga = {
-			mode : true,
-			type : "imperio",
-			init : location.href
-		};
-		LOCAL.setCarga(carga);
-		GLOBAL.cargaImperio();
-		if(!LOCAL.getCarga())
-			botonaZong.play();
+		botonaZong.play();
 	}; 
 	var botonazo = GLOBAL.crearBoton("#subcabecera","Apretame este Boton", accion);
 	botonazo.style = "height: 35px"
@@ -31,6 +22,7 @@ function alwaysDo()
 	elementoLista.innerHTML = `<li><a href="ultimosataques.php">Ataques recibidos</a></li>`;
 	document.querySelector("#sinfo  ul").children[2].innerHTML = `<a href="ultimosataquestuyos.php">Ataques realizados</a>`;
 	document.querySelector("#sinfo  ul").children[2].after(elementoLista);
+	cargaImperio()
 }
 
 var GLOBAL = {
@@ -87,7 +79,7 @@ var GLOBAL = {
 		console.error("EXTENSION EXCEPTION\n" + data.responseText);
 	},
 	getPartida: function() {
-		return $($("#_infopartida").contents().filter(function() { return this.nodeType == Node.TEXT_NODE; })[1]).text().trim().replace("(Ronda ","").replace(")","").split(" ")[0];
+		return document.querySelector("#_infopartida").innerText.split("\n")[2].split("(")[0].trim()
 	},
 	getClanCantidad: function() {
 		switch(GLOBAL.getPartida()) {
@@ -105,16 +97,25 @@ var GLOBAL = {
 		}
 	},
 	getRonda: function() {
-		return parseInt($($("#_infopartida").contents().filter(function() { return this.nodeType == Node.TEXT_NODE; })[1]).text().trim().replace("(Ronda ","").replace(")","").split(" ")[1]);
+		return document.querySelector("#_infopartida").innerText.split("\n")[2].split("(")[1].trim().replace("Ronda ","").replace(")","")
 	},
 	getFechaFin: function() {
-		return $("#_infopartida .fecha_local").text();
+		return document.querySelector("#_infopartida .fecha_local").innerText;
 	},
 	getHorasProteccion: function() {
-		return parseInt($($("#_infopartida").contents().filter(function() { return this.nodeType == Node.TEXT_NODE; })[4]).text().trim().substring(0,2));
+		return document.querySelector("#_infopartida").innerText.split("\n")[5].trim()
 	},
 	showOpcionesDisponibles: function() {
-		$("<div style='position: absolute; border-radius: 5px; border: 2px solid #35771F; padding: 5px; margin: 10px'><b>PRESIONA EL ICONO DE LA EXTENSIÓN PARA VER LAS OPCIONES DISPONIBLES</b></div>").insertBefore("#subcabecera");
+    var div = document.createElement("div");
+    div.style.position = "absolute";
+    div.style.borderRadius = "5px";
+    div.style.border = "2px solid #35771F";
+    div.style.padding = "5px";
+    div.style.margin = "10px";
+    div.innerHTML = "<b>PRESIONA EL ICONO DE LA EXTENSIÓN PARA VER LAS OPCIONES DISPONIBLES</b>";
+
+    var subcabecera = document.getElementById("subcabecera");
+    subcabecera.parentNode.insertBefore(div, subcabecera);
 	},
 	crearBoton: function(donde,nombre,accion){
 		//crear boton
@@ -143,9 +144,6 @@ var GLOBAL = {
 			var manifestExtension = chrome.runtime.getManifest();
 			if(manifestExtension.version != data.Version)
 				GLOBAL.showMessage("Nueva versión disponible de la extensión. <a target='_blank' href='" + url + "/ActualizacionManual'>¿Como la actualizo?</a> <a target='_blank' href='" + url + "/Release/" + data.Version.replace(".","_") + "'>¿Que hay de nuevo?</a>");
-
-			//if(data.Mensajes.length > 0)
-				//$("#notificaciones").append("<a style='padding-left: 28px;padding-bottom: 14px; background: url(" + chrome.runtime.getURL('base/puzzle.png') + "); background-size: 28px;'><span id='g_sucesos' data-r='0'>0</span></a>");
 		});
 	},
 	getCode: function()
@@ -156,66 +154,46 @@ var GLOBAL = {
 		if(LOCAL.getImperio() == null)
 			return;
 
-		if($("#g_turnos").length == 0)
+		if(document.querySelector("#g_turnos").innerText.length == 0)
 			return;
 
 		var updateRecurso = true;
 		if(LOCAL.getRecurso() != null)
 		{
-			var turnos = parseInt($("#g_turnos").html().replace(/\./g,""));
+			var turnos = parseInt(document.querySelector("#g_turnos").innerHTML().replace(/\./g,""));
 			if(LOCAL.getRecurso().turnos == turnos)
 				updateRecurso = false;
 		}
 
 		if(updateRecurso)
 			API.setRecurso(LOCAL.getImperio().guidImperio, GLOBAL.getPartida(), GLOBAL.getRonda(),
-						parseInt($("#g_turnos").html().replace(/\./g,"")),
-						parseInt($("#g_mana").html().replace(/\./g,"")),
-						parseInt($("#g_karma").html().replace(/\./g,"")),
-						parseInt($("#g_oro").html().replace(/\./g,"")),
-						parseInt($("#g_alimentos").html().replace(/\./g,"")),
-						parseInt($("#g_agua").html().replace(/\./g,"")),
-						parseInt($("#g_hierro").html().replace(/\./g,"")),
-						parseInt($("#g_piedra").html().replace(/\./g,"")),
-						parseInt($("#g_madera").html().replace(/\./g,"")),
-						parseInt($("#g_mithril").html().replace(/\./g,"")),
-						parseInt($("#g_plata").html().replace(/\./g,"")),
-						parseInt($("#g_gemas").html().replace(/\./g,"")),
-						parseInt($("#g_herramientas").html().replace(/\./g,"")),
-						parseInt($("#g_bloques").html().replace(/\./g,"")),
-						parseInt($("#g_tablas").html().replace(/\./g,"")),
-						parseInt($("#g_reliquias").html().replace(/\./g,"")),
-						parseInt($("#g_joyas").html().replace(/\./g,"")),
-						parseInt($("#g_cristal").html().replace(/\./g,"")),
-						parseInt($("#g_armas").html().replace(/\./g,"")),
-						parseInt($("#g_rubies").html().replace(/\./g,"")));
+						parseInt(document.querySelector("#g_turnos").InnerHTML.replace(/\./g,"")),
+						parseInt(document.querySelector("#g_mana").InnerHTML.replace(/\./g,"")),
+						parseInt(document.querySelector("#g_karma").InnerHTML.replace(/\./g,"")),
+						parseInt(document.querySelector("#g_oro").InnerHTML.replace(/\./g,"")),
+						parseInt(document.querySelector("#g_alimentos").InnerHTML.replace(/\./g,"")),
+						parseInt(document.querySelector("#g_agua").InnerHTML.replace(/\./g,"")),
+						parseInt(document.querySelector("#g_hierro").InnerHTML.replace(/\./g,"")),
+						parseInt(document.querySelector("#g_piedra").InnerHTML.replace(/\./g,"")),
+						parseInt(document.querySelector("#g_madera").InnerHTML.replace(/\./g,"")),
+						parseInt(document.querySelector("#g_mithril").InnerHTML.replace(/\./g,"")),
+						parseInt(document.querySelector("#g_plata").InnerHTML.replace(/\./g,"")),
+						parseInt(document.querySelector("#g_gemas").InnerHTML.replace(/\./g,"")),
+						parseInt(document.querySelector("#g_herramientas").InnerHTML.replace(/\./g,"")),
+						parseInt(document.querySelector("#g_bloques").InnerHTML.replace(/\./g,"")),
+						parseInt(document.querySelector("#g_tablas").InnerHTML.replace(/\./g,"")),
+						parseInt(document.querySelector("#g_reliquias").InnerHTML.replace(/\./g,"")),
+						parseInt(document.querySelector("#g_joyas").InnerHTML.replace(/\./g,"")),
+						parseInt(document.querySelector("#g_cristal").InnerHTML.replace(/\./g,"")),
+						parseInt(document.querySelector("#g_armas").InnerHTML.replace(/\./g,"")),
+						parseInt(document.querySelector("#g_rubies").InnerHTML.replace(/\./g,"")));
 	},
 	gobiernoRegion : function(region){
-	return LOCAL.getGobernantes()[region]==LOCAL.getImperio().clan;
-	},
-	cargaImperio : function(){
-		if(LOCAL.getCarga()==null)
-			return;
-		if(LOCAL.getCarga()["mode"]&&LOCAL.getCarga()["type"]=="imperio"){
-			if(LOCAL.getImperio()==null){
-				location.replace("tuimperio.php");
-				return;
-			}
-			if(LOCAL.getPoliticas()==null){
-				location.replace("politica.php");
-				return;
-			}
-			if(LOCAL.getGobernantes()==null){
-				location.replace("gobierno.php");
-				return;
-			}
-			if(LOCAL.getClan()==null&&LOCAL.getImperio().clan!=''){
-				location.replace("clan.php?sclan="+LOCAL.getImperio().clan);
-				return;
-			}
-			if(location.href!=LOCAL.getCarga()["init"])
-				location.replace(LOCAL.getCarga()["init"]);
-			localStorage.removeItem("Carga")
+		if(LOCAL.getGobernantes()&&LOCAL.getImperio())
+			return LOCAL.getGobernantes()[region]==LOCAL.getImperio().clan;
+		else{
+			console.log("no se puede calcular gobernante de la region, pero para mi es tu señora");
+			return false;
 		}
 	},
 	cargaHeroe : function(){
@@ -255,15 +233,12 @@ function moveAsedios(e){
   div.style.left = (parseInt(e.clientX) - 20) + 'px';
 }
 
-function desmarcarAsedio(idCiudad)
-{
-	var asedio = LOCAL.getAsedio(idCiudad);
-
-	$(".marcarAsedio_" + idCiudad).each(function(index, obj){
-			$(obj).css("color", "#006400");
-			$(obj).text("[Marcar]");
-	})
-
-	asedio.marcado = false;
-	LOCAL.setAsedio(asedio);
+function desmarcarAsedio(idCiudad) {
+    var asedio = LOCAL.getAsedio(idCiudad);
+    document.querySelectorAll(".marcarAsedio_" + idCiudad).forEach(function (obj) {
+        obj.style.color = "#006400";
+        obj.textContent = "[Marcar]";
+    });
+    asedio.marcado = false;
+    LOCAL.setAsedio(asedio);
 }

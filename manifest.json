@@ -52,6 +52,7 @@
 			"base/jquery.min.js",
 			"base/util.js",
 			"localstorage.js",
+			"cargaimperio.js",
 			"global.js",
 			"base/datos.js",
 			"api.js",
@@ -64,7 +65,6 @@
 			"ws_comercio.js",
 			"ws_ranking.js",
 			"ws_mensajes.js",
-			"ws_gobierno.js",
 			"ws_movertropas.js",
 			"content.js"
 		]
@@ -89,6 +89,10 @@
 	{
 		"matches": ["https://www.empire-strike.com/tuimperio.php"],
 		"js": ["ws_imperio.js"]
+	},
+	{
+		"matches": ["https://www.empire-strike.com/gobierno.php"],
+		"js": ["ws_gobierno.js"]
 	},
 	{
 		"matches": ["https://www.empire-strike.com/quest.php?*"],

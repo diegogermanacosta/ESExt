@@ -1,10 +1,9 @@
 function getImperio(){
-	let info = document.querySelector("#contenido .titulo").innerHTML.trim().toUpperCase();
-	info = info.replace("TU IMPERIO: ", "");
-	info = info.split("#");
+	let titulo = document.querySelector("#contenido .titulo").innerHTML.trim().toUpperCase();
+	let imperio = titulo.replace("TU IMPERIO: ", "").split("#");
 	return { 
-		id     : parseInt(info[1]),
-		nombre : info[0].trim()
+		id     : parseInt(imperio[1]),
+		nombre : imperio[0].trim()
 	}
 }
 function getValor(){
@@ -28,42 +27,74 @@ function calculaBelico(indiceBelico){
 	if(ibAlPaso < 0)
 		ibAlPaso = 0;
 
-	let idReducido = indiceBelico
+	let ibReducido = indiceBelico
 	let count = 0;
-	while(15 <= idReducido){
+	while(15 <= ibReducido){
 		count++;
-		idReducido = idReducido - 0.1*(100-idReducido);
+		ibReducido = ibReducido - 0.1*(100-ibReducido);
+	}
+	return {
+		"indiceBelico": indiceBelico,
+		"ibAlPaso"	  : ibAlPaso,
+		"diasBelico"  : count
 	}
 }
-function isPacifico(indiceBelico){
-	return (indiceBelico<=15&&getValor()>500);
+function isPacifico(indiceBelico,valorImperio){
+	return (indiceBelico<=15&&valorImperio>500);
 }
-function mostrarBelico(indiceBelico,ibAlPaso,count){
+function mostrarBelico(calculaBelico){
+	{indiceBelico,ibAlPaso,diasBelico} = calculaBelico;
+	let elemento = document.querySelector('#datos>tbody>tr:nth-child(5)');
 	if(isPacifico(indiceBelico)){	
-		let iconoP=`<span id="icono_pacifico"> <img src="//images.empire-strike.com/archivos/icon_paz.gif" width="15" height="15" align="absmiddle" hspace="2" title="Eres un imperio Pacífico"></span>`;
-		$("#datos>tbody>tr:eq(4)").append(`<td><b>IB al paso:</b> ${ibAlPaso}%${iconoP}</td>`);
+		let iconoP= `<span id="icono_pacifico">
+						<img src="//images.empire-strike.com/archivos/icon_paz.gif" width="15" height="15" align="absmiddle" hspace="2" title="Eres un imperio Pacífico">
+					 </span>`;
+		elemento.append(`<td><b>IB al paso:</b> ${ibAlPaso}%${iconoP}</td>`);
 	}
 	else
-		$("#datos>tbody>tr:eq(4)").append(`<td><b>IB al paso:</b> ${ibAlPaso}%, necesitas ${count} paso(s) para volver a pacifico</td>`);
+		elemento.append(`<td>
+							<b>IB al paso:</b> 
+							${ibAlPaso}%, necesitas ${diasBelico} paso(s) para volver a pacifico
+						</td>`);
 	
 }
 function cargaCiudades(){
-	document.querySelectorAll(".lista2:not(:first) tr").map(function(index, obj){
-		if(index == 0||obj.children.length < 16 ||  obj.children.length > 17)
-			return;
+	document.querySelectorAll(".lista2")[1].querySelectorAll("tbody tr").map(function(index, obj){
 		let sinRutas = obj.children.length == 16 ? 1 : 0;
 		return{
-			idCiudad       : $(obj.children[0]).text().trim();
-			nombre         : $(obj.children[2]).text().trim();
-			region         : $(obj.children[3]).text().trim().replace("#","");
-			poblacion      : $(obj.children[4]).text().trim().replace(/\./g,"");
-			oro            : $(obj.children[7]).text().trim().replace(/\./g,"");
-			recursos       : $(obj.children[8]).text().trim().replace(/\./g,"");
-			edificios      : $(obj.children[9]).text().trim();
+			idCiudad       : obj.children[0].innerText().trim();
+			nombre         : obj.children[2].innerText().trim();
+			region         : obj.children[3].innerText().trim().replace("#","");
+			poblacion      : obj.children[4].innerText().trim().replace(/\./g,"");
+			oro            : obj.children[7].innerText().trim().replace(/\./g,"");
+			recursos       : obj.children[8].innerText().trim().replace(/\./g,"");
+			edificios      : obj.children[9].innerText().trim();
 			fama           : parseInt(obj.children[5].innerText.trim().substring(0, 3));
-			moral          : $(obj.children[14 - sinRutas]).text().trim().replace("%","");
-			defensa        : $(obj.children[1].children[0]).attr("src");//.replace("https://images.empire-strike.com/archivos/sistemas_defensivos/25/","").replace(".jpg","");
-			proteccion     : $(obj.children[15 - sinRutas]).text().trim();
-			tropas         : $(obj.children[12 - sinRutas]).text().trim().replace(/\./g,"");
+			moral          : obj.children[14 - sinRutas].innerText().trim().replace("%","");
+			defensa        : obj.children[1].children[0].attr("src");
+			proteccion     : obj.children[15 - sinRutas].innerText().trim();
+			tropas         : obj.children[12 - sinRutas].innerText().trim().replace(/\./g,"");
 		}
+	}
+}
+function cargaHeroes(){
+	document.querySelectorAll(".lista2")[0].querySelectorAll("tbody tr").map(function(index, obj){
+		return {
+			nombre    : obj.querySelector("strong").innerText.trim();
+			link      : obj.querySelector("a").href;
+			clase     : obj.children[2].innerText.trim();
+			nivel     : parseInt(obj.children[1].innerText.replace(nombre, "").replace("N", "").trim());
+			ataque    : obj.children[5].innerText.trim();
+			defensa   : obj.children[6].innerText.trim();
+			daño      : obj.children[7].innerText.trim();
+			vida      : obj.children[8].innerText.trim();
+			velocidad : obj.children[9].innerText.trim();
+			moral     : obj.children[10].innerText.trim();
+			energia   : obj.children[11].innerText.trim();
+			habilidad : obj.children[13].innerText.trim();
+			victorias : obj.children[15].innerText.trim();
+			region    : obj.children[4].innerText.trim().replace("#", "");
+			tropas    : obj.children[14].innerText.trim();
+		}
+	}
 }

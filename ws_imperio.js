@@ -98,29 +98,23 @@ $(".lista2:not(:first) tr").each(function(index, obj){
 produccion.fama = famaProduccion;
 
 // OBTENER HEROES
-$(".lista2:first tr").each(function(index, obj){
+document.querySelectorAll(".lista2")[0].querySelectorAll("tbody tr").forEach(function(obj){
 
-	if(index == 0)
-		return;
-
-	if(obj.children.length != 20)
-		return;
-
-	var nombre = $(obj.children[1]).find("strong").html().trim();
+	var nombre = obj.querySelector("strong").innerText.trim();
 	var link = obj.querySelector("a").href;
-	var clase = $(obj.children[2]).text().trim();
-	var nivel = parseInt($(obj.children[1]).text().replace(nombre, "").replace("N", "").trim());
-	var ataque = $(obj.children[5]).text().trim();
-	var defensa = $(obj.children[6]).text().trim();
-	var daño = $(obj.children[7]).text().trim();
-	var vida = $(obj.children[8]).text().trim();
-	var velocidad = $(obj.children[9]).text().trim();
-	var moral = $(obj.children[10]).text().trim();
-	var energia = $(obj.children[11]).text().trim();
-	var habilidad = $(obj.children[13]).text().trim();
-	var victorias  = $(obj.children[15]).text().trim();
-	var region = $(obj.children[4]).text().trim().replace("#", "");
-	var tropas = $(obj.children[14]).text().trim();
+	var clase = obj.children[2].innerText.trim();
+	var nivel = parseInt(obj.children[1].innerText.replace(nombre, "").replace("N", "").trim());
+	var ataque = obj.children[5].innerText.trim();
+	var defensa = obj.children[6].innerText.trim();
+	var daño = obj.children[7].innerText.trim();
+	var vida = obj.children[8].innerText.trim();
+	var velocidad = obj.children[9].innerText.trim();
+	var moral = obj.children[10].innerText.trim();
+	var energia = obj.children[11].innerText.trim();
+	var habilidad = obj.children[13].innerText.trim();
+	var victorias  = obj.children[15].innerText.trim();
+	var region = obj.children[4].innerText.trim().replace("#", "");
+	var tropas = obj.children[14].innerText.trim();
 
 	heroes.push(imperio_generateHeroe(nombre, clase, nivel, ataque, defensa, daño, vida, velocidad, moral, energia, habilidad, victorias, region, tropas, link));
 
@@ -235,9 +229,6 @@ if(LOCAL.getImperio() == null){
 	if(update)
 		API.setImperio(id, nombre, raza, GLOBAL.getPartida(), GLOBAL.getRonda(), clan, ciudades, produccion, heroes, GLOBAL.getFechaFin());
 }
-GLOBAL.cargaImperio();
-
-
 function imperio_generateCiudad(idImperio, idCiudad, nombre, region, poblacion, edificios, oro, recursos, fama, moral, defensa, tropas, proteccion)
 {
 	return {

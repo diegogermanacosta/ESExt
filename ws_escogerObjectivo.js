@@ -15,49 +15,37 @@ function escogerobjetivo()
 
 
 
-	$(".c_obj.ciudades.c_obj_v .lista2.escogerobjetivo.sortable tbody:has(tr.impar)>tr").each(function(index, obj){
+	document.querySelector(".c_obj.ciudades.c_obj_v .lista2.escogerobjetivo.sortable tbody:has(tr.impar)>tr").forEach(function (fila) {
+	    var idCiudad = parseInt(fila.children[0].querySelector("a").innerHTML.split("#")[1]);
 
-		var idCiudad = parseInt($(obj.children[0]).find("a").html().split("#")[1]);
+	    var asedio = LOCAL.getAsedio(idCiudad);
+	    if (asedio != null && asedio.marcado) {
+	        fila.children[0].querySelector("a").style.color = "#990000";
+	    }
 
-		var asedio = LOCAL.getAsedio(idCiudad);
-		if(asedio != null && asedio.marcado)
-			$(obj.children[0]).find("a").css("color", "#990000");
+	    var nombreCiudad = fila.children[0].querySelector("a").innerHTML.split("#")[0].trim();
+	    var region = parseInt(fila.children[2].innerHTML.trim().split("#")[1]);
+	    var idImperio = parseInt(fila.children[1].innerHTML.trim().split("#")[1]);
+	    var nombreImperio = fila.children[1].innerHTML.trim().split("#")[0].trim();
+	    var clan = fila.children[3].innerHTML.trim();
+	    var raza = fila.children[5].innerHTML.trim();
 
-		var nombreCiudad = $(obj.children[0]).find("a").html().split("#")[0].trim();
-		var region = parseInt($(obj.children[2]).html().trim().split("#")[1]);
-		var idImperio = parseInt($(obj.children[1]).html().trim().split("#")[1]);
-		var nombreImperio = $(obj.children[1]).html().trim().split("#")[0].trim();
-		var clan = $(obj.children[3]).html().trim();
-		var raza = $(obj.children[5]).html().trim();
+	    var exists = ciudades.includes(idCiudad);
+	    if (!exists) {
+	        ciudades.push(idCiudad);
+	    }
 
-		var exists = false;
-		for(var i = 0; i < ciudades.length; i++)
-			if(ciudades[i] == idCiudad)
-			{
-				exists = true;
-				break;
-			}
+	    var imperio = imperios.find(function (imp) {
+	        return imp.id == idImperio;
+	    });
 
-		if(!exists)
-			ciudades.push(idCiudad);
-
-		var imperio = null;
-		for(var i = 0; i < imperios.length; i++)
-			if(imperios[i].id == idImperio)
-			{
-				imperio = imperios[i];
-				break;
-			}
-
-		if(imperio == null)
-		{
-			imperio = escogerobjetivo_generateImperio(idImperio, nombreImperio, raza, clan);
-			escogerobjetivo_generateCiudad(imperio, idCiudad, nombreCiudad, region);
-			imperios.push(imperio);
-		}
-		else
-			escogerobjetivo_generateCiudad(imperio, idCiudad, nombreCiudad, region);
-
+	    if (imperio == null) {
+	        imperio = escogerobjetivo_generateImperio(idImperio, nombreImperio, raza, clan);
+	        escogerobjetivo_generateCiudad(imperio, idCiudad, nombreCiudad, region);
+	        imperios.push(imperio);
+	    } else {
+	        escogerobjetivo_generateCiudad(imperio, idCiudad, nombreCiudad, region);
+	    }
 	});
 
 	if(imperios.length != 0)
@@ -66,18 +54,20 @@ function escogerobjetivo()
 
 function escogerobjetivo_updateInformation(ataques)
 {
-	$(".c_obj.ciudades.c_obj_v .lista2.escogerobjetivo.sortable tbody:has(tr.impar)>tr").each(function(index, obj){
+	document.querySelector(".c_obj.ciudades.c_obj_v .lista2.escogerobjetivo.sortable tbody:has(tr.impar)>tr").forEach(function (fila) {
+	    var idCiudad = parseInt(fila.children[0].querySelector("a").innerHTML.split("#")[1]);
 
-		var idCiudad = parseInt($(obj.children[0]).find("a").html().split("#")[1]);
+	    if (!ataques[idCiudad] || ataques[idCiudad].length === 0) {
+	        return;
+	    }
 
-		if(ataques[idCiudad] == undefined || ataques[idCiudad].length == 0)
-			return;
-
-		$(obj.children[0]).find("a").append(generateHTMLTropasIcon(idCiudad, ataques[idCiudad]));
+	    var linkCiudad = fila.children[0].querySelector("a");
+	    var iconoTropas = generateHTMLTropasIcon(idCiudad, ataques[idCiudad]);
+	    linkCiudad.appendChild(iconoTropas);
 	});
 
 	UTIL.injectCode(function() {
-		$('.ayudaExt').tooltip();
+		document.querySelector('.ayudaExt').tooltip();
 	});
 }
 

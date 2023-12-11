@@ -17,7 +17,6 @@ var _WS_RANKING               = "/rankings.php"
 var _WS_MENSAJES              = "/mensajes.php"
 var _WS_LOGIN                 = "/login.php"
 var _WS_MOVERTROPAS           = "/movertropas.php"
-var _WS_GOBIERNO              = "/gobierno.php"
 
 function executeProcess(url){
 
@@ -91,12 +90,6 @@ function executeProcess(url){
 	if(url.indexOf(_WS_LOGIN) != -1)
 	{
 		login();
-		return;
-	}
-
-	if(url.indexOf(_WS_GOBIERNO) != -1)
-	{
-		gobierno();
 		return;
 	}
 

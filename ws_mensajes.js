@@ -10,55 +10,51 @@ function mensajes()
   });
 }
 
-function mensajes_process()
-{
-	$("#form_jugador").submit(function(){
+function mensajes_process() {
+    document.querySelector("#form_jugador").addEventListener("submit", function (event) {
+        event.preventDefault();
+        var errorLabels = document.querySelectorAll("#form_jugador label.error:visible");
+        if (errorLabels.length === 0) {
+            var id = document.querySelector("#form_jugador #destino").value;
+            var msj = "Mensaje enviado al imperio #" + id + "\n--------------------------------------\n";
+            msj += cleanText(document.querySelector("#form_jugador #mensaje").value);
+            msj += "\n--------------------------------------\n";
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "mensajes.php", false);
+            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    console.log(xhr.responseText);
+                }
+            };
+            xhr.send("accion=enviarmensajejugador&destino=" + LOCAL.getImperio().idImperio + "&mensaje=" + encodeURIComponent(msj));
+        }
+    });
+    document.querySelector("#form_clan").addEventListener("submit", function (event) {
+        event.preventDefault();
+        if (!LOCAL.getOpcion("mensajes")) {
+            return;
+        }
+        var errorLabels = document.querySelectorAll("#form_clan label.error:visible");
+        if (errorLabels.length === 0) {
+            var id = document.querySelector("#form_clan #destinoclan").value;
+            var msj = "Mensaje enviado al clan " + id + "\n--------------------------------------\n";
+            msj += cleanText(document.querySelector("#form_clan #mensaje").value);
+            msj += "\n--------------------------------------\n";
 
-			if($("#form_jugador label.error:visible").length == 0)
-			{
-				var id = $("#form_jugador #destino").val();
-				var msj = "Mensaje enviado al imperio #" + id
-				msj += "\n--------------------------------------\n"
-				msj += cleanText($("#form_jugador #mensaje").val());
-				msj += "\n--------------------------------------\n"
-
-				$.ajax({
-					method: "POST",
-					url: "mensajes.php",
-					async: false,
-					data: "accion=enviarmensajejugador&destino=" + LOCAL.getImperio().idImperio + "&mensaje=" + msj,
-					error: function(xmlHttpRequest, textStatus, errorThrown){
-						console.log(xmlHttpRequest);
-					}
-				});
-			}
-	});
-
-	$("#form_clan").submit(function(){
-
-			if(LOCAL.getOpcion("mensajes") == false)
-				return;
-
-			if($("#form_clan label.error:visible").length == 0)
-			{
-				var id = $("#form_clan #destinoclan").val();
-				var msj = "Mensaje enviado al clan " + id
-				msj += "\n--------------------------------------\n"
-				msj += cleanText($("#form_clan #mensaje").val());
-				msj += "\n--------------------------------------\n"
-
-				$.ajax({
-					method: "POST",
-					url: "mensajes.php",
-					async: false,
-					data: "accion=enviarmensajejugador&destino=" + LOCAL.getImperio().idImperio + "&mensaje=" + msj,
-					error: function(xmlHttpRequest, textStatus, errorThrown){
-						console.log(xmlHttpRequest);
-					}
-				});
-			}
-	});
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "mensajes.php", false);
+            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    console.log(xhr.responseText);
+                }
+            };
+            xhr.send("accion=enviarmensajejugador&destino=" + LOCAL.getImperio().idImperio + "&mensaje=" + encodeURIComponent(msj));
+        }
+    });
 }
+
 
 var cleanText = (function() {
   var from = "ÃÀÁÄÂÈÉËÊÌÍÏÎÒÓÖÔÙÚÜÛãàáäâèéëêìíïîòóöôùúüûÑñÇç",

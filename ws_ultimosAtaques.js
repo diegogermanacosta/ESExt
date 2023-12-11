@@ -1,76 +1,74 @@
 function ultimoAtaques()
 {
-	$(".lista1 tr td:nth-child(5)").each(function(index, obj)
-	{
-		if(index == 0)
-			return;
-
-		var value = $(obj).html().trim();
-
-		var proteccion = GLOBAL.getHorasProteccion();
-		var dd = parseInt(value.match(/\d?\dd/g) == null ? 0 : value.match(/\d?\dd/g)[0].substring(0,2));
-		var hh = parseInt(value.match(/\d?\dh/g) == null ? 0 : value.match(/\d?\dh/g)[0].substring(0,2));;
-		var mm = parseInt(value.match(/\d?\dm/g) == null ? 0 : value.match(/\d?\dm/g)[0].substring(0,2));;
-
-		var proxAtaque = new Date();
-		proxAtaque = proxAtaque.addDays(-dd);
-		proxAtaque = proxAtaque.addHours(-hh);
-		proxAtaque = proxAtaque.addMinutes(-mm);
-		proxAtaque = proxAtaque.addHours(proteccion);
-
-		if(proxAtaque > new Date())
-			$(obj).append("<br><span style='font-size:11px'>Atacar a las <b>" + proxAtaque.formatDate() + "</b></span>");
-		else
-		{
-			if(proxAtaque.timeElapsed() <= _dayInMilisecond)
-				$(obj).append("<br><span style='font-size:11px'>Sin prot. hace <b style='color:#990000'>" + UTIL.formatTime(proxAtaque.timeElapsed()) + "</b></span>");
-			else
-				$(obj).append("<br><span style='font-size:11px'><b>Información obsoleta</b></span>");
-		}
+	document.querySelectorAll(".lista1 tr td:nth-child(5)").forEach(function (obj, index) {
+	    if (index === 0) {
+	        return;
+	    }
+	    var value = obj.textContent.trim();
+	    var proteccion = GLOBAL.getHorasProteccion();
+	    var dd = parseInt(value.match(/\d?\dd/g) == null ? 0 : value.match(/\d?\dd/g)[0].substring(0, 2));
+	    var hh = parseInt(value.match(/\d?\dh/g) == null ? 0 : value.match(/\d?\dh/g)[0].substring(0, 2));
+	    var mm = parseInt(value.match(/\d?\dm/g) == null ? 0 : value.match(/\d?\dm/g)[0].substring(0, 2));
+	    var proxAtaque = new Date();
+	    proxAtaque = proxAtaque.addDays(-dd);
+	    proxAtaque = proxAtaque.addHours(-hh);
+	    proxAtaque = proxAtaque.addMinutes(-mm);
+	    proxAtaque = proxAtaque.addHours(proteccion);
+	    if (proxAtaque > new Date()) {
+	        obj.insertAdjacentHTML("beforeend", "<br><span style='font-size:11px'>Atacar a las <b>" + proxAtaque.formatDate() + "</b></span>");
+	    } else {
+	        if (proxAtaque.timeElapsed() <= _dayInMilisecond) {
+	            obj.insertAdjacentHTML("beforeend", "<br><span style='font-size:11px'>Sin prot. hace <b style='color:#990000'>" + UTIL.formatTime(proxAtaque.timeElapsed()) + "</b></span>");
+	        } else {
+	            obj.insertAdjacentHTML("beforeend", "<br><span style='font-size:11px'><b>Información obsoleta</b></span>");
+	        }
+	    }
 	});
 
 	var ciudades = new Array();
 
-	$(".lista1 tr").each(function(index, obj){
-		if(index == 0)
-			return;
-
-		var idCiudad = parseInt($(obj.children[1]).find("div").find("strong").html().split("#")[1]);
-
-		var exists = false;
-		for(var i = 0; i < ciudades.length; i++)
-			if(ciudades[i] == idCiudad)
-			{
-				exists = true;
-				break;
-			}
-
-		if(!exists)
-			ciudades.push(idCiudad);
+	document.querySelectorAll(".lista1 tr").forEach(function (obj, index) {
+	    if (index === 0) {
+	        return;
+	    }
+	    var idCiudad = parseInt(obj.children[1].querySelector("div strong").textContent.split("#")[1]);
+	    var exists = false;
+	    for (var i = 0; i < ciudades.length; i++) {
+	        if (ciudades[i] == idCiudad) {
+	            exists = true;
+	            break;
+	        }
+	    }
+	    if (!exists) {
+	        ciudades.push(idCiudad);
+	    }
 	});
 
 	if(ciudades.length != 0)
 		API.getAtaques(ciudades, ultimoAtaques_updateInformation);
 }
 
-function ultimoAtaques_updateInformation(ataques)
-{
-	$(".lista1 tr").each(function(index, obj){
-		if(index == 0)
-			return;
+function ultimoAtaques_updateInformation(ataques) {
+    document.querySelectorAll(".lista1 tr").forEach(function (obj, index) {
+        if (index === 0) {
+            return;
+        }
+        var idCiudad = parseInt(obj.children[1].querySelector("div strong").textContent.split("#")[1]);
 
-		var idCiudad = parseInt($(obj.children[1]).find("div").find("strong").html().split("#")[1]);
-
-		if(ataques[idCiudad] == undefined || ataques[idCiudad].length == 0)
-			return;
-
-		$(obj.children[1]).find("div").find("strong").append(generateHTMLTropasIcon(idCiudad, ataques[idCiudad]));
-	});
-
-	UTIL.injectCode(function() {
-		$('.ayudaExt').tooltip();
-	});
+        if (ataques[idCiudad] == undefined || ataques[idCiudad].length == 0) {
+            return;
+        }
+        obj.children[1].querySelector("div strong").insertAdjacentHTML("beforeend", generateHTMLTropasIcon(idCiudad, ataques[idCiudad]));
+    });
+    UTIL.injectCode(function () {
+        document.querySelectorAll('.ayudaExt').forEach(function (element) {
+            element.addEventListener('mouseover', function () {
+                // Lógica de tooltip (si es necesario) al pasar el ratón sobre '.ayudaExt'
+            });
+        });
+    });
 }
+
 
 function generateHTMLTropasIcon(idCiudad, ataques)
 {
