@@ -1,174 +1,183 @@
-function movertropas()
-{
-	var formaciones = new Array;
-	if(LOCAL.getFormaciones()!=null)
-		formaciones = LOCAL.getFormaciones();
-	
-	window.addEventListener("keydown", function (event) { 
-		if (event.key=='q')
-			cargarFormacion("o",$("#formacionesGuardadas").val());
-	});
+var formaciones = LOCAL.getFormaciones() || [];
 
-	window.addEventListener("keydown", function (event) { 
-		if (event.key=='w')
-			cargarFormacion("d",$("#formacionesGuardadas").val());
-	});
+window.addEventListener("keydown", function(event) {
+    if (event.key === 'q')
+        cargarFormacion("o", document.getElementById("formacionesGuardadas").value);
+});
 
-	$(".lista2 tr").each(function(index, obj) {
-		if(index == 0)
-			return;
+window.addEventListener("keydown", function(event) {
+    if (event.key === 'w')
+        cargarFormacion("d", document.getElementById("formacionesGuardadas").value);
+});
 
-	  	if($(obj.children[0]).text()=="Total por niveles"||$(obj.children[0]).text()=="Nombre")
-			return;
-		
-		creaBoton(obj,"guardarFormacion", function(){guardarFormacion(obj)});
-	});
+document.querySelectorAll(".lista2 tr").forEach(function(obj, index) {
+    if (index === 0 || obj.children[0].textContent === "Total por niveles" || obj.children[0].textContent === "Nombre")
+        return;
+    creaBoton(obj, "guardarFormacion", function() {
+        guardarFormacion(obj);
+    });
+});
 
-	$("body").append(`<a id="submit_tropas" style="display: none;" onclick="submit_page();">pedir tabla de tropas</a>`);
-	document.getElementById("submit_tropas").click();
-	actualizar();
+document.body.insertAdjacentHTML("beforeend", "<a id='submit_tropas' style='display: none;' onclick='submit_page();'>pedir tabla de tropas</a>");
+document.getElementById("submit_tropas").click();
+actualizar();
 
-	const elementToObserve = document.querySelector("#movera");
+const elementToObserve = document.querySelector("#movera");
+const observer = new MutationObserver(function() {
+    actualizar();
+});
 
-	// create a new instance of `MutationObserver` named `observer`,
-	// passing it a callback function
-	const observer = new MutationObserver(function() {
-	    actualizar();
-	});
+observer.observe(elementToObserve, { subtree: true, childList: true });
 
-	// passing it the element to observe, and the options object
-	observer.observe(elementToObserve, {subtree: true, childList: true});
+function guardarFormacion(obj) {
+    let tropas = [];
+    let nombre = window.prompt('Ingrese el nombre de la formación que desea guardar', GLOBAL.getPartida().substring(0, 3) + "_" + obj.children[1].innerText);
 
-	function guardarFormacion(obj) 
-	{
-		let tropas= [];
-		let nombre = window.prompt('ingrese el nombre de la formacion que desea Guardar',GLOBAL.getPartida().substring(0,3)+"_"+obj.children[1].innerText);
-		if(nombre==null)
-			return;
-		for (var i = 2; i<= 21; i++) 
-		{
-			tropas[i-2]=parseInt($(obj.children[i].querySelector("span")).text());
-		}
-		var selected = false;
-		var _formacion=generarFormacion(nombre,tropas,selected)
-		formaciones.push(_formacion);
-		LOCAL.setFormaciones(formaciones);
-		var obj = $("#formacionesGuardadas");
-		if(obj!=null){
-			obj.append(`<option id="formacion${_formacion["nombre"]}" value="${_formacion["nombre"]}">${_formacion["nombre"]}</option>`);
-		}
-	}
+    if (nombre === null) {
+        return;
+    }
 
-	function cargarFormacion(donde,nombre)
-	{
-		if(nombre!=0&&nombre!=null)
-		{	var _n= document.querySelector("#movera > form > table.lista1.tabla_mt > tbody").children.length-1;
-			for(index in formaciones){
-				if(formaciones[index]["nombre"]==nombre){
-					formaciones[index]["selected"] = true;
-					for (var i = 1; i<= _n; i++) 
-					{
-							document.getElementById('tropa'+ donde + (i)).value=formaciones[index]["formacion"][i-1];
-							if (donde=="o")
-								actualizad(i);
-							else
-								actualizao(i);
-					}
-					document.getElementById("calcula").click();
-				}
-				else{
-					formaciones[index]["selected"] = false;
-				}
-			}
-			LOCAL.setFormaciones(formaciones);
-		}
-	}
+    for (var i = 2; i <= 21; i++) {
+        tropas[i - 2] = parseInt(obj.children[i].querySelector("span").textContent);
+    }
 
-	function borrarFormacion(nombre){
+    let _formacion = generarFormacion(nombre, tropas, false);
+    formaciones.push(_formacion);
+    LOCAL.setFormaciones(formaciones);
+    let objSelect = document.getElementById("formacionesGuardadas");
+
+    if (objSelect !== null) {
+        let option = document.createElement("option");
+        option.id = "formacion" + _formacion["nombre"];
+        option.value = _formacion["nombre"];
+        option.textContent = _formacion["nombre"];
+        objSelect.appendChild(option);
+    }
+}
+
+function cargarFormacion(donde,nombre){
+	if(nombre!=0&&nombre!=null){	
+		var _n= document.querySelector("#movera > form > table.lista1.tabla_mt > tbody").children.length-1;
 		for(index in formaciones){
-				if(formaciones[index]["nombre"]==nombre){
-					formaciones.splice(index,1);
-					LOCAL.setFormaciones(formaciones);
-					document.getElementById('formacion'+nombre).remove();
-					return;
-				}
-			}
-	}
-
-	function generarFormacion(nombre,formacion,selected){
-		return {
-			"nombre": nombre,
-			"formacion": formacion,
-			"selected": selected
-		}
-		
-
-	}
-
-	function actualizar()
-	{
-		if($(".lista1 .tabla_mt").text().length!=0)
-		{
-			if($("#magiapura").text().length==0)
-			{
-				$(".lista1 .tabla_mt").append("<tr id=magiapura></tr>");
-				$("#magiapura").append(`<td id="formaciones" ><select id=formacionesGuardadas><option value="0">- - Escoge - -</option></select></td>`);
-				GLOBAL.crearBoton("#formaciones","Borrar",function(){borrarFormacion($("#formacionesGuardadas").val())});
-				for(var i in formaciones)
+			if(formaciones[index]["nombre"]==nombre){
+				formaciones[index]["selected"] = true;
+				for (var i = 1; i<= _n; i++) 
 				{
-					$("#formacionesGuardadas").append(`<option id="formacion${formaciones[i]["nombre"]}" value="${formaciones[i]["nombre"]}">${formaciones[i]["nombre"]}</option>`);
-					if(formaciones[i]["selected"])
-						document.getElementById("formacionesGuardadas").value = formaciones[i]["nombre"];
+						document.getElementById('tropa'+ donde + (i)).value=formaciones[index]["formacion"][i-1];
+						if (donde=="o")
+							actualizarTropas(i,"d");
+						else
+							actualizarTropas(i,"o");
 				}
-				$("#magiapura").append(`<td width="35%" id=cargaro>cargar origen</td>`);
-				GLOBAL.crearBoton("#cargaro","Cargar",function(){cargarFormacion("o",$("#formacionesGuardadas").val())})
-				$("#magiapura").append(`<td width="35%" id=cargard>cargar destino</td>`);
-				GLOBAL.crearBoton("#cargard","Cargar",function(){cargarFormacion("d",$("#formacionesGuardadas").val())})
-				$("#magiapura").append(`<a id="calcula" style="display: none;" onclick="calculapotencial();">calcula</a>`);
+				document.getElementById("calcula").click();
+			}
+			else{
+				formaciones[index]["selected"] = false;
 			}
 		}
+		LOCAL.setFormaciones(formaciones);
 	}
-	function actualizad(m) 
-	{
-        var input = document.getElementById('tropao' + m),
-            max_tropa = parseInt(document.getElementById('tropainicialo' + m).value) + parseInt(document.getElementById('tropainiciald' + m).value);
+}
 
-        if (input.value.length == 0 || isNaN(input.value) || input.value < 0) {
-            input.value = 0;
-        } else if (input.value > max_tropa) {
-            input.value = max_tropa;
+function borrarFormacion(nombre){
+	for(index in formaciones){
+			if(formaciones[index]["nombre"]==nombre){
+				formaciones.splice(index,1);
+				LOCAL.setFormaciones(formaciones);
+				document.getElementById('formacion'+nombre).remove();
+				return;
+			}
+		}
+}
+
+function generarFormacion(nombre,formacion,selected){
+	return {
+		"nombre": nombre,
+		"formacion": formacion,
+		"selected": selected
+	}
+}
+
+function actualizar() {
+    if (document.querySelector(".lista1 .tabla_mt").textContent.length == 0){
+    	return
+    }
+    let magiapura = document.getElementById("magiapura")
+    if (magiapura!=null&&magiapura.textContent.length != 0){
+    	return
+    }
+        magiapura = document.createElement("tr");
+        magiapura.id = "magiapura";
+        document.querySelector(".lista1 .tabla_mt").appendChild(magiapura);
+
+        let formacionesTd = document.createElement("td");
+        formacionesTd.id = "formaciones";
+        magiapura.appendChild(formacionesTd);
+
+        let selectFormaciones = document.createElement("select");
+        selectFormaciones.id = "formacionesGuardadas";
+        formacionesTd.appendChild(selectFormaciones);
+
+        let defaultOption = document.createElement("option");
+        defaultOption.value = "0";
+        defaultOption.textContent = "- - Escoge - -";
+        selectFormaciones.appendChild(defaultOption);
+
+        GLOBAL.crearBoton("#formaciones", "Borrar", function () { borrarFormacion(selectFormaciones.value); });
+
+        for (let i in formaciones) {
+            let option = document.createElement("option");
+            option.id = "formacion" + formaciones[i]["nombre"];
+            option.value = formaciones[i]["nombre"];
+            option.textContent = formaciones[i]["nombre"];
+
+            selectFormaciones.appendChild(option);
+
+            if (formaciones[i]["selected"]) {
+                selectFormaciones.value = formaciones[i]["nombre"];
+            }
         }
-        var valor = max_tropa - parseInt(input.value);
-        document.getElementById('tropad' + m).value = valor;
-        $('.slider[data-tropa="' + m + '"]').parent().find('a').css('left', parseInt(valor * 100 / max_tropa) + '%');            
+
+        let cargaroTd = document.createElement("td");
+        cargaroTd.width = "35%";
+        cargaroTd.id = "cargaro";
+        magiapura.appendChild(cargaroTd);
+        cargaroTd.textContent = "cargar origen";
+
+        GLOBAL.crearBoton("#cargaro", "Cargar", function () { cargarFormacion("o", selectFormaciones.value); });
+
+        let cargardTd = document.createElement("td");
+        cargardTd.width = "35%";
+        cargardTd.id = "cargard";
+        magiapura.appendChild(cargardTd);
+        cargardTd.textContent = "cargar destino";
+
+        GLOBAL.crearBoton("#cargard", "Cargar", function () { cargarFormacion("d", selectFormaciones.value); });
+        magiapura.insertAdjacentHTML("beforeend" , "<a id='calcula' style='display: none;' onclick='calculapotencial();'>calcula</a>");
+}
+
+function actualizarTropas(m, direccion) {
+    var input = document.getElementById('tropa' + direccion + m),
+        maxTropas = parseInt(document.getElementById('tropainicialo' + m).value) + parseInt(document.getElementById('tropainiciald' + m).value);
+
+    if (input.value.length == 0 || isNaN(input.value) || input.value < 0) {
+        input.value = 0;
+    } else if (input.value > maxTropas) {
+        input.value = maxTropas;
     }
 
-    function actualizao(m) 
-    {
-        var input = document.getElementById('tropad' + m),
-            max_tropa = parseInt(document.getElementById('tropainicialo' + m).value) + parseInt(document.getElementById('tropainiciald' + m).value);
-        if (input.value.length == 0 || isNaN(input.value) || input.value < 0) {
-            input.value = 0;
-        } else if (input.value > max_tropa) {
-            input.value = max_tropa;
-        }
-        document.getElementById('tropao' + m).value = max_tropa - parseInt(input.value);
-        $('.slider[data-tropa="' + m + '"]').parent().find('a').css('left', parseInt(input.value * 100 / max_tropa) + '%');
-    }
-
-
-
-
+    var valor = (direccion === 'o') ? maxTropas - parseInt(input.value) : parseInt(input.value);
+    
+    document.getElementById('tropa' + ((direccion === 'o') ? 'd' : 'o') + m).value = valor;
+    $('.slider[data-tropa="' + m + '"]').parent().find('a').css('left', parseInt(valor * 100 / maxTropas) + '%');
 }
 
 function creaBoton(obj,nombre,accion){
-		//crear boton
-		const button = document.createElement('button'); 
-		button.type = 'button'; 
-		button.innerText = nombre;
-		button.onclick = accion;
-		button.className= "boton-papiro";
-		obj.appendChild(button);
-		return button;
-		//boton creado
-	}
+	const button = document.createElement('button'); 
+	button.type = 'button'; 
+	button.innerText = nombre;
+	button.onclick = accion;
+	button.className= "boton-papiro";
+	obj.appendChild(button);
+	return button;
+}

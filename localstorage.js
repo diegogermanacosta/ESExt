@@ -1,19 +1,12 @@
 var LOCAL_IMPERIO     = "Imperio";
-var LOCAL_RECURSO     = "Recurso";
 var LOCAL_CIUDADES    = "Ciudades";
 var LOCAL_POLITICAS   = "Politicas";
-var LOCAL_HEROES      = "Heroes";
-var LOCAL_PRODUCCION  = "Produccion";
 var LOCAL_ASEDIOS     = "Asedios";
 var LOCAL_VALOR       = "Valor";
 var LOCAL_POLITICAS   = "Politicas";
 var LOCAL_GOBERNANTES = "Gobernantes";
 var LOCAL_FORMACIONES = "Formaciones";
-var LOCAL_PACIFICO    = "Pacifico";
 var LOCAL_ATACAR      = "Atacar";
-var LOCAL_EFICIENCIA  = "Eficiencia";
-var LOCAL_CARGA       = "Carga";
-var LOCAL_CANJES      = "Canjes"
 var LOCAL_CLAN        = "Clan";
 
 var LOCAL = {
@@ -162,47 +155,6 @@ var LOCAL = {
 
 		return JSON.parse(localStorage[LOCAL_CIUDADES]);
 	},
-	setProduccion: function(obj)
-	{
-		if(obj == undefined)
-			return null;
-
-		localStorage[LOCAL_PRODUCCION] = JSON.stringify(obj);
-		return obj;
-	},
-	getProduccion: function(){
-		if(localStorage[LOCAL_PRODUCCION] == undefined || localStorage[LOCAL_PRODUCCION] == null)
-			return null;
-
-		return JSON.parse(localStorage[LOCAL_PRODUCCION]);
-	},
-	setHeroe: function(obj)
-	{
-		if(obj == undefined)
-			return null;
-
-		localStorage[LOCAL_HEROES] = JSON.stringify(obj);
-		return obj;
-	},
-	getHeroe: function(){
-		if(localStorage[LOCAL_HEROES] == undefined || localStorage[LOCAL_HEROES] == null)
-			return null;
-
-		return JSON.parse(localStorage[LOCAL_HEROES]);
-	},
-	setRecurso: function(obj) {
-		if(obj == undefined)
-			return null;
-
-		localStorage[LOCAL_RECURSO] = JSON.stringify(obj);
-		return obj;
-	},
-	getRecurso: function() {
-		if(localStorage[LOCAL_RECURSO] == undefined || localStorage[LOCAL_RECURSO] == null)
-			return null;
-
-		return JSON.parse(localStorage[LOCAL_RECURSO]);
-	},
 	setPoliticas:function(obj){
 		localStorage[LOCAL_POLITICAS] = JSON.stringify(obj);
 	},
@@ -230,15 +182,6 @@ var LOCAL = {
 
 	 	return JSON.parse(localStorage[LOCAL_FORMACIONES]);
 	},
-	setPacifico:function(obj){
-		localStorage[LOCAL_PACIFICO] = JSON.stringify(obj);
-	},
-	getPacifico:function(){
-		if(localStorage[LOCAL_PACIFICO] == undefined || localStorage[LOCAL_PACIFICO] == null)
-			return null;
-
-	 	return JSON.parse(localStorage[LOCAL_PACIFICO]);
-	},
 	setAtaque:function(obj){
 		localStorage[LOCAL_ATACAR] = JSON.stringify(obj);
 	},
@@ -247,33 +190,6 @@ var LOCAL = {
 			return null;
 
 	 	return JSON.parse(localStorage[LOCAL_ATACAR]);
-	},
-	setEficiencia:function(obj){
-		localStorage[LOCAL_EFICIENCIA] = JSON.stringify(obj);
-	},
-	getEficiencia:function(){
-		if(localStorage[LOCAL_EFICIENCIA] == undefined || localStorage[LOCAL_EFICIENCIA] == null)
-			return null;
-
-	 	return JSON.parse(localStorage[LOCAL_EFICIENCIA]);
-	},
-	setCarga:function(obj){
-		localStorage[LOCAL_CARGA] = JSON.stringify(obj);
-	},
-	getCarga:function(){
-		if(localStorage[LOCAL_CARGA] == undefined || localStorage[LOCAL_CARGA] == null)
-			return null;
-
-	 	return JSON.parse(localStorage[LOCAL_CARGA]);
-	},
-	setCanjes:function(obj){
-		localStorage[LOCAL_CANJES] = JSON.stringify(obj);
-	},
-	getCanjes:function(){
-		if(localStorage[LOCAL_CANJES] == undefined || localStorage[LOCAL_CANJES] == null)
-			return null;
-
-	 	return JSON.parse(localStorage[LOCAL_CANJES]);
 	},
 	setClan:function(obj){
 		localStorage[LOCAL_CLAN] = JSON.stringify(obj);

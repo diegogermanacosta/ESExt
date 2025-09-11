@@ -1,2 +1,0 @@
-# ESExt
- Extension Empire

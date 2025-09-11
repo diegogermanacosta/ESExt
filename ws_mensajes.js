@@ -55,7 +55,6 @@ function mensajes_process() {
     });
 }
 
-
 var cleanText = (function() {
   var from = "ÃÀÁÄÂÈÉËÊÌÍÏÎÒÓÖÔÙÚÜÛãàáäâèéëêìíïîòóöôùúüûÑñÇç",
       to   = "AAAAAEEEEIIIIOOOOUUUUaaaaaeeeeiiiioooouuuunncc",
@@ -75,5 +74,4 @@ var cleanText = (function() {
       }
       return ret.join( '' );
   }
-
 })();

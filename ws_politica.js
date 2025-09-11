@@ -1,1 +1,0 @@
-LOCAL.setPoliticas(getPoliticas(document));

@@ -1,5 +1,4 @@
-function ultimoAtaques()
-{
+function ultimoAtaques(){
 	document.querySelectorAll(".lista1 tr td:nth-child(5)").forEach(function (obj, index) {
 	    if (index === 0) {
 	        return;
@@ -43,9 +42,6 @@ function ultimoAtaques()
 	        ciudades.push(idCiudad);
 	    }
 	});
-
-	if(ciudades.length != 0)
-		API.getAtaques(ciudades, ultimoAtaques_updateInformation);
 }
 
 function ultimoAtaques_updateInformation(ataques) {
@@ -60,23 +56,14 @@ function ultimoAtaques_updateInformation(ataques) {
         }
         obj.children[1].querySelector("div strong").insertAdjacentHTML("beforeend", generateHTMLTropasIcon(idCiudad, ataques[idCiudad]));
     });
-    UTIL.injectCode(function () {
-        document.querySelectorAll('.ayudaExt').forEach(function (element) {
-            element.addEventListener('mouseover', function () {
-                // Lógica de tooltip (si es necesario) al pasar el ratón sobre '.ayudaExt'
-            });
-        });
-    });
 }
 
 
-function generateHTMLTropasIcon(idCiudad, ataques)
-{
+function generateHTMLTropasIcon(idCiudad, ataques){
 	return "<img src='https://images.empire-strike.com/v2/iconos/icon_prepararataque.png' class='ayuda ayudaExt' style='padding-left: 10px' width='13' height='15' data-tooltip-type='html' data-tooltip-html='#_atk_" + idCiudad + "'>" + generateHTMLTropas(idCiudad, ataques);
 }
 
-function generateHTMLTropas(idCiudad, ataques)
-{
+function generateHTMLTropas(idCiudad, ataques){
 	var tabla = "<table id='_atk_" + idCiudad + "' class='extension' style='display: none; border: 1px'><tbody>";
 	for(var i = 0; i < ataques.length; i++)
 	{
@@ -99,24 +86,21 @@ function generateHTMLTropas(idCiudad, ataques)
 	return tabla;
 }
 
-function calculateMaxTropas(ataques)
-{
+function calculateMaxTropas(ataques){
 	var sum = 0;
 	for(var j = 0; j < ataques.length; j++)
 		sum += ataques[j].inicio * ataques[j].nivel;
 	return sum;
 }
 
-function generateVictoryIcon(isWinner)
-{
+function generateVictoryIcon(isWinner){
 	if(isWinner)
 		return "<img src='https://images.empire-strike.com/v2/iconos/icon_correcto.png' alt='Ataque ganado' title='Ataque ganado'>";
 	else
 		return "<img src='https://images.empire-strike.com/v2/iconos/icon_incorrecto.png' alt='Ataque perdido' title='Ataque perdido'>";
 }
 
-function generateTropa(tropa, hasBR)
-{
+function generateTropa(tropa, hasBR){
 	var tabla = "<tr class='extension' style='font-size: 13px'><td style='width: 35px; padding-left: 10px'>N" + tropa.nivel + "</td><td style='width: 200px'>" + tropa.nombre.substring(0, 25) + "</td><td style='width: 50px'>" + tropa.inicio + "</td><td style='width: 25px;'>" + UTIL.padLeft(tropa.porcentaje, 2, "&nbsp;") + "%</td><td style='width: 50px; padding-left: 5px'>" + tropa.fin + "</td></tr>";
 	return tabla;
 }

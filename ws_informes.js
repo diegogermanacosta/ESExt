@@ -43,12 +43,6 @@ function informes_updateInformation(ataques) {
         obj.children[0].querySelector("div").appendChild(generateHTMLTropasIcon(idCiudad, ataques[idCiudad]));
         obj.classList.remove("getAtaque");
     });
-    UTIL.injectCode(function () {
-        document.querySelectorAll('.ayudaExt').forEach(function (element) {
-            element.setAttribute('data-tooltip', '');
-            new Tooltip(element);
-        });
-    });
 }
 
 function generateInforme(selector, tipoInforme, haceDD, haceHH, haceMM) {

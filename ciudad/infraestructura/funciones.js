@@ -70,7 +70,7 @@ function getRecursosUsados(elemento){
 	});
 	return recursosUsados;
 }
-function getEdificiosSeleccionados() {
+function getCantidadEdificiosSeleccionados() {
 	let casitas = 0;
 	for (let i = 0; i < edificiosConstruidos.length; i++) {
 		var seleccionados	 = document.getElementById("xx_txt_costo_edificio_estrella_seleccionada_" + i).value;
@@ -104,5 +104,7 @@ function getEdificiosSeleccionados() {
 	}
 	return estrellasAmarillas;
 }
-
-function comparar ( a, b ){ return a[2] - b[2]; }
+function comparar ( a, b )
+{ 
+	return a[2] - b[2];
+}

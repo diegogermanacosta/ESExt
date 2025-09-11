@@ -6,7 +6,7 @@ function ranking()
 	var tolerancia = 300;
 	if(valorActual == 0)
 			return;
-	document.querySelectorAll(".lista2:first tr").forEach(function (obj, index) {
+	document.querySelectorAll(".lista2")[0].querySelectorAll("tr").forEach(function (obj, index) {
 	    if (index === 0) {
 	        return;
 	    }

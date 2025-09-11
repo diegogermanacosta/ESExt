@@ -5,19 +5,7 @@ function comercio()
 	    alert("Raza no identificada, por favor ve a 'Tu Imperio' para actualizar la información.");
 	    return;
 	}
-	switch (LOCAL.getImperio().raza) {
-	    case "Humanos":
-	        oroRaza = 100000;
-	        break;
-
-	    case "Elfos oscuros":
-	        oroRaza = 28000;
-	        break;
-
-	    default:
-	        oroRaza = 40000;
-	        break;
-	}
+	oroRaza = COMERCIO_RAZA[LOCAL.getImperio().raza]
 	let valoresVenta = {};
 	document.querySelectorAll(".lista1 tr").forEach(function (obj, index) {
 	    if (index === 0 || obj.children.length < 3) {
@@ -100,7 +88,7 @@ function compraJusta(oroRaza)
 	var difCompra          = 0;
 	var difVenta           = 0;
 	
-	document.querySelector(".lista1 tr").forEach(function(index, obj) 
+	document.querySelectorAll(".lista1 tr").forEach(function(obj, index)
 	{	
 		if(index == 0)
 			return;

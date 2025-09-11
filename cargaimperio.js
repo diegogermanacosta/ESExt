@@ -33,7 +33,7 @@ function cargaFantasma(url,funcionLectura,funcionCarga){
 	  });
 }
 function getMaravillas(doc){
-	var miClan = {
+	let miClan = {
 		maravilla1: null,
 		maravilla2: null
 	}

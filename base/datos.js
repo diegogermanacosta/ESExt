@@ -1,3 +1,10 @@
+const CLAN_CANTIDAD = {
+	'KENARON': 20;
+	'GARDIS' : 10;
+	'ZULA'   : 10;
+	'NUMIAN' : 5;
+	'FANTASY': 3;
+}
 //minimos de compra
 const MINIMOS = {
 	"ALIMENTOS"		: 3,
@@ -17,8 +24,8 @@ const MINIMOS = {
 	"JOYAS"         : 25,
 	"ORO"			: 1,
 	"FAMA"			: (5000+LOCAL.getValor())/3,
-	"TURNOS"        : 56000*GLOBAL.getClanCantidad()/12*GLOBAL.getClanCantidad()+1,
-	"KARMA"         : 70/15*GLOBAL.getClanCantidad(),
+	"TURNOS"        : 5000,
+	"KARMA"         : 70/15*CLAN_CANTIDAD[GLOBAL.getPartida()],
 	"MANA"          : 15
 }
 //maximos de venta
@@ -40,8 +47,8 @@ const MAXIMOS = {
 	"JOYAS"         : 37,
 	"ORO"			: 1,
 	"FAMA"			: (5000+LOCAL.getValor())/3,
-	"TURNOS"        : 56000*GLOBAL.getClanCantidad()/(12*GLOBAL.getClanCantidad()+1),
-	"KARMA"         : 70/15*GLOBAL.getClanCantidad(),
+	"TURNOS"        : 5000,
+	"KARMA"         : 70/15*CLAN_CANTIDAD[GLOBAL.getPartida()],
 	"MANA"          : 15
 }
 //valores de recursos
@@ -63,8 +70,8 @@ const CIERRE = {
 	"JOYAS"         : 37,
 	"ORO"			: 1.5,
 	"FAMA"			: (5000+LOCAL.getValor())/3*1.5,
-	"TURNOS"        : 56000*GLOBAL.getClanCantidad()/(12*GLOBAL.getClanCantidad()+1),
-	"KARMA"         : 70/15*GLOBAL.getClanCantidad(),
+	"TURNOS"        : 5000,
+	"KARMA"         : 15,
 	"MANA"          : 15
 }
 const PRODUCCION_BASE = {
@@ -248,3 +255,12 @@ const BONO_MARAVILLAS = {
 };
 //Constante de aumento de produccion por habitante.
 const K_POBLACION = 1/337524.1;
+
+const COMERCIO_RAZA = {
+	"Humanos":        100000;
+	"Elfos oscuros":  28000;
+	"Enanos":         40000;
+	"Elfos"           40000;
+	"No Muertos"      40000;
+	"Orcos"           40000;
+}

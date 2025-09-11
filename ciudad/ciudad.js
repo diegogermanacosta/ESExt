@@ -6,7 +6,7 @@ var listaElementosEdificios = document.querySelectorAll(".c .nome");
 var edificios               = new Array();
 var estrella                = new estrellas();
 var ciudad                  = null;
-var recursos                = null;
+var recursos                = new recursosClass(GLOBAL.getRecurso());
 var tablaEficiencia         = [];
 var autoBuild               = document.getElementById("autoBuild");
 var limpiarConstruido		= document.getElementById("clean");
@@ -19,13 +19,9 @@ limpiarConstruido.onclick = function(){
 autoBuild.onkeyup = function(){
 	estrellaAzul();
 }
-UTIL.injectCode("base/setvalueedif.js");
 setTimeout(() => {
-	let recursosActuales    = JSON.parse(document.getElementById("recursosActuales").value);
 	//cargo datos de ciudad
-		recursos            = new recursosClass(recursosActuales);
-	let dataCiudad  		= getDataCiudad(document);
-	let multiplicador       = new multiplicadores(GLOBAL.getPartida(),GLOBAL.gobiernoRegion(dataCiudad.region),LOCAL.getImperio(),dataCiudad,LOCAL.getPoliticas(),LOCAL.getClan());
+	let multiplicador       = new multiplicadores(GLOBAL.getPartida(),GLOBAL.gobiernoRegion(getDataCiudad(document).region),LOCAL.getImperio(),getDataCiudad(document),LOCAL.getPoliticas(),LOCAL.getClan());
 	listaElementosEdificios.forEach(function callback(obj , index){
 		let nombre          = obj.innerText.trim().replace(" ","").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 		let construido      = parseInt(document.getElementById("txt_edificio_ya_compradas_"+index).value) + 1;
@@ -35,7 +31,17 @@ setTimeout(() => {
 	tablaEficiencia.sort(comparar);
 	ciudad                  = new ciudadclass(getDataCiudad(document),edificios,getEstado(document),GLOBAL.gobiernoRegion());
 	calculaEstrellas()
-	cargaCiudad()
+	if (LOCAL.getCiudad()==null)
+		return
+	let ciudades = LOCAL.getCiudad()
+	let idCiudad = parseInt(document.querySelector(".tituloimperio").innerText.split("#")[1]);
+	for (let i = 0; i < ciudades.length; i++){
+		if(ciudades[i].idCiudad != idCiudad)
+			continue;
+		ciudades[i].cargada = true;
+		ciudades[i].data    = ciudad.getData();
+		LOCAL.setCiudad(ciudades);
+	}
 },200);
 
 function calculaEstrellas(){
@@ -76,19 +82,7 @@ function setElementoEdificio(idEdificio){
 		});
 	});
 }
-function cargaCiudad(){
-	if (LOCAL.getCiudad()==null)
-		return
-	let ciudades = LOCAL.getCiudad()
-	let idCiudad = parseInt(document.querySelector(".tituloimperio").innerText.split("#")[1]);
-	for (let i = 0; i < ciudades.length; i++){
-		if(ciudades[i].idCiudad != idCiudad)
-			continue;
-		ciudades[i].cargada = true;
-		ciudades[i].data    = ciudad.getData();
-		LOCAL.setCiudad(ciudades);
-	}
-}
+
 function setClicks(elemento,idEdificio){
 	elemento.addEventListener("click",function(){
 		let seleccionados = parseInt(document.getElementById("xx_txt_costo_edificio_estrella_seleccionada_"+idEdificio).value) + 1;
@@ -120,4 +114,3 @@ function estrellaAzul(){
 		}
 	}
 }
-console.log(tablaEficiencia)

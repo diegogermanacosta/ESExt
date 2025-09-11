@@ -1,47 +1,15 @@
 {
-  "name": "Empire Strike - extension Multicuenta Edition",
+  "name": "Empire Strike - extension",
   "version": "1.0",
   "manifest_version": 3,
-  "description": "El que sabe, Sabe, y el que no, usa esta extension",
-  "icons": { "128": "base/icon.png" },
+  "description": "Un conjunto de mejoras al juego",
+  "icons": { "16": "base/icono.png" },
   "background": { "service_worker": "background.js" },
   "options_ui" : {
     "page": "options/options.html"
   },"web_accessible_resources": [
 	{
-		"resources" : ["base/setvalueedif.js"],
-		"matches"   : ["<all_urls>"]
-	},
-	{
-		"resources" : ["base/ayuda.js"],
-		"matches"   : ["<all_urls>"]
-	},
-	{
-		"resources" : ["base/moveIcon.png"],
-		"matches"   : ["https://www.empire-strike.com/*"]
-	},
-	{
-		"resources" : ["base/list.png"],
-		"matches"   : ["https://www.empire-strike.com/*"]
-	},
-	{
-		"resources" : ["base/house.png"],
-		"matches"   : ["https://www.empire-strike.com/*"]
-	},
-	{
-		"resources" : ["base/hero.png"],
-		"matches"   : ["https://www.empire-strike.com/*"]
-	},
-	{
-		"resources" : ["base/puzzle.png"],
-		"matches"   : ["https://www.empire-strike.com/*"]
-	},
-	{
 		"resources" : ["base/estrella-verde.png","base/estrella-lila.png","base/estrella-blanca.png","base/estrella-azul.png"],
-		"matches"   : ["https://www.empire-strike.com/*"]
-	},
-	{
-		"resources" : ["base/button.mpeg"],
 		"matches"   : ["https://www.empire-strike.com/*"]
 	}
 ],
@@ -49,23 +17,17 @@
     {
 		"matches": ["https://www.empire-strike.com/*"],
 		"js": [
-			"base/jquery.min.js",
 			"base/util.js",
 			"localstorage.js",
 			"cargaimperio.js",
 			"global.js",
 			"base/datos.js",
-			"api.js",
 			"ws_atacar.js",
-			"ws_escogerObjectivo.js",
-			"ws_clanes.js",
-      "ws_clan.js",
 			"ws_informes.js",
 			"ws_ultimosAtaques.js",
 			"ws_comercio.js",
 			"ws_ranking.js",
 			"ws_mensajes.js",
-			"ws_movertropas.js",
 			"content.js"
 		]
 	},
@@ -76,7 +38,6 @@
 			"localstorage.js",
 			"base/datos.js",
 			"content.js",
-			//"ws_ciudad.js"/*,
 			"ciudad/dominio/class_edificio.js",
 			"ciudad/dominio/class_ciudad.js",
 			"ciudad/dominio/class_multiplicador.js",
@@ -84,15 +45,11 @@
 			"ciudad/aplicacion/class_estrellas.js",
 			"ciudad/infraestructura/class_elemento_edificios.js",
 			"ciudad/infraestructura/funciones.js",
-			"ciudad/ciudad.js"/**/]
+			"ciudad/ciudad.js"]
 	},
 	{
 		"matches": ["https://www.empire-strike.com/tuimperio.php"],
 		"js": ["ws_imperio.js"]
-	},
-	{
-		"matches": ["https://www.empire-strike.com/gobierno.php"],
-		"js": ["ws_gobierno.js"]
 	},
 	{
 		"matches": ["https://www.empire-strike.com/quest.php?*"],
@@ -103,6 +60,14 @@
 		"js": ["ws_canjearfama.js"]
 	},
 	{
+		"matches": ["https://www.empire-strike.com//escogerobjetivo.php?*"],
+		"js": ["ws_escogerObjectivo.js"]
+	},
+	{
+		"matches": ["https://www.empire-strike.com//clan.php?*"],
+		"js": ["ws_clan.js"]
+	},
+	{
 		"matches": ["https://www.empire-strike.com/heroe.php?*"],
 		"js": ["ws_heroe.js"]
 	},
@@ -111,8 +76,8 @@
 		"js": ["content.js","ws_rutascomerciales.js"]
 	},
 	{
-		"matches": ["https://www.empire-strike.com/politica.php*"],
-		"js": ["content.js","ws_politica.js"]
+		"matches": ["https://www.empire-strike.com/movertropas.php*"],
+		"js": ["ws_movertropas.js"]
 	}
   ],
   "permissions": [
@@ -124,6 +89,6 @@
   ],
   "action": {
       "default_name": "Empire Strike",
-      "default_icon": "base/marker.png"
+      "default_icon": "base/icono.png"
   }
 }

@@ -4,7 +4,6 @@ chrome.action.onClicked.addListener(
 			chrome.tabs.create({ 'url': 'chrome://extensions/?options=' + chrome.runtime.id });
 });
 
-
 // ------------- EXPERIMENTAL ------------- //
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
@@ -19,8 +18,7 @@ var notificaciones = {};
 
 setInterval(checkAsedio, 1000 * 60);
 
-function checkAsedio()
-{
+function checkAsedio(){
 	var now = new Date();
 	for(var key in asedios) {
 	  if(asedios[key] == null)
@@ -29,15 +27,12 @@ function checkAsedio()
 		var asedio = asedios[key];
 		var horaNotificacion = (new Date(asedio.fecha)).addMinutes(-5);
 		var horaAsedio = new Date(asedio.fecha);
-		if(horaNotificacion <= now)
-		{
-			if(notificaciones[key] == undefined || notificaciones[key] == null || now > notificaciones[key])
-			{
+		if(horaNotificacion <= now){
+			if(notificaciones[key] == undefined || notificaciones[key] == null || now > notificaciones[key]){
 				var minutos = parseInt((horaAsedio - now) / 60 / 1000);
 				notificaciones[key] = horaAsedio;
 				sendNotification("En menos " + minutos + " minutos estará disponible para atacar la ciudad: " + asedio.ciudad);
 			}
-
 			asedios[key] = null;
 		}
 	}
@@ -48,24 +43,20 @@ Date.prototype.addMinutes = function(h) {
    return this;
 }
 
-function addAsedio(asedio)
-{
+function addAsedio(asedio){
 	asedios[asedio.idCiudad + "_" + asedio.partida] = asedio;
 }
 
-function removeAsedio(asedio)
-{
+function removeAsedio(asedio){
 	asedios[asedio.idCiudad + "_" + asedio.partida] = null;
 }
 
-function sendNotification(msg)
-{
+function sendNotification(msg){
 	var notificationOptions = {
 		title: "Asedio",
 		message: msg,
 		type: "basic",
 		iconUrl: "icon.png"
 	};
-
 	chrome.notifications.create("", notificationOptions, function(){ console.log("Done!")})
 }
